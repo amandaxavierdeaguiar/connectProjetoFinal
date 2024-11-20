@@ -18,8 +18,7 @@ return new class extends Migration
             $table->foreign('id_categoria')->references('id')->on('categoria')->onDelete('cascade');
             $table->unsignedBigInteger('id_linguagem');
             $table->foreign('id_linguagem')->references('id')->on('linguagem')->onDelete('cascade');
-            $table->unsignedBigInteger('post_type');
-            $table->foreign('post_type')->references('id')->on('post_type')->onDelete('cascade');
+            $table->Integer('post_type');
         });
     }
 

@@ -17,10 +17,23 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    // ANTIGO
+    // protected $fillable = [
+    //     'name',
+    //     'email',
+    //     'password',
+    // ];
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'nif', 'photo',
+        'data_nascimento',
+        'endereco',
+        'telefone',
+        'user_type',
+        'id_curso',
     ];
 
     /**
@@ -44,5 +57,25 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class, 'id_curso');
+    }
+
+    public function desejos()
+    {
+        return $this->hasMany(Desejo::class, 'id_users');
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'id_users');
+    }
+
+    public function games()
+    {
+        return $this->hasMany(Game::class, 'id_users');
     }
 }
