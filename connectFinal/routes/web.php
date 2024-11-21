@@ -35,7 +35,7 @@ Route::get('/category/delete/{id}', [CategoriaController::class, 'deleteCategory
 // VIEWS PARA LINGUAGEM
 // Linguagem
 // Lista dos Linguagem
-Route::get('/list_language', [LanguagesController::class, 'viewLanguage'])->name('language.list');
+Route::get('/list_language', [LanguagesController::class, 'viewLanguages'])->name('language.list');
 
 // Criação de uma novo Linguagem
 Route::get('/add_language', [LanguagesController::class, 'createLanguageForm'])->name('language.create.form');
@@ -45,7 +45,7 @@ Route::get('/add_language', [LanguagesController::class, 'createLanguageForm'])-
 Route::get('/show_language/{id}', [LanguagesController::class, 'showLanguage'])->name('language.show');
 
 // Criar ou atualizar Linguagem
-Route::post('/create_language', [LanguagesController::class,'createLanguage'])
+Route::post('/create_language', [LanguagesController::class,'createLanguages'])
 ->name('language.create');
 
 //Rota para apagar Linguagem

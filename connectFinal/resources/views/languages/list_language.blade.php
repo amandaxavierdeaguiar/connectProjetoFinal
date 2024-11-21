@@ -14,17 +14,17 @@
             </tr>
           </thead>
           <tbody>
-            @if(isset($language) && count($language) > 0)
-              @foreach ($language as $lin)
+            @if(isset($languages) && count($languages) > 0)
+              @foreach ($languages as $language)
                   <tr>
-                      {{-- <th scope="row">{{$album->id}}</th> --}}
-                      <td><img width="30px" height="30px"
-                          src="{{$lin->foto ? asset('storage/' . $lin->foto) : asset('images/nophoto.jpg') }}">
-                      </td>
-                      <td>{{$lin->name}}</td>
+                    {{-- <th scope="row">{{$album->id}}</th> --}}
+                    <td><img width="30px" height="30px"
+                          src="{{$language->foto ? asset('storage/' . $language->foto) : asset('images/nophoto.jpg') }}">
+                    </td>
+                    <td>{{$language->name}}</td>
 
-                      <td><a href="{{route('language.show', $lin->id)}}" type="button" class="btn btn-dark">Ver/Editar</a></td>
-                            <td><a href="{{route('language.delete', $lin->id)}}" type="button" class="btn btn-dark">Delete</a></td>
+                    <td><a href="{{route('language.show', $language->id)}}" type="button" class="btn btn-dark">Ver/Editar</a></td>
+                    <td><a href="{{route('language.delete', $language->id)}}" type="button" class="btn btn-dark">Delete</a></td>
                   </tr>
               @endforeach
               @endif

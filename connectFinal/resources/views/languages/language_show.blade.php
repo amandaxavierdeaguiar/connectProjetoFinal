@@ -18,7 +18,7 @@
                                     @if(isset($language) && $language->foto)
                                         <div>
                                             <p>Imagem atual:</p>
-                                            <img src="{{ asset('storage/' . $language->foto) }}" alt="Imagem do Álbum" style="max-width: 200px; max-height: 200px;">
+                                            <img src="{{ asset('storage/' . $language->foto) }}" alt="Imagem da Linguagem" style="max-width: 200px; max-height: 200px;">
                                         </div>
                                     @else
                                         <p>Nenhuma foto carregada.</p>
@@ -30,13 +30,23 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="exampleFormControlInput1" class="form-label">Nome da Linguagem</label>
+                                    
                                     <input value="{{ isset($language) ? $language->name : '' }}" name="name" required type="text" class="form-control" id="exampleFormControlInput1">
                                     @error('name')
                                         <div class="text-danger">Nome da Linguagem inválida!</div>
                                     @enderror
-                                </div>
+                            </div>
 
-                                <div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="exampleFormControlInput1" class="form-label">Id Categoria</label>
+                                    <input value="{{ isset($language) ? $language->id_categoria : '' }}" name="id_categoria" required type="text" class="form-control" id="exampleFormControlInput1">
+                                    @error('id_categoria')
+                                        <div class="text-danger">Id da categoria inválida!</div>
+                                    @enderror
+                            </div>
+
+                                {{-- <div>
                                     <select class="custom-select" name="id_categoria">
                                         <option value="">Selecione a Categoria</option>
                                         @foreach ($categoria as $category)
@@ -45,10 +55,8 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    {{-- <label for="">Id Banda</label>
-                                    <input value="{{ isset($album) ? $album->band_id : '' }}" name="band_id" required type="number" class="form-control" id="exampleFormControlInput1"> --}}
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="d-flex justify-content-center mb-3">

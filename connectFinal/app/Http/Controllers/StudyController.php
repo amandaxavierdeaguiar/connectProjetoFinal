@@ -6,38 +6,41 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class LanguagesController extends Controller
+class StudyController extends Controller
 {
-    // Visualizar bandas
-    public function viewLanguages(){
+    public function viewStudies(){
         // $language = DB::table('linguagem')
         // ->join('categoria', 'linguagem.id_categoria', '=', 'categoria.id')
         // ->select('linguagem.*', 'categoria.nome as categoria.nome')
         // ->get();
 
-        $languages = DB::table('linguagem')->get();
+        $studies = DB::table('curso')->get();
 
         //dd($bands);
         // $search = request()->query('search') ? request()->query('search') : null;
         // $users = $this->getAllUsersFromDB($search);
-        return view('languages.list_language', compact('languages'));
+        return view('study.list_study', compact('studies'));
     }
 
-    public function createLanguages(Request $request){
+    public function createStudies(Request $request){
 
         if(isset($request->id)){
             // dd('Atualizar');
             $action = 'atualizado';
             // Atualiza banda existente
             $request->validate([
-                'name' => 'required|string|max:50',
+                'nome' => 'required|string|max:50',
+                'descricao' => 'nullable|string',
+                'quantidade_horas' => 'nullable|integer',
+                'data_inicio' => 'nullable|date',
+                'data_fim' => 'nullable|date',
                 'foto' => 'nullable|image',
                 'id_categoria' => 'required',
             ]);
 
             // Buscar o linguagem existente
-            $language = DB::table('linguagem')->where('id', $request->id)->first();
-            $foto = $language->foto; // Mantém a imagem atual
+            $studies = DB::table('curso')->where('id', $request->id)->first();
+            $foto = $studies->foto; // Mantém a imagem atual
 
             // Verifica se um novo arquivo foi enviado
             if($request->hasFile('foto')) {
@@ -50,10 +53,14 @@ class LanguagesController extends Controller
             }
 
             // Atualiza a linguagem
-            DB::table('linguagem')
+            DB::table('curso')
             ->where('id', $request->id)
             ->update([
-                'name' => $request->name,
+                'nome' => $request->nome,
+                'descricao' => $request->descricao,
+                'quantidade_horas' => $request->quantidade_horas,
+                'data_inicio' => $request->data_inicio,
+                'data_fim' => $request->data_fim,
                 'foto' => $foto,
                 'id_categoria' => $request->id_categoria,
             ]);
@@ -62,7 +69,11 @@ class LanguagesController extends Controller
             $action = 'inserido';
             // Inserir nova album
             $request->validate([
-                'name' => 'required|string|max:50',
+                'nome' => 'required|string|max:50',
+                'descricao' => 'nullable|string',
+                'quantidade_horas' => 'nullable|integer',
+                'data_inicio' => 'nullable|date',
+                'data_fim' => 'nullable|date',
                 'foto' => 'nullable|image',
                 'id_categoria' => 'required',
             ]);
@@ -74,35 +85,39 @@ class LanguagesController extends Controller
             }
 
             // Insere o nova linguagem
-            DB::table('linguagem')
+            DB::table('curso')
             ->insert([
-                'name' => $request->name,
+                'nome' => $request->nome,
+                'descricao' => $request->descricao,
+                'quantidade_horas' => $request->quantidade_horas,
+                'data_inicio' => $request->data_inicio,
+                'data_fim' => $request->data_fim,
                 'foto' => $foto,
                 'id_categoria' => $request->id_categoria,
             ]);
         }
 
-        return redirect()->route('language.list')->with('message', 'Linguagem  '.$action.' com sucesso!');
+        return redirect()->route('study.list')->with('message', 'Curso  '.$action.' com sucesso!');
     }
 
-    public function createLanguageForm() {
-        $languages = DB::table('linguagem')->get();
-        return view('languages.language_show', compact('languages'));
+    public function createStudyForm() {
+        $studies = DB::table('curso')->get();
+        return view('study.study_show', compact('studies'));
     }
 
-    public function showLanguage($id) {
+    public function showStudy($id) {
 
 
         // para pegar id categoria
-        $categoria = DB::table('categoria')->get();
+        $category = DB::table('categoria')->get();
 
-        $language = DB::table('linguagem')->where('id', $id)->first();
+        $studies = DB::table('curso')->where('id', $id)->first();
 
-        return view('languages.language_show', compact('language', 'categoria'));
+        return view('study.study_show', compact('category', 'studies'));
     }
 
     public function deleteLanguage($id){
-        DB::table('linguagem')->where('id', $id)->delete();
+        DB::table('curso')->where('id', $id)->delete();
 
         return back();
     }
