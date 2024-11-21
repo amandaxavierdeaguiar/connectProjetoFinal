@@ -91,8 +91,6 @@ class LanguagesController extends Controller
     }
 
     public function showLanguage($id) {
-
-
         // para pegar id categoria
         $categoria = DB::table('categoria')->get();
 

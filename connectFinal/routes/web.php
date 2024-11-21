@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoriaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LanguagesController;
+use App\Http\Controllers\StudyController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -50,3 +51,22 @@ Route::post('/create_language', [LanguagesController::class,'createLanguages'])
 
 //Rota para apagar Linguagem
 Route::get('/language/delete/{id}', [LanguagesController::class, 'deleteLanguage'])->name('language.delete');
+
+// VIEWS PARA CURSO
+// Curso
+// Lista dos Curso
+Route::get('/list_study', [StudyController::class, 'viewStudy'])->name('study.list');
+
+// Criação de uma novo Curso
+Route::get('/add_study', [StudyController::class, 'createStudyForm'])->name('study.create.form');
+
+
+// Ver e atualizar Curso
+Route::get('/show_study/{id}', [StudyController::class, 'showStudy'])->name('study.show');
+
+// Criar ou atualizar Curso
+Route::post('/create_study', [StudyController::class,'createStudy'])
+->name('study.create');
+
+//Rota para apagar Curso
+Route::get('/study/delete/{id}', [StudyController::class, 'deleteStudy'])->name('study.delete');

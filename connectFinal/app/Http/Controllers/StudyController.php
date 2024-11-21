@@ -8,21 +8,21 @@ use Illuminate\Support\Facades\Storage;
 
 class StudyController extends Controller
 {
-    public function viewStudies(){
+    public function viewStudy(){
         // $language = DB::table('linguagem')
         // ->join('categoria', 'linguagem.id_categoria', '=', 'categoria.id')
         // ->select('linguagem.*', 'categoria.nome as categoria.nome')
         // ->get();
 
-        $studies = DB::table('curso')->get();
+        $allStudies = DB::table('curso')->get();
 
         //dd($bands);
         // $search = request()->query('search') ? request()->query('search') : null;
         // $users = $this->getAllUsersFromDB($search);
-        return view('study.list_study', compact('studies'));
+        return view('study.list_study', compact('allStudies'));
     }
 
-    public function createStudies(Request $request){
+    public function createStudy(Request $request){
 
         if(isset($request->id)){
             // dd('Atualizar');
@@ -100,23 +100,29 @@ class StudyController extends Controller
         return redirect()->route('study.list')->with('message', 'Curso  '.$action.' com sucesso!');
     }
 
+    // public function createStudyForm() {
+    //     $studies = DB::table('curso')->get();
+    //     return view('study.study_show', compact('studies'));
+    // }
+
     public function createStudyForm() {
-        $studies = DB::table('curso')->get();
-        return view('study.study_show', compact('studies'));
+        $allStudies = DB::table('curso')->get(); // Changed variable name
+
+        return view('study.study_show', compact('allStudies'));
     }
 
     public function showStudy($id) {
 
 
         // para pegar id categoria
-        $category = DB::table('categoria')->get();
+        // $category = DB::table('categoria')->get();
 
         $studies = DB::table('curso')->where('id', $id)->first();
 
-        return view('study.study_show', compact('category', 'studies'));
+        return view('study.study_show', compact('studies'));
     }
 
-    public function deleteLanguage($id){
+    public function deleteStudy($id){
         DB::table('curso')->where('id', $id)->delete();
 
         return back();
