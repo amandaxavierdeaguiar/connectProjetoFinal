@@ -3,29 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class WishController extends Controller
 {
     public function createStudy(Request $request) {
             // Captura o ID do usuário logado
-            $userId = auth()->id(); // Assumindo que você está usando o Auth do Laravel
+            $userId = Auth::user()->id;
 
-            // Validação da requisição
             $request->validate([
-                'linguagens' => 'required|array',
-                'linguagens.*' => 'exists:linguagens,id', // Valida se cada id de linguagem existe
-                'tipo' => 'required|in:skill,desejo', // Valida se o tipo é 'skill' ou 'desejo'
+                'linguagem' => 'required|array',
+                'linguagem.*' => 'exists:linguagem,id', // Valida se cada id de linguagem existe
+                'skill_type' => 'required|in:skill,desejo', // Valida se o tipo é 'skill' ou 'desejo'
             ]);
 
             // Itera sobre as linguagens selecionadas
             foreach ($request->linguagens as $linguagemId) {
                 // Insere na tabela de relacionamentos
-                DB::table('user_linguagens')->insert([
+                DB::table('desejo')->insert([
                     'user_id' => $userId,
                     'linguagem_id' => $linguagemId,
                     'tipo' => $request->tipo,
-                    'created_at' => now(),
-                    'updated_at' => now(),
                 ]);
             }
 
