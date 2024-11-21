@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\CategoriaController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\IndexController;
-use App\Http\Controllers\LanguagesController;
-use App\Http\Controllers\StudyController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WishController;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\StudyController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\LanguagesController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -72,6 +73,21 @@ Route::post('/create_study', [StudyController::class,'createStudy'])
 
 //Rota para apagar Curso
 Route::get('/study/delete/{id}', [StudyController::class, 'deleteStudy'])->name('study.delete');
+
+// WISH
+
+Route::get('/wish/create', [WishController::class, 'createWishForm'])->name('wish.create.Form');
+
+Route::post('/wish', [WishController::class, 'createWish'])->name('wish.create');
+
+Route::get('/wishes', [WishController::class, 'viewWish'])->name('wish.list');
+
+
+// Route::post('/wishes/create', [WishController::class, 'createWish'])->name('wish.create');
+
+// Criação de uma novo album
+// Route::get('/add_wish', [WishController::class, 'createWishForm'])->name('wish.create.form');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
