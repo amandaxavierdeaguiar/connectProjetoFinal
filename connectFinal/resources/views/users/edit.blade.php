@@ -11,9 +11,25 @@
             <h2 class="text-xl font-semibold mb-4">Editar Usuário</h2>
             
             <!-- Formulário -->
-            <form action="{{ route('users.update', $user->id) }}" method="POST">
+            <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">>
                 @csrf
                 @method('PUT')
+
+                <!-- Foto -->
+
+                <div class="mb-4">
+    <label for="photo" class="block text-sm font-medium text-gray-700">Foto</label>
+    <!-- Exibição da foto atual -->
+    @if ($user->photo)
+        <img src="{{ asset('storage/' . $user->photo) }}" alt="Foto atual" class="w-20 h-20 rounded-full mb-2">
+    @endif
+    <!-- Campo para upload -->
+    <input type="file" name="photo" id="photo" 
+        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+        accept="image/*">
+    <p class="text-sm text-gray-500 mt-1">Deixe em branco para manter a foto atual.</p>
+</div>
+
 
                 <!-- Nome -->
                 <div class="mb-4">
@@ -35,6 +51,9 @@
                     <input type="text" name="nif" id="nif" value="{{ old('nif', $user->nif) }}" 
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
                 </div>
+
+               
+
 
                 <!-- Telefone -->
                 <div class="mb-4">

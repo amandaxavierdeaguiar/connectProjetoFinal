@@ -13,6 +13,8 @@ class UserController extends Controller
     {
         $users = User::all();
         return view('users.manage_users', compact('users'));
+
+        
     }
 
     // Exibir formulário para criar um novo usuário
@@ -30,7 +32,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
             'nif' => 'nullable|string|max:255',
-            'photo' => 'nullable|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'data_nascimento' => 'nullable|date',
             'endereco' => 'nullable|string|max:255',
             'telefone' => 'nullable|string|max:255',
@@ -38,23 +40,27 @@ class UserController extends Controller
             'id_curso' => 'nullable|exists:curso,id',
         ]);
 
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'nif' => $request->nif,
-            'photo' => $request->photo,
-            'data_nascimento' => $request->data_nascimento,
-            'endereco' => $request->endereco,
-            'telefone' => $request->telefone,
-            'user_type' => $request->user_type,
-            'id_curso' => $request->id_curso,
-        ]);
-        
-        $user->save();
-
-        return redirect()->route('users.index')->with('success', 'Usuário criado com sucesso!');
+        $photoPath = null;
+    if ($request->hasFile('photo')) {
+        $photoPath = $request->file('photo')->store('photos', 'public');
     }
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => bcrypt($request->password),
+        'nif' => $request->nif,
+        'photo' => $photoPath,
+        'data_nascimento' => $request->data_nascimento,
+        'endereco' => $request->endereco,
+        'telefone' => $request->telefone,
+        'user_type' => $request->user_type,
+        'id_curso' => $request->id_curso,
+    ]);
+
+    return redirect()->route('users.index')->with('success', 'Usuário criado com sucesso!');
+}
+
+       
 
     
     public function edit($id)
@@ -108,7 +114,10 @@ class UserController extends Controller
 
    
     public function destroy($id)
+    
     {
+
+        
         $user = User::findOrFail($id);
         $user->delete();
 
