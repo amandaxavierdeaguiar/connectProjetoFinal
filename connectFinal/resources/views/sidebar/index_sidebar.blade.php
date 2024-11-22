@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Perfil</title>
-    <style> @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
-    :root{--header-height: 3rem;--nav-width: 68px;--first-color: #4723D9;--first-color-light: #AFA5D9;--white-color: #F7F6FB;--body-font: 'Nunito', sans-serif;--normal-font-size: 1rem;--z-fixed: 100}*, ::before,::after{box-sizing: border-box}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    <style>
+    :root{--header-height: 3rem;--nav-width: 68px;--first-color-light: #AFA5D9;--white-color: #F7F6FB;--body-font: 'Nunito', sans-serif;--normal-font-size: 1rem;--z-fixed: 100}*, ::before,::after{box-sizing: border-box}
     body{position: relative;margin: var(--header-height) 0 0 0;padding: 0 1rem;font-family: var(--body-font);font-size: var(--normal-font-size);transition: .5s}a{text-decoration: none}
     .header{width: 100%;height: var(--header-height);position: fixed;top: 0;left: 0;display: flex;align-items: center;justify-content: space-between;padding: 0 1rem;
     background-color: var(--white-color);
@@ -20,9 +22,23 @@
         background: linear-gradient(0deg, #90FCF9, #63B4D1, #7699D4, #7699D4, #480355);
         padding: .5rem 1rem 0 0;transition: .5s;z-index: var(--z-fixed)}
     .nav{height: 100%;display: flex;flex-direction: column;justify-content: space-between;overflow: hidden}
-    .nav_logo, .nav_link{display: grid;grid-template-columns: max-content max-content;align-items: center;column-gap: 1rem;padding: .5rem 0 .5rem 1.2rem}.nav_logo{margin-bottom: 2rem}.nav_logo-icon{font-size: 1.25rem;color: var(--white-color)}.nav_logo-name{color: var(--white-color);font-weight: 700}.nav_link{position: relative;color: var(--first-color-light);margin-bottom: 1.5rem;transition: .3s}.nav_link:hover{color: var(--white-color)}.nav_icon{font-size: 1.25rem}.show{left: 0}.body-pd{padding-left: calc(var(--nav-width) + 1rem)}.active{color: var(--white-color)}.active::before{content: '';position: absolute;left: 0;width: 2px;height: 32px;background-color: var(--white-color)}.height-100{height:100vh}
+    .nav_logo, .nav_link{display: grid;grid-template-columns: max-content max-content;align-items: center;column-gap: 1rem;padding: .5rem 0 .5rem 1.2rem}.nav_logo{margin-bottom: 2rem}.nav_logo-icon{font-size: 1.25rem;color: var(--white-color)}.nav_logo-name{color: var(--white-color);font-weight: 700}.nav_link{position: relative;color: var(--first-color-light);margin-bottom: 1.5rem;transition: .3s}.nav_link:hover{color: var(--white-color)}
+    .nav_icon{font-size: 1.5rem; padding-left: 0.2rem}
+    .show{left: 0}.body-pd{padding-left: calc(var(--nav-width) + 1rem)}.active{color: var(--white-color)}.active::before{content: '';position: absolute;left: 0;width: 2px;height: 32px;background-color: var(--white-color)}.height-100{height:100vh}
     @media screen and (min-width: 768px){body{margin: calc(var(--header-height) + 1rem) 0 0 0;padding-left: calc(var(--nav-width) + 2rem)}.header{height: calc(var(--header-height) + 1rem);padding: 0 2rem 0 calc(var(--nav-width) + 2rem)}.header_img{width: 40px;height: 40px}.header_img img{width: 45px}.l-navbar{left: 0;padding: 1rem 1rem 0 0}.show{width: calc(var(--nav-width) + 156px)}
     .body-pd{padding-left: calc(var(--nav-width) + 188px)}}
+
+    .userPhoto{
+    border-radius: 50%;
+    height: auto;
+    object-fit: cover;
+    overflow: hidden;}
+    .nameUser{
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    color: white;
+    }
 
     .jobUser{
     text-transform: uppercase;
@@ -32,22 +48,29 @@
     font-size: 0.7rem;
     font-family: 'Montserrat', sans-serif;
     }
-    .userPhoto{
-    border-radius: 50%;
-    height: auto;
-    object-fit: cover;
-    overflow: hidden;}
-    .nameUser{
-    font-size: 1.2rem;
+
+    .TitleSkill{
     font-family: 'Montserrat', sans-serif;
+    color: #36236a;
+    margin-top: 3px;
+    font-size: 1.4rem;
     font-weight: 500;
     color: white;
     }
 
+    .botao-sem-estilo {
+        background: none;
+        border: none;
+        color: inherit; /* Herda a cor do texto ao redor */
+        font: inherit; /* Herda a fonte do texto ao redor */
+        padding: 0; /* Remove o padding */
+        cursor: pointer; /* Cursor de ponteiro para indicar que é clicável */
+    }
 
-
-
-
+    /* SELECT */
+    #linguagens-container {
+        display: none; /* Inicialmente escondido */
+    }
 
     </style>
 
@@ -68,7 +91,7 @@
                              src="{{$users->photo ? asset('storage/' . $users->photo) : asset('images/default-profile.png') }}"
                              style="display: inline-block; vertical-align: middle;">
                         <span style="display: inline-block; vertical-align: middle;">
-                            <p class='nameUser' style="margin: 0;">Bia Aguiar</p>
+                            <p class='nameUser' style="margin: 0;">{{$users->name}}</p>
                             <p class='jobUser' style="margin: 0;">FrontEnd Developer</p>
                         </span>
                     </span>
@@ -80,17 +103,94 @@
                         <p className='jobUser'>FrontEnd Developer</p>
                         <p className='nameUser p-5'>Bia Aguiar</p>
                 </span> --}}
-                </a>
                 <div class="nav_list">
-                    <a href="#" class="nav_link active">
-                        <i class='bx bx-grid-alt nav_icon'>
-                            </i> <span class="nav_name">Dashboard</span> </a> <a href="#" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Users</span> </a> <a href="#" class="nav_link"> <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Messages</span> </a> <a href="#" class="nav_link"> <i class='bx bx-bookmark nav_icon'></i> <span class="nav_name">Bookmark</span> </a> <a href="#" class="nav_link"> <i class='bx bx-folder nav_icon'></i> <span class="nav_name">Files</span> </a> <a href="#" class="nav_link"> <i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span class="nav_name">Stats</span> </a> </div>
-            </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+                    <div class="nav_link active">
+                        <i class="bi bi-grid-fill nav_icon">
+                            <span class="nav_name">Skills</span>
+
+                        </i>
+                        <button type="button" onclick="mostrarLinguagens(1)" class= "botao-sem-estilo"><i class="bi bi-caret-down-fill"></i>
+                            <button>
+                            <div id="linguagens-container">
+                                @foreach ($linguages as $linguagem)
+                                    <label>
+                                        <input type="checkbox" name="linguagem[]" value="{{ $linguagem->id }}"
+                                        {{ in_array($linguagem->id, $linguagensSelecionadas) ? 'disabled' : '' }}>
+                                        {{ $linguagem->name }}
+                                    </label><br>
+                                @endforeach
+                            </div>
+
+
+
+
+                        {{-- <form action="{{ route('wish.create') }}" method="POST">
+                        @csrf
+                            <div class="form-group">
+                                <select name="linguagem[]" id="linguagem" multiple required onchange="updateSelected()">
+                                    @foreach($linguages as $linguagem)
+                                        <option value="{{ $linguagem->id }}">{{ $linguagem->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="skill_type">Tipo:</label>
+                                <select name="skill_type" id="skill_type" required onchange="toggleSkillType()">
+                                    <option value="1">Skill</option>
+                                    <option value="2">Desejo</option>
+                                </select>
+                            </div>
+                            <div id="selected-linguagens"></div>
+                            <button type="submit" class="btn btn-primary">Cadastrar</button>
+                            </form>
+                        </div> --}}
+
+
+            </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span>
+            <a href="{{ $users->linkedin ?? '#' }}"><i class="bi bi-linkedin"></i></a>
         </nav>
     </div>
     <!--Container Main start-->
-    <div class="height-100 bg-light">
+    <div class="height-100">
         <h4>Main Components</h4>
+        <form method="POST" action="{{ route('wish.create') }}">
+            <h2>Selecione as Linguagens</h2>
+
+            @csrf <!-- Para proteção CSRF no Laravel -->
+
+            <button type="button" onclick="mostrarLinguagens(1)">Tipo 1</button>
+            <button type="button" onclick="mostrarLinguagens(2)">Tipo 2</button>
+
+            <div id="linguagens-container">
+                @foreach ($linguages as $linguagem)
+                    <label>
+                        <input type="checkbox" name="linguagem[]" value="{{ $linguagem->id }}"
+                        {{ in_array($linguagem->id, $linguagensSelecionadas) ? 'disabled' : '' }}>
+                        {{ $linguagem->name }}
+                    </label><br>
+                @endforeach
+            </div>
+            <input type="hidden" id="skill_type" name="skill_type" value="">
+
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        {{-- <form method="POST" action="/seu-endpoint">
+            <h2>Selecione as Linguagens</h2>
+
+            @csrf <!-- Para proteção CSRF no Laravel -->
+
+            @foreach ($linguages as $linguagem)
+                <label>
+                    <input type="checkbox" name="linguagem[]" value="{{ $linguagem->id }}"
+                    {{ in_array($linguagem->id, $linguagensSelecionadas) ? 'disabled' : '' }}>
+                    {{ $linguagem->name }} <!-- Supondo que você tenha um campo 'nome' -->
+                </label><br>
+            @endforeach
+
+            <button name="skill_type" value="1">Tipo 1</button>
+            <button name="skill_type" value="2">Tipo 2</button>
+
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form> --}}
     </div>
     <!--Container Main end-->
     <script>
@@ -131,7 +231,27 @@
         linkColor.forEach(l=> l.addEventListener('click', colorLink))
 
         // Your code to run since DOM is loaded and ready
-        });
+                });
+                // Linguagem
+        // function mostrarLinguagens(skillType) {
+        //     document.getElementById('linguagens-container').style.display = 'block';
+
+        //     document.getElementById('skill_type').value = skillType;
+        // }
+
+        function mostrarLinguagens(skillType) {
+    // Obtém o elemento do container de linguagens
+    var linguagensContainer = document.getElementById('linguagens-container');
+
+    // Verifica o estado atual do display e alterna
+        if (linguagensContainer.style.display === 'block') {
+            linguagensContainer.style.display = 'none'; // Oculta
+        } else {
+            linguagensContainer.style.display = 'block'; // Mostra
+            // Define o valor do skill_type no formulário
+            document.getElementById('skill_type').value = skillType;
+        }
+    }
     </script>
 </body>
 </html>
