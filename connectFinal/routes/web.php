@@ -8,6 +8,7 @@ use App\Http\Controllers\StudyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\LanguagesController;
+use App\Http\Controllers\SidebarController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -81,6 +82,12 @@ Route::get('/wish/create', [WishController::class, 'createWishForm'])->name('wis
 Route::post('/wish', [WishController::class, 'createWish'])->name('wish.create');
 
 Route::get('/wishes', [WishController::class, 'viewWish'])->name('wish.list');
+
+//Sidebar
+Route::get('/sidebar', [SidebarController::class, 'viewSidebar'])->name('sidebar.view');
+// Route::get('/sidebar', function () {
+//     return view('sidebar.index_sidebar');
+// });
 
 
 // Route::post('/wishes/create', [WishController::class, 'createWish'])->name('wish.create');

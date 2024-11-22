@@ -6,7 +6,7 @@
 
     <h3>Linguagens Selecionadas:</h3>
     <ul>
-        @foreach($data['linguagens'] as $linguagemId)
+        @foreach($linguagem['linguagens'] as $linguagemId)
             <li>{{ $linguagemId }}</li> <!-- Aqui você pode querer buscar o nome da linguagem a partir do ID -->
         @endforeach
     </ul>
