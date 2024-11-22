@@ -8,7 +8,7 @@
     <div class="container mt-5" style="width: 40%; max-width: 400px;">
 
 
-    <h2>Criar Novo Usuário</h2>
+    <h2>Criar Novo Curso</h2>
 
     <!-- Steps -->
     <div class="d-flex justify-content-center align-items-center mb-4">

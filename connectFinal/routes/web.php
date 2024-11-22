@@ -18,7 +18,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
+// Rotas para o UserController
 Route::resource('users', UserController::class);
 
 require __DIR__.'/auth.php';
+
