@@ -58,19 +58,24 @@
     color: white;
     }
 
-    .botao-sem-estilo {
+    .botao-sem-estilo{
         background: none;
         border: none;
-        color: inherit; /* Herda a cor do texto ao redor */
-        font: inherit; /* Herda a fonte do texto ao redor */
-        padding: 0; /* Remove o padding */
-        cursor: pointer; /* Cursor de ponteiro para indicar que é clicável */
+        color: inherit;
+        font: inherit;
+        padding: 0;
+        cursor: pointer;
     }
 
     /* SELECT */
     #linguagens-container {
         display: none; /* Inicialmente escondido */
     }
+
+    .btnSubmit{
+        text-decoration: underline;
+    }
+
 
     </style>
 
@@ -96,22 +101,18 @@
                         </span>
                     </span>
                 </a>
-                {{-- <a href="#" class="nav_logo">
-                <span class="nav_logo-name">
-                    <img width="30px" height="30px"
-                        src="{{$users->photo ? asset('storage/' . $users->photo) : asset('images/default-profile.png') }}">
-                        <p className='jobUser'>FrontEnd Developer</p>
-                        <p className='nameUser p-5'>Bia Aguiar</p>
-                </span> --}}
+
                 <div class="nav_list">
                     <div class="nav_link active">
                         <i class="bi bi-grid-fill nav_icon">
                             <span class="nav_name">Skills</span>
-
                         </i>
                         <button type="button" onclick="mostrarLinguagens(1)" class= "botao-sem-estilo"><i class="bi bi-caret-down-fill"></i>
-                            <button>
-                            <div id="linguagens-container">
+                        </button>
+                        {{-- Skills --}}
+                        <form method="POST" action="{{ route('wish.create') }}">
+                        @csrf
+                            <div id="linguagens-container" style="margin-top: 1rem">
                                 @foreach ($linguages as $linguagem)
                                     <label>
                                         <input type="checkbox" name="linguagem[]" value="{{ $linguagem->id }}"
@@ -119,31 +120,34 @@
                                         {{ $linguagem->name }}
                                     </label><br>
                                 @endforeach
+                                <button type="submit" class="botao-sem-estilo btnSubmit" style="padding-top: 1rem" >Cadastrar</button>
                             </div>
+                        </form>
 
-
-
-
-                        {{-- <form action="{{ route('wish.create') }}" method="POST">
-                        @csrf
-                            <div class="form-group">
-                                <select name="linguagem[]" id="linguagem" multiple required onchange="updateSelected()">
-                                    @foreach($linguages as $linguagem)
-                                        <option value="{{ $linguagem->id }}">{{ $linguagem->name }}</option>
-                                    @endforeach
-                                </select>
+                    </div>
+                    <div class="nav_link active">
+                        <i class="bi bi-columns-gap nav_icon" >
+                            <span class="nav_name">Desejos</span>
+                        </i>
+                        <button type="button" onclick="mostrarLinguagens(2)" class= "botao-sem-estilo"><i class="bi bi-caret-down-fill"></i>
+                        </button>
+                        {{-- Desejo --}}
+                        <form method="POST" action="{{ route('wish.create') }}">
+                            @csrf
+                            <div id="linguagens-container2" style="margin-top: 1rem">
+                                @foreach ($linguages as $linguagem)
+                                    <label>
+                                        <input type="checkbox" name="linguagem[]" value="{{ $linguagem->id }}"
+                                        {{ in_array($linguagem->id, $linguagensSelecionadas) ? 'disabled' : '' }}>
+                                        {{ $linguagem->name }}
+                                    </label><br>
+                                @endforeach
+                                <button type="submit" class="botao-sem-estilo btnSubmit" style="padding-top: 1rem" >Cadastrar</button>
                             </div>
-                            <div class="form-group">
-                                <label for="skill_type">Tipo:</label>
-                                <select name="skill_type" id="skill_type" required onchange="toggleSkillType()">
-                                    <option value="1">Skill</option>
-                                    <option value="2">Desejo</option>
-                                </select>
-                            </div>
-                            <div id="selected-linguagens"></div>
-                            <button type="submit" class="btn btn-primary">Cadastrar</button>
-                            </form>
-                        </div> --}}
+                        </form>
+                    </div>
+                </div>
+
 
 
             </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span>
@@ -153,7 +157,7 @@
     <!--Container Main start-->
     <div class="height-100">
         <h4>Main Components</h4>
-        <form method="POST" action="{{ route('wish.create') }}">
+        {{-- <form method="POST" action="{{ route('wish.create') }}">
             <h2>Selecione as Linguagens</h2>
 
             @csrf <!-- Para proteção CSRF no Laravel -->
@@ -172,7 +176,8 @@
             </div>
             <input type="hidden" id="skill_type" name="skill_type" value="">
 
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
+
+            <button type="submit" class="btn btn-primary">Cadastrar</button> --}}
         {{-- <form method="POST" action="/seu-endpoint">
             <h2>Selecione as Linguagens</h2>
 
@@ -240,17 +245,27 @@
         // }
 
         function mostrarLinguagens(skillType) {
-    // Obtém o elemento do container de linguagens
-    var linguagensContainer = document.getElementById('linguagens-container');
+            // Obtém o elemento do container de linguagens
+            var linguagensContainer = document.getElementById('linguagens-container');
+            var linguagensContainer2 = document.getElementById('linguagens-container2');
 
-    // Verifica o estado atual do display e alterna
-        if (linguagensContainer.style.display === 'block') {
-            linguagensContainer.style.display = 'none'; // Oculta
-        } else {
-            linguagensContainer.style.display = 'block'; // Mostra
-            // Define o valor do skill_type no formulário
-            document.getElementById('skill_type').value = skillType;
-        }
+            // Verifica o estado atual do display e alterna
+                if (linguagensContainer.style.display === 'block') {
+                    linguagensContainer.style.display = 'none'; // Oculta
+                } else {
+                    linguagensContainer.style.display = 'block'; // Mostra
+                    // Define o valor do skill_type no formulário
+                    document.getElementById('skill_type').value = skillType;
+                }
+
+                // Verifica o estado atual do display e alterna
+                if (linguagensContainer2.style.display === 'block') {
+                    linguagensContainer2.style.display = 'none'; // Oculta
+                } else {
+                    linguagensContainer2.style.display = 'block'; // Mostra
+                    // Define o valor do skill_type no formulário
+                    document.getElementById('skill_type').value = skillType;
+                }
     }
     </script>
 </body>
