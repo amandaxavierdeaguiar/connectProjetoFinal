@@ -59,12 +59,19 @@ class SidebarController extends Controller
 
         $skillUser  = DB::table('desejo')
         ->join('linguagem', 'desejo.id_linguagem', '=', 'linguagem.id')
-        ->where('desejo.id_users', $users->id) // Corrigido para usar $users->id
+        ->where('desejo.id_users', $users->id)
         ->where('desejo.skill_type', 1)
         ->select('linguagem.id', 'linguagem.name', 'linguagem.foto')
         ->get();
 
+        $wishUser  = DB::table('desejo')
+        ->join('linguagem', 'desejo.id_linguagem', '=', 'linguagem.id')
+        ->where('desejo.id_users', $users->id)
+        ->where('desejo.skill_type', 2)
+        ->select('linguagem.id', 'linguagem.name', 'linguagem.foto')
+        ->get();
 
-        return view('sidebar.index_sidebar', compact('users','linguages', 'linguagensSelecionadas', 'skillUser'));
+
+        return view('sidebar.index_sidebar', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser'));
     }
 }
