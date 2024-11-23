@@ -72,6 +72,8 @@ class SidebarController extends Controller
         ->get();
 
 
+
+
         return view('sidebar.index_sidebar', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser'));
     }
 }

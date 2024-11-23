@@ -49,6 +49,7 @@
     text-align: center;
     font-size: 0.7rem;
     font-family: 'Montserrat', sans-serif;
+
     }
 
     .TitleSkill{
@@ -79,8 +80,10 @@
     }
 
     .forYou{
-        color: black
+        color: black;
     }
+
+
 
 
     </style>
@@ -212,7 +215,7 @@
         </nav>
     </div>
     <!--Container Main start-->
-    <div class="container forYou">
+    <div class="container forYou height-100 width-100">
         @yield('contentForYou')
     </div>
     {{-- <div class="height-100">
