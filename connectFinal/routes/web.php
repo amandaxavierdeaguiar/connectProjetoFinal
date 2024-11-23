@@ -10,8 +10,12 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\LanguagesController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
+
+// Route::get('/', function () {
+//     return 'Página inicial funcionando';
+// });
 
 // Rota para pagina inicial users
 // Route::get('/', [IndexController::class, 'viewPageUsers'])->name('users.index');
