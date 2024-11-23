@@ -71,9 +71,22 @@ class SidebarController extends Controller
         ->select('linguagem.id', 'linguagem.name', 'linguagem.foto')
         ->get();
 
+        // Obtém todos os ids_desejo do usuário autenticado
+        $desejosUsuario = DB::table('desejo')
+        ->where('id_users', Auth::user()->id)
+        ->pluck('id'); // Pluck para obter uma coleção de ids_desejo
+
+        // Busca todos os usuários que têm desejos iguais aos do usuário autenticado
+        $usuariosComDesejosIguais = DB::table('desejo')
+        ->join('users', 'desejo.id_users', '=', 'users.id')
+        ->whereIn('desejo.id', $desejosUsuario) // Filtra pelos ids_desejo do usuário autenticado
+        ->select('users.*', 'desejo.id as id_desejo')
+        ->get();
 
 
 
-        return view('sidebar.index_sidebar', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser'));
+
+
+        return view('sidebar.index_sidebar', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser', 'usuariosComDesejosIguais'));
     }
 }
