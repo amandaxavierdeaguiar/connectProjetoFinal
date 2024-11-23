@@ -106,10 +106,11 @@
                             <span class="nav_name">Skills</span>
                         </i>
 
-                        @if ($skills === null || $skills <= 0)
+                        {{-- @if(isset($linguagensSelecionadas) && count($linguagensSelecionadas) <div 0) --}}
+
+                        @if(isset($linguagensSelecionadas) && count($linguagensSelecionadas) == 0)
                         <button type="button" onclick="mostrarLinguagens(1)" class= "botao-sem-estilo"><i class="bi bi-caret-down-fill"></i>
                         </button>
-                        {{-- Skills --}}
                         <form method="POST" action="{{ route('wish.create') }}">
                         @csrf
                             <input type="hidden" name="skill_type" value="1">
@@ -127,16 +128,49 @@
                         </form>
                         @endif
 
+                        @if($skillUser ->isNotEmpty())
+                        <button type="button" class= "botao-sem-estilo"></i>
+                        </button>
+                            <ul>
+                                @foreach ($skillUser  as $skill)
+                                    <li>
+                                        <img width="30px" height="30px"
+                                            src="{{ $skill->foto ? asset('storage/' . $skill->foto) : asset('images/nophoto.jpg') }}">
+                                        {{ $skill->name }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+
+
+
+
+
+                        {{-- @else --}}
+                        {{-- <button type="button" onclick="" class= "botao-sem-estilo"><i class="bi bi-caret-down-fill"></i> --}}
+                            {{-- @foreach ($skills as $language)
+                                <li>
+                                    <p>teste</p>
+                                    <img width="30px" height="30px"
+                                        src="{{ $language->foto ? asset('storage/' . $language->foto) : asset('images/nophoto.jpg') }}">
+                                    {{ $language->name }}
+                                </li>
+                            @endforeach --}}
+                        {{-- @endif --}}
                     </div>
+
+
+
+
+
                     <div class="nav_link active">
                         <i class="bi bi-columns-gap nav_icon" >
                             <span class="nav_name">Desejos</span>
                         </i>
 
-                        @if ($desejos === null || $desejos <= 0)
+                        {{-- @if ($desejos === null || $desejos <= 0) --}}
                         <button type="button" onclick="mostrarLinguagens(2)" class= "botao-sem-estilo"><i class="bi bi-caret-down-fill"></i>
                         </button>
-                        {{-- Desejo --}}
                         <form method="POST" action="{{ route('wish.create') }}">
                             @csrf
                             <input type="hidden" name="skill_type" value="2">
@@ -152,7 +186,7 @@
                                 <button type="submit" class="botao-sem-estilo btnSubmit" style="padding-top: 1rem" >Cadastrar</button>
                             </div>
                         </form>
-                        @endif
+                        {{-- @endif --}}
                     </div>
                 </div>
 
@@ -165,6 +199,22 @@
     <!--Container Main start-->
     <div class="height-100">
         <h4>Main Components</h4>
+
+        {{-- @if($skillUser ->isNotEmpty())
+    <h3>Linguagens Selecionadas:</h3>
+    <ul>
+        @foreach ($skillUser  as $skill)
+            <li>
+                <img width="30px" height="30px"
+                     src="{{ $skill->foto ? asset('storage/' . $skill->foto) : asset('images/nophoto.jpg') }}">
+                {{ $skill->name }}
+            </li>
+        @endforeach
+    </ul>
+@else
+    <p>Nenhuma linguagem selecionada.</p>
+@endif --}}
+
 
     </div>
     <!--Container Main end-->
