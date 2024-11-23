@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class WishController extends Controller
 {
-    // $desejos = DB::table('desejo')->where('skill_type', 2)->get();
-    // Para desejos
-
-    // $skills = DB::table('desejo')->where('skill_type', 1)->get();
-    // Para skills
 
     public function viewWish(){
         $wishes = DB::table('desejo')->get();

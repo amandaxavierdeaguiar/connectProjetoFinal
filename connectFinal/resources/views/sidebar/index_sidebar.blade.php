@@ -105,6 +105,8 @@
                         <i class="bi bi-grid-fill nav_icon">
                             <span class="nav_name">Skills</span>
                         </i>
+
+                        @if ($skills === null || $skills <= 0)
                         <button type="button" onclick="mostrarLinguagens(1)" class= "botao-sem-estilo"><i class="bi bi-caret-down-fill"></i>
                         </button>
                         {{-- Skills --}}
@@ -123,19 +125,22 @@
                                 <button type="submit" class="botao-sem-estilo btnSubmit" style="padding-top: 1rem" >Cadastrar</button>
                             </div>
                         </form>
+                        @endif
 
                     </div>
                     <div class="nav_link active">
                         <i class="bi bi-columns-gap nav_icon" >
                             <span class="nav_name">Desejos</span>
                         </i>
+
+                        @if ($desejos === null || $desejos <= 0)
                         <button type="button" onclick="mostrarLinguagens(2)" class= "botao-sem-estilo"><i class="bi bi-caret-down-fill"></i>
                         </button>
                         {{-- Desejo --}}
                         <form method="POST" action="{{ route('wish.create') }}">
                             @csrf
                             <input type="hidden" name="skill_type" value="2">
-                            
+
                             <div id="linguagens-container2" style="margin-top: 1rem;margin-left:2.1rem;">
                                 @foreach ($linguages as $linguagem)
                                     <label>
@@ -147,6 +152,7 @@
                                 <button type="submit" class="botao-sem-estilo btnSubmit" style="padding-top: 1rem" >Cadastrar</button>
                             </div>
                         </form>
+                        @endif
                     </div>
                 </div>
 
