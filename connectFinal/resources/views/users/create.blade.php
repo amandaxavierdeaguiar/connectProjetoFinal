@@ -1,46 +1,38 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-900 leading-tight">
             {{ __('Criar Novo Usuário') }}
         </h2>
     </x-slot>
 
-    <div class="container mt-5" style="width: 40%; max-width: 400px;">
+    <div class="container mt-5 mb-5" style="width: 70%; max-width: 600px; border: 1px solid #7699D4;">
+        <h2>Criar Novo Usuário</h2>
 
-
-    <h2>Criar Novo Usuário</h2>
-
-    <!-- Steps -->
-    <div class="d-flex justify-content-center align-items-center mb-4">
+        <!-- Steps -->
+        <div class="d-flex justify-content-center align-items-center  mb-4">
             <div class="steps-container">
-                <ul class="steps d-flex list-unstyled justify-content-center align-items-center">
+                <ul class="steps d-flex list-unstyled justify-content-center align-items-center gap-2">
                     <li class="step active">
                         <span class="step-circle">1</span>
-                        <p class="step-label">Dados Pessoais</p>
-                    </li>
-                    <li class="step-separator">
-                        <i class="fas fa-chevron-right"></i>
                     </li>
                     <li class="step">
                         <span class="step-circle">2</span>
-                        <p class="step-label">Dados Profissionais</p>
                     </li>
-                    <li class="step-separator">
-                        <i class="fas fa-chevron-right"></i>
-                    </li>
+                    <li class="step-separator"></li>
                     <li class="step">
                         <span class="step-circle">3</span>
-                        <p class="step-label">Finalização</p>
                     </li>
                 </ul>
             </div>
         </div>
 
-    <!-- Formulário Multi-Step -->
-    <div class="card shadow rounded p-4">
+        <!-- Formulário Multi-Step -->
+        <form id="multiStepForm" method="POST" action="{{ route('users.store') }}" enctype="multipart/form-data">
+            @csrf
+
             <!-- Passo 1 -->
-    <div id="step-1" class="form-step">
-                <h4 class="text-center mb-4">Passo 1: Dados Pessoais</h4>
+            <div id="step-1" class="form-step">
+                
 
                 <!-- Avatar -->
                 <div class="d-flex flex-column align-items-center mb-4">
@@ -55,97 +47,83 @@
                     </label>
                 </div>
 
-    <form id="multiStepForm" method="POST" action="{{ route('users.store') }}" enctype="multipart/form-data">
-    @csrf
-        <div class="mb-3">
-            <label for="name" class="form-label">Nome:</label>
-            <input type="text" id="name" name="name" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="email" class="form-label">Email:</label>
-            <input type="email" id="email" name="email" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="password" class="form-label">Senha:</label>
-            <input type="password" id="password" name="password" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="nif" class="form-label">NIF:</label>
-            <input type="text" id="nif" name="nif" class="form-control">
-        </div>
-
-        <div class="text-center">
-         <button type="button" class="btn btn-primary" id="nextBtn">Próximo</button>
-        </div>
-    
-</div>
-
-        <!-- <div class="mb-3">
-            <label for="photo" class="form-label">Foto:</label>
-            <input type="file" id="photo" name="photo" class="form-control">
-        </div> -->
-<div id="step-2" class="form-step d-none">
-            <h4 class="text-center mb-4">Passo 2: Dados Profissionais</h4>
-        <div class="mb-3">
-            <label for="data_nascimento" class="form-label">Data de Nascimento:</label>
-            <input type="date" id="data_nascimento" name="data_nascimento" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label for="endereco" class="form-label">Endereço:</label>
-            <input type="text" id="endereco" name="endereco" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label for="telefone" class="form-label">Telefone:</label>
-            <input type="text" id="telefone" name="telefone" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label for="user_type" class="form-label">Tipo de Usuário:</label>
-            <select id="user_type" name="user_type" class="form-select">
-                <option value="1">Usuário Comum</option>
-                <option value="0">Administrador</option>
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="id_curso" class="form-label">Curso:</label>
-            <select id="id_curso" name="id_curso" class="form-select">
-                <option value="">Selecione um curso</option>
-                @foreach ($cursos as $curso)
-                    <option value="{{ $curso->id }}">{{ $curso->nome }}</option>
-                @endforeach
-            </select>
-    </div>
-    <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-outline-primary" id="prevBtn">Voltar</button>
-                    <button type="button" class="btn btn-primary" id="nextBtnStep2">Próximo</button>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nome:</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
                 </div>
 
-</div>
-
- <!-- Passo 3 -->
- <div id="step-3" class="form-step d-none">
-                <h4 class="text-center mb-4">Passo 3: Finalização</h4>
-                <p class="text-center">Revise as informações e clique em "Criar Usuário" para finalizar.</p>
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-outline-primary" id="prevBtnStep3">Voltar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
                 </div>
-        
-        
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Senha:</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="nif" class="form-label">NIF:</label>
+                    <input type="text" id="nif" name="nif" class="form-control">
+                </div>
+
+                <div class="text-center">
+                <button type="button" class="btn btn-primary mb-3" id="nextBtn">Próximo</button>
+                </div>
             </div>
-            </form>
+
+            <!-- Passo 2 -->
+            <div id="step-2" class="form-step d-none">
+                <h4 class="text-center mb-4">Passo 2: Dados Profissionais</h4>
+                <div class="mb-3">
+                    <label for="data_nascimento" class="form-label">Data de Nascimento:</label>
+                    <input type="date" id="data_nascimento" name="data_nascimento" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="endereco" class="form-label">Endereço:</label>
+                    <input type="text" id="endereco" name="endereco" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="telefone" class="form-label">Telefone:</label>
+                    <input type="text" id="telefone" name="telefone" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="user_type" class="form-label">Tipo de Usuário:</label>
+                    <select id="user_type" name="user_type" class="form-select">
+                        <option value="1">Usuário Comum</option>
+                        <option value="0">Administrador</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_curso" class="form-label">Curso:</label>
+                    <select id="id_curso" name="id_curso" class="form-select">
+                        <option value="">Selecione um curso</option>
+                        @foreach ($cursos as $curso)
+                            <option value="{{ $curso->id }}">{{ $curso->nome }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="d-flex justify-content-center gap-2">
+                    <button type="button" class="btn btn-outline-primary mb-3" id="prevBtn">Voltar</button>
+                    <button type="button" class="btn btn-primary mb-3" id="nextBtnStep2">Próximo</button>
+                </div>
+            </div>
+
+            <!-- Passo 3 -->
+            <div id="step-3" class="form-step d-none">
+    <h4 class="text-center mb-4">Passo 3: Finalização</h4>
+    <p class="text-center">Revise as informações e clique em "Criar Usuário" para finalizar.</p>
+    <div class="d-flex justify-content-center gap-2">
+        <button type="button" class="btn btn-primary mt-5 mb-3" id="prevBtnStep3">Voltar</button>
+        <button type="submit" class="btn btn-primary mt-5 mb-3">Salvar</button>
     </div>
 </div>
-
-        
-    
-
+        </form>
+    </div>
 
 @if ($errors->any())
     <div class="alert alert-danger">

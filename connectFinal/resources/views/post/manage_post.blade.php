@@ -16,6 +16,14 @@
                 'Eventos' => $eventos,
                 'Cursos' => $cursos,
             ];
+
+            // Cores para cada tipo de postagem
+            $backgroundColors = [
+                'Vagas de Estágio' => '#E0DFFF',
+                'Notícias' => '#7699D4',
+                'Eventos' => '#C66D7B',
+                'Cursos' => '#63B4D1',
+            ];
         @endphp
 
         @foreach ($postTypes as $type => $posts)
@@ -23,16 +31,20 @@
             <div class="row border-bottom pb-3 mb-3">
                 @foreach ($posts as $post)
                     <div class="col-md-4 mb-4">
-                        <div class="card shadow-sm" style="background-color: #E0DFFF;">
-                            <img 
-                                src="{{ asset('storage/' . ($post->foto ?? 'default-post.png')) }}" 
-                                class="card-img-top" 
-                                alt="{{ $post->titulo }}" 
-                                style="max-height: 150px; object-fit: cover;"
-                            >
+                        <div class="card shadow-sm" style="background-color: {{ $backgroundColors[$type] }};">
+                            <div class="d-flex align-items-center p-3">
+                                <img 
+                                    src="{{ asset('storage/' . ($post->foto ?? 'default-post.png')) }}" 
+                                    class="rounded-circle me-3" 
+                                    alt="{{ $post->titulo }}" 
+                                    style="width: 60px; height: 60px; object-fit: cover;"
+                                >
+                                <div>
+                                    <h5 class="card-title mb-0">{{ $post->titulo }}</h5>
+                                    <span class="badge bg-secondary">{{ $post->categoria->nome ?? 'Sem categoria' }}</span>
+                                </div>
+                            </div>
                             <div class="card-body">
-                                <h5 class="card-title">{{ $post->titulo }}</h5>
-                                <span class="badge bg-secondary">{{ $post->categoria->nome ?? 'Sem categoria' }}</span>
                                 <p class="card-text">{{ $post->descricao }}</p>
                                 <a href="#" class="btn btn-dark">Ver mais</a>
                             </div>
