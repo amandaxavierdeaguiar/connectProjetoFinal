@@ -22,7 +22,7 @@
         background: linear-gradient(0deg, #90FCF9, #63B4D1, #7699D4, #7699D4, #480355);
         padding: .5rem 1rem 0 0;transition: .5s;z-index: var(--z-fixed)}
     .nav{height: 100%;display: flex;flex-direction: column;justify-content: space-between;overflow: hidden}
-    .nav_logo, .nav_link{display: grid;grid-template-columns: max-content max-content;align-items: center;column-gap: 1rem;padding: .5rem 0 .5rem 1.2rem}.nav_logo{margin-bottom: 2rem}.nav_logo-icon{font-size: 1.25rem;color: var(--white-color)}.nav_logo-name{color: var(--white-color);font-weight: 700}.nav_link{position: relative;color: var(--first-color-light);margin-bottom: 1.5rem;transition: .3s}.nav_link:hover{color: var(--white-color)}
+    .nav_logo, .nav_link{display: grid;grid-template-columns: max-content max-content;align-items: center;column-gap: 1rem;padding: .5rem 0 .5rem 1.2rem}.nav_logo{margin-bottom: 2rem}.nav_logo-icon{font-size: 1.25rem;color: var(--white-color)}.nav_logo-name{color: var(--white-color);font-weight: 700}.nav_link{position: relative;color: var(--white-color);margin-bottom: 1.5rem;transition: .3s}.nav_link:hover{color: var(--white-color)}
     .nav_icon{font-size: 1.5rem; padding-left: 0.2rem}
     .show{left: 0}.body-pd{padding-left: calc(var(--nav-width) + 1rem)}.active{color: var(--white-color)}.active::before{content: '';position: absolute;left: 0;width: 2px;height: 32px;background-color: var(--white-color)}.height-100{height:100vh}
     @media screen and (min-width: 768px){body{margin: calc(var(--header-height) + 1rem) 0 0 0;padding-left: calc(var(--nav-width) + 2rem)}.header{height: calc(var(--header-height) + 1rem);padding: 0 2rem 0 calc(var(--nav-width) + 2rem)}.header_img{width: 40px;height: 40px}.header_img img{width: 45px}.l-navbar{left: 0;padding: 1rem 1rem 0 0}.show{width: calc(var(--nav-width) + 156px)}
@@ -79,8 +79,6 @@
 
     </style>
 
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> --}}
-
 </head>
 <body id="body-pd">
     <header class="header" id="header">
@@ -112,7 +110,9 @@
                         {{-- Skills --}}
                         <form method="POST" action="{{ route('wish.create') }}">
                         @csrf
-                            <div id="linguagens-container" style="margin-top: 1rem">
+                            <input type="hidden" name="skill_type" value="1">
+
+                            <div id="linguagens-container" style="margin-top: 1rem; margin-left:2.1rem;">
                                 @foreach ($linguages as $linguagem)
                                     <label>
                                         <input type="checkbox" name="linguagem[]" value="{{ $linguagem->id }}"
@@ -134,7 +134,9 @@
                         {{-- Desejo --}}
                         <form method="POST" action="{{ route('wish.create') }}">
                             @csrf
-                            <div id="linguagens-container2" style="margin-top: 1rem">
+                            <input type="hidden" name="skill_type" value="2">
+                            
+                            <div id="linguagens-container2" style="margin-top: 1rem;margin-left:2.1rem;">
                                 @foreach ($linguages as $linguagem)
                                     <label>
                                         <input type="checkbox" name="linguagem[]" value="{{ $linguagem->id }}"
@@ -157,45 +159,7 @@
     <!--Container Main start-->
     <div class="height-100">
         <h4>Main Components</h4>
-        {{-- <form method="POST" action="{{ route('wish.create') }}">
-            <h2>Selecione as Linguagens</h2>
 
-            @csrf <!-- Para proteção CSRF no Laravel -->
-
-            <button type="button" onclick="mostrarLinguagens(1)">Tipo 1</button>
-            <button type="button" onclick="mostrarLinguagens(2)">Tipo 2</button>
-
-            <div id="linguagens-container">
-                @foreach ($linguages as $linguagem)
-                    <label>
-                        <input type="checkbox" name="linguagem[]" value="{{ $linguagem->id }}"
-                        {{ in_array($linguagem->id, $linguagensSelecionadas) ? 'disabled' : '' }}>
-                        {{ $linguagem->name }}
-                    </label><br>
-                @endforeach
-            </div>
-            <input type="hidden" id="skill_type" name="skill_type" value="">
-
-
-            <button type="submit" class="btn btn-primary">Cadastrar</button> --}}
-        {{-- <form method="POST" action="/seu-endpoint">
-            <h2>Selecione as Linguagens</h2>
-
-            @csrf <!-- Para proteção CSRF no Laravel -->
-
-            @foreach ($linguages as $linguagem)
-                <label>
-                    <input type="checkbox" name="linguagem[]" value="{{ $linguagem->id }}"
-                    {{ in_array($linguagem->id, $linguagensSelecionadas) ? 'disabled' : '' }}>
-                    {{ $linguagem->name }} <!-- Supondo que você tenha um campo 'nome' -->
-                </label><br>
-            @endforeach
-
-            <button name="skill_type" value="1">Tipo 1</button>
-            <button name="skill_type" value="2">Tipo 2</button>
-
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
-        </form> --}}
     </div>
     <!--Container Main end-->
     <script>
@@ -237,12 +201,6 @@
 
         // Your code to run since DOM is loaded and ready
                 });
-                // Linguagem
-        // function mostrarLinguagens(skillType) {
-        //     document.getElementById('linguagens-container').style.display = 'block';
-
-        //     document.getElementById('skill_type').value = skillType;
-        // }
 
         function mostrarLinguagens(skillType) {
             // Obtém o elemento do container de linguagens
