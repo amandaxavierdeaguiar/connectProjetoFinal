@@ -184,10 +184,25 @@
                     </div>
                 </div>
 
+                {{-- <div style="margin-left: 1rem;">
 
 
-            </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span>
-            <a href="{{ $users->linkedin ?? '#' }}"><i class="bi bi-linkedin"></i></a>
+                <a href="{{ $users->linkedin ?? '#' }}" ><i class="bi bi-linkedin "></i></a>
+                <a href="{{ $users->github ?? '#' }}"><i class="bi bi-github "></i></a>
+
+                </div> --}}
+            </div>
+
+            <div style="margin-left: 0.9rem;">
+                <a href="{{ $users->linkedin ?? '#' }}" style="display: inline-block;">
+                    <i class="bi bi-linkedin"></i>
+                </a>
+                <a href="{{ $users->github ?? '#' }}" style="display: inline-block;">
+                    <i class="bi bi-github"></i>
+                </a>
+            </div>
+
+            <a href="#" class="nav_link"> <i class="bi bi-box-arrow-right nav_icon"></i>
         </nav>
     </div>
     <!--Container Main start-->
