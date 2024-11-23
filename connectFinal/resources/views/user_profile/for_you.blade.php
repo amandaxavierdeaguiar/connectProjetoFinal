@@ -1,7 +1,7 @@
 @extends('sidebar.index_sidebar')
 @section('contentForYou')
 
-<div class="container">
+
     <h1 className="nameDashboard" style="background: linear-gradient(90deg, #688AE9 0%, #A8B3E8 50%, #C66D7B 100%);
     -webkit-background-clip: text;
     color: transparent;
@@ -15,12 +15,12 @@
     font-weight: 400;
     font-family: 'Montserrat', sans-serif;
     margin-top: -35px;">{{$users->curso->nome ?? ' '}}</h2>
-
+    <div class="container d-flex flex-column justify-content-center align-items-center" style="width: 100%; min-height: 85%; margin: auto;">
     <div class="parent" style="display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(4, 1fr);
-    grid-column-gap: 2px;
-    grid-row-gap: 5px;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
     width: 100%; height: 100%;
     ">
 
@@ -86,6 +86,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 @endsection

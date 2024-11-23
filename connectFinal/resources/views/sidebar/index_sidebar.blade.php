@@ -226,7 +226,7 @@
         </nav>
     </div>
     <!--Container Main start-->
-    <div class="container forYou height-100 width-100">
+    <div >
         @yield('contentForYou')
     </div>
     {{-- <div class="height-100">
