@@ -13,9 +13,12 @@ class UserController extends Controller
     {
         $users = User::all();
         return view('users.manage_users', compact('users'));
+
+        
     }
 
     // Exibir formulário para criar um novo usuário
+    
     public function create()
     {
         $cursos = Curso::all(); // Para popular o campo id_curso no formulário
@@ -30,7 +33,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
             'nif' => 'nullable|string|max:255',
-            'photo' => 'nullable|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'data_nascimento' => 'nullable|date',
             'endereco' => 'nullable|string|max:255',
             'telefone' => 'nullable|string|max:255',
@@ -38,23 +41,27 @@ class UserController extends Controller
             'id_curso' => 'nullable|exists:curso,id',
         ]);
 
-        $user = new User([
+        $photoPath = null;
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('photos', 'public');
+        }
+
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'nif' => $request->nif,
-            'photo' => $request->photo,
+            'photo' => $photoPath,
             'data_nascimento' => $request->data_nascimento,
             'endereco' => $request->endereco,
             'telefone' => $request->telefone,
             'user_type' => $request->user_type,
             'id_curso' => $request->id_curso,
         ]);
-        
-        $user->save();
 
         return redirect()->route('users.index')->with('success', 'Usuário criado com sucesso!');
     }
+       
 
     
     public function edit($id)
@@ -66,7 +73,10 @@ class UserController extends Controller
 
     
     public function update(Request $request, $id)
+    
     {
+
+        
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
@@ -76,7 +86,7 @@ class UserController extends Controller
             'data_nascimento' => 'nullable|date',
             'endereco' => 'nullable|string|max:255',
             'telefone' => 'nullable|string|max:255',
-            'user_type' => 'nullable|integer',
+            'user_type' => 'integer|required|in:1,2',
             'id_curso' => 'nullable|exists:curso,id',
         ]);
 
@@ -91,7 +101,7 @@ class UserController extends Controller
         $user->data_nascimento = $request->data_nascimento;
         $user->endereco = $request->endereco;
         $user->telefone = $request->telefone;
-        $user->user_type = $request->user_type;
+        $user->user_type = $request->user_type ?? $user->user_type ?? 1;
         $user->id_curso = $request->id_curso;
         
         $user->save();
@@ -108,7 +118,10 @@ class UserController extends Controller
 
    
     public function destroy($id)
+    
     {
+
+        
         $user = User::findOrFail($id);
         $user->delete();
 
