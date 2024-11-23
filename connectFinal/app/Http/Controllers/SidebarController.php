@@ -79,14 +79,16 @@ class SidebarController extends Controller
         // Busca todos os usuários que têm desejos iguais aos do usuário autenticado
         $usuariosComDesejosIguais = DB::table('desejo')
         ->join('users', 'desejo.id_users', '=', 'users.id')
-        ->whereIn('desejo.id', $desejosUsuario) // Filtra pelos ids_desejo do usuário autenticado
-        ->select('users.*', 'desejo.id as id_desejo')
+        ->whereIn('desejo.id_linguagem', function($query) use ($desejosUsuario) {
+            $query->select('id_linguagem')
+                ->from('desejo')
+                ->whereIn('id', $desejosUsuario);
+        })
+        ->where('users.id', '!=', Auth::user()->id) // Exclui o usuário autenticado
+        ->select('users.*')
+        ->distinct() // Para evitar usuários duplicados
         ->get();
 
-
-
-
-
-        return view('sidebar.index_sidebar', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser', 'usuariosComDesejosIguais'));
+        return view('sidebar.index_sidebar', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser', 'cursoUsers','usuariosComDesejosIguais'));
     }
 }

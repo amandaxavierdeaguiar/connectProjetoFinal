@@ -10,7 +10,7 @@
     <style>
     :root{--header-height: 3rem;--nav-width: 68px;--body-font: 'Nunito', sans-serif;--normal-font-size: 1rem;--z-fixed: 100}*, ::before,::after{box-sizing: border-box}
     body{position: relative;margin: var(--header-height) 0 0 0;padding: 0 1rem;font-family: var(--body-font);font-size: var(--normal-font-size);transition: .5s}a{text-decoration: none}
-    .header{width: 100%;height: var(--header-height);position: fixed;top: 0;left: 0;display: flex;align-items: center;justify-content: space-between;padding: 0 1rem;
+    .header{width: 100%;height: var(--header-height);position: fixed;top: 0;left: 0;display: flex;align-items: center;justify-content: space-between;padding: 0 1rem; background-color: #F7F6FB;
 
     z-index: var(--z-fixed);transition: .5s}
     .header_toggle{color: var(--first-color);font-size: 1.5rem;cursor: pointer}
@@ -91,8 +91,17 @@
 </head>
 <body id="body-pd">
     <header class="header" id="header">
-        <div class="header_toggle"> <i id="header-toggle">X</i> </div>
-        <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
+        <div class="header_toggle"><i id="header-toggle">X</i>  </div>
+        <img src={{asset('images/logo_frame.png')}} alt="" style="1rem;">
+
+        @if($usuariosComDesejosIguais ->isNotEmpty())
+        <div style="display: flex; flex-wrap: wrap; align-items: center;">
+            @foreach ($usuariosComDesejosIguais as $usuario)
+                <img class="avatar header_img" src="{{$usuario->photo ? asset('storage/' . $usuario->photo) : asset('images/default-profile.png') }}" style="margin:2px" />
+                {{-- <p>{{$usuario->name}} --}}
+            @endforeach
+        </div>
+        @endif
     </header>
     <div class="l-navbar" id="nav-bar">
         <nav class="nav">

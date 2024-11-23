@@ -14,8 +14,7 @@
     color:#79747E;
     font-weight: 400;
     font-family: 'Montserrat', sans-serif;
-    margin-top: -35px;">{{$users->curso->nome}}</h2>
-
+    margin-top: -35px;">{{$users->curso->nome ?? ' '}}</h2>
 
     <div class="parent" style="display: grid;
     grid-template-columns: repeat(6, 1fr);

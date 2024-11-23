@@ -46,20 +46,50 @@ class UserProfileController extends Controller
         ->select('curso.id', 'curso.nome as curso')
         ->get();
 
+
         // Obtém todos os ids_desejo do usuário autenticado
         // $desejosUsuario = DB::table('desejo')
         // ->where('id_users', Auth::user()->id)
         // ->pluck('id'); // Pluck para obter uma coleção de ids_desejo
 
-        // // Busca todos os usuários que têm desejos iguais aos do usuário autenticado
         // $usuariosComDesejosIguais = DB::table('desejo')
         // ->join('users', 'desejo.id_users', '=', 'users.id')
         // ->whereIn('desejo.id', $desejosUsuario) // Filtra pelos ids_desejo do usuário autenticado
         // ->select('users.*', 'desejo.id as id_desejo')
         // ->get();
 
+        // Busca todos os usuários que têm desejos iguais aos do usuário autenticado, excluindo o próprio usuário
+        // $usuariosComDesejosIguais = DB::table('desejo')
+        // ->join('users', 'desejo.id_users', '=', 'users.id')
+        // ->whereIn('desejo.id', $desejosUsuario) // Filtra pelos ids_desejo do usuário autenticado
+        // ->where('users.id', '!=', Auth::user()->id) // Exclui o usuário autenticado
+        // ->select('users.*', 'desejo.id as id_desejo')
+        // ->get();
+
+        // Obtém todos os ids_desejo do usuário autenticado
+        $desejosUsuario = DB::table('desejo')
+        ->where('id_users', Auth::user()->id)
+        ->pluck('id'); // Pluck para obter uma coleção de ids_desejo
+
+        // Busca todos os usuários que têm desejos iguais aos do usuário autenticado
+        $usuariosComDesejosIguais = DB::table('desejo')
+        ->join('users', 'desejo.id_users', '=', 'users.id')
+        ->whereIn('desejo.id_linguagem', function($query) use ($desejosUsuario) {
+            $query->select('id_linguagem')
+                ->from('desejo')
+                ->whereIn('id', $desejosUsuario);
+        })
+        ->where('users.id', '!=', Auth::user()->id) // Exclui o usuário autenticado
+        ->select('users.*')
+        ->distinct() // Para evitar usuários duplicados
+        ->get();
 
 
-        return view('user_profile.for_you', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser','cursoUsers'));
+
+
+
+
+
+        return view('user_profile.for_you', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser','cursoUsers','usuariosComDesejosIguais' ));
     }
 }
