@@ -23,13 +23,14 @@
     grid-row-gap: 5px;
     width: 100%; height: 100%;
     ">
+
         <div class="div1" style="grid-area: 1 / 1 / 5 / 3; ">
             <div className="card cardJob" style="background-color: #D7027B ; border-radius: 20px;
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center;">
-                <img src="{{ asset('images/jobs.png')}}" className="card-img-top" alt="Foto emprego" style="border-radius: 20px;"/>
+                <img src="{{ asset('images/jobs.png')}}" className="card-img-top" alt="Foto emprego" style="border-radius: 20px;width:100%;"/>
                 <div className="cardBody" style="padding:1px; text-align: center;font-size: 20px;
                 text-transform: uppercase;
                 font-weight: 700;
@@ -44,7 +45,7 @@
             width: 100%;
             object-fit: cover;
             object-position: center;">
-                <img src="{{ asset('images/evento.png')}}" className="card-img-top" alt="Foto emprego" style="border-radius: 20px;"/>
+                <img src="{{ asset('images/evento.png')}}" className="card-img-top" alt="Foto emprego" style="border-radius: 20px;width:100%"/>
                 <div className="cardBody" style="padding:1px; text-align: center;font-size: 20px;
                 text-transform: uppercase;
                 font-weight: 700;
@@ -59,7 +60,7 @@
             width: 100%;
             object-fit: cover;
             object-position: center;">
-                    <img src="{{ asset('images/book.png')}}" className="card-img-top" alt="Foto emprego" style="border-radius: 20px;"/>
+                    <img src="{{ asset('images/book.png')}}" className="card-img-top" alt="Foto emprego" style="border-radius: 20px; width:100%"/>
                     <div className="cardBody" style="padding:1px; text-align: center;font-size: 20px;
                     text-transform: uppercase;
                     font-weight: 700;
@@ -74,7 +75,7 @@
             width: 100%;
             object-fit: cover;
             object-position: center;">
-                <img src="{{ asset('images/balao.png')}}" className="card-img-top" alt="Foto emprego" style="border-radius: 20px;"/>
+                <img src="{{ asset('images/balao.png')}}" className="card-img-top" alt="Foto emprego" style="border-radius: 20px; width:100%"/>
                 <div className="cardBody" style="padding:1px; text-align: center;font-size: 20px;
                 text-transform: uppercase;
                 font-weight: 700;
