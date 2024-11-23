@@ -9,10 +9,13 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\SidebarController;
+use App\Http\Controllers\UserProfileController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/userprofile', [UserProfileController::class,'viewUserProfile'])->name('user.foryou');
 
 // Rota para pagina inicial users
 // Route::get('/', [IndexController::class, 'viewPageUsers'])->name('users.index');
