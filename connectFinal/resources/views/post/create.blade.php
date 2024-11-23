@@ -1,140 +1,157 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Criar Novo Usuário') }}
+            {{ __('Dashboard') }}
         </h2>
     </x-slot>
+<div class="container mt-5" style="width: 40%; max-width: 400px;">
 
-    <div class="container mt-5" style="width: 40%; max-width: 400px;">
-
-
-    <h2>Criar Novo Usuário</h2>
+    <h1>postagem</h1>
 
     <!-- Steps -->
     <div class="d-flex justify-content-center align-items-center mb-4">
             <div class="steps-container">
                 <ul class="steps d-flex list-unstyled justify-content-center align-items-center">
-                    <li class="step active">
-                        <span class="step-circle">1</span>
-                        <p class="step-label">Dados Pessoais</p>
+                    <li class="step active ">
+                        <span class="step-circle ">1</span>
+                        
+                        
                     </li>
-                    <li class="step-separator">
-                        <i class="fas fa-chevron-right"></i>
-                    </li>
+                   
                     <li class="step">
                         <span class="step-circle">2</span>
-                        <p class="step-label">Dados Profissionais</p>
+                       
                     </li>
                     <li class="step-separator">
-                        <i class="fas fa-chevron-right"></i>
+                      
                     </li>
                     <li class="step">
                         <span class="step-circle">3</span>
-                        <p class="step-label">Finalização</p>
+                       
                     </li>
                 </ul>
             </div>
         </div>
-
     <!-- Formulário Multi-Step -->
+    
     <div class="card shadow rounded p-4">
-            <!-- Passo 1 -->
-    <div id="step-1" class="form-step">
-                <h4 class="text-center mb-4">Passo 1: Dados Pessoais</h4>
-
-                <!-- Avatar -->
-                <div class="d-flex flex-column align-items-center mb-4">
+         <!-- Passo 1 -->
+           <!-- Passo 1 -->
+<div id="step-1" class="form-step">
+<form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+@csrf
+    <div class="d-flex flex-column align-items-center mb-4">
                     <img id="photoPreview" 
-                         src="{{ asset('images/default-profile.png') }}" 
+                         src="{{ asset('images/default-post.png') }}" 
                          alt="Avatar"
                          class="img-fit rounded-circle border mb-3" 
                          style="width: 120px; height: 120px;">
                     <label class="btn btn-outline-primary">
-                        <input type="file" name="photo" id="photo" class="d-none" accept="image/*" onchange="previewPhoto(event)">
+                        <input type="file" name="foto" id="foto" class="d-none" accept="image/*" onchange="previewPhoto(event)">
                         Selecionar Foto
                     </label>
-                </div>
+    </div>
+</form>
 
-    <form id="multiStepForm" method="POST" action="{{ route('users.store') }}" enctype="multipart/form-data">
-    @csrf
-        <div class="mb-3">
-            <label for="name" class="form-label">Nome:</label>
-            <input type="text" id="name" name="name" class="form-control" required>
-        </div>
 
-        <div class="mb-3">
-            <label for="email" class="form-label">Email:</label>
-            <input type="email" id="email" name="email" class="form-control" required>
-        </div>
+        <!-- Exibir mensagens de erro -->
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <div class="mb-3">
-            <label for="password" class="form-label">Senha:</label>
-            <input type="password" id="password" name="password" class="form-control" required>
-        </div>
+        <!-- Formulário para criar um post -->
+        <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
-        <div class="mb-3">
-            <label for="nif" class="form-label">NIF:</label>
-            <input type="text" id="nif" name="nif" class="form-control">
-        </div>
+            <!-- Select de Usuário -->
+            <div class="mb-3">
+                
+                <select name="id_users" id="id_users" class="form-control" required>
+                    <option value="" selected disabled>Selecione um usuário</option>
+                    @foreach ($users as $user)
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <div class="text-center">
+             <!-- Input para postagem -->
+            <select name="post_type" id="post_type" class="form-control mb-3" required>
+        <option value="" selected disabled>Selecione o tipo de postagem</option>
+        <option value="Notícias">Notícias</option>
+        <option value="Cursos">Cursos</option>
+        <option value="Eventos">Eventos</option>
+        <option value="Vagas de Estágio">Vagas de Estágio</option>
+    </select>
+           
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título</label>
+                <input type="text" name="titulo" id="titulo" class="form-control" value="{{ old('titulo') }}" required>
+            </div>
+
+  
+
+            <!-- Textarea para Descrição -->
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea name="descricao" id="descricao" class="form-control" rows="4" required>{{ old('descricao') }}</textarea>
+            </div>
+
+            <div class="text-center">
          <button type="button" class="btn btn-primary" id="nextBtn">Próximo</button>
         </div>
-    
-</div>
+ </div>
 
-        <!-- <div class="mb-3">
-            <label for="photo" class="form-label">Foto:</label>
-            <input type="file" id="photo" name="photo" class="form-control">
-        </div> -->
+
 <div id="step-2" class="form-step d-none">
-            <h4 class="text-center mb-4">Passo 2: Dados Profissionais</h4>
-        <div class="mb-3">
-            <label for="data_nascimento" class="form-label">Data de Nascimento:</label>
-            <input type="date" id="data_nascimento" name="data_nascimento" class="form-control">
-        </div>
 
-        <div class="mb-3">
-            <label for="endereco" class="form-label">Endereço:</label>
-            <input type="text" id="endereco" name="endereco" class="form-control">
-        </div>
 
-        <div class="mb-3">
-            <label for="telefone" class="form-label">Telefone:</label>
-            <input type="text" id="telefone" name="telefone" class="form-control">
-        </div>
+            <!-- Select para Categoria -->
+            <div class="mb-3">
+                <label for="id_categoria" class="form-label">Categoria</label>
+                <select name="id_categoria" id="id_categoria" class="form-control" required>
+                    <option value="" selected disabled>Selecione uma categoria</option>
+                    @foreach ($categorias as $categoria)
+                        <option value="{{ $categoria->id }}">{{ $categoria->nome }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <div class="mb-3">
-            <label for="user_type" class="form-label">Tipo de Usuário:</label>
-            <select id="user_type" name="user_type" class="form-select">
-                <option value="1">Usuário Comum</option>
-                <option value="0">Administrador</option>
-            </select>
-        </div>
+            <!-- Select para Linguagem -->
+            <div class="mb-3">
+                <label for="id_linguagem" class="form-label">Linguagem</label>
+                <select name="id_linguagem" id="id_linguagem" class="form-control" required>
+                    <option value="" selected disabled>Selecione uma linguagem</option>
+                    @foreach ($linguagens as $linguagem)
+                        <option value="{{ $linguagem->id }}">{{ $linguagem->name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <div class="mb-3">
-            <label for="id_curso" class="form-label">Curso:</label>
-            <select id="id_curso" name="id_curso" class="form-select">
-                <option value="">Selecione um curso</option>
-                @foreach ($cursos as $curso)
-                    <option value="{{ $curso->id }}">{{ $curso->nome }}</option>
-                @endforeach
-            </select>
-    </div>
-    <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between">
                     <button type="button" class="btn btn-outline-primary" id="prevBtn">Voltar</button>
                     <button type="button" class="btn btn-primary" id="nextBtnStep2">Próximo</button>
                 </div>
 
+
+   
 </div>
 
- <!-- Passo 3 -->
- <div id="step-3" class="form-step d-none">
+        
+
+
+<!-- Passo 3 -->
+<div id="step-3" class="form-step d-none">
                 <h4 class="text-center mb-4">Passo 3: Finalização</h4>
-                <p class="text-center">Revise as informações e clique em "Criar Usuário" para finalizar.</p>
+                <p class="text-center">Revise as informações e clique em "Criar Post" para finalizar.</p>
                 <div class="d-flex justify-content-between">
                     <button type="button" class="btn btn-outline-primary" id="prevBtnStep3">Voltar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="submit" class="btn btn-primary">Criar Post</button>
                 </div>
         
         
@@ -142,32 +159,26 @@
             </form>
     </div>
 </div>
-
-        
-    
-
-
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-</div>
 <style>
         .steps-container {
             width: 100%;
             display: flex;
             justify-content: center;
+
         }
 
         .steps {
             display: flex;
             align-items: center;
         }
+
+        .steps .step {
+        margin: 0 10px;
+    }
+
+    .steps .step-separator {
+        margin: 0 5px; 
+    }
 
         .step-circle {
             width: 40px;
@@ -202,8 +213,7 @@
     height: 100%; /* Altura total do container */
     object-fit: cover; /* Ajusta a imagem sem distorcer */
     border-radius: 50%; /* Para manter formato circular */
-}
-    </style>
+}</style>
 
 <script>
         const steps = document.querySelectorAll('.form-step');
@@ -261,4 +271,8 @@
             }
         }
     </script>
+
+
+
+
 </x-app-layout>

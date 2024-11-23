@@ -15,9 +15,9 @@
                 <div class="bg-white p-6 rounded-lg shadow-lg">
                     <div class="flex justify-between items-start">
                         <h3 class="text-sm font-semibold text-gray-600">Publicação - VAGAS DE ESTÁGIOS </h3> 
-                        <button class="bg-blue-500 text-white text-xs px-3 py-1 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            Editar
-                        </button>
+                        <a href="{{ route('post.index') }}" class="bg-blue-500 text-white text-xs px-3 py-1 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                Editar
+            </a>
                     </div>
                     
                     <p class="text-gray-900">Insira as informações da nova vaga para publicá-la no portal</p>
