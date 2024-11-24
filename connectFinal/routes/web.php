@@ -8,6 +8,7 @@ use App\Http\Controllers\StudyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\LanguagesController;
+use App\Http\Controllers\ScoreController;
 
 Route::get('/', function () {
     return view('home');
@@ -86,6 +87,13 @@ Route::post('/wish', [WishController::class, 'createWish'])->name('wish.create')
 
 Route::get('/wishes', [WishController::class, 'viewWish'])->name('wish.list');
 
+// VIEWS PARA GAME
+// Game
+// Rota para score game
+Route::get('/game_create', [ScoreController::class, 'createGame'])->name('game.create');
+
+Route::post('/add_game', [ScoreController::class, 'store'])->name('game.add');
+
 
 // Route::post('/wishes/create', [WishController::class, 'createWish'])->name('wish.create');
 
@@ -106,3 +114,5 @@ Route::middleware('auth')->group(function () {
 Route::resource('users', UserController::class);
 
 require __DIR__.'/auth.php';
+
+
