@@ -109,8 +109,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Rotas para o UserController
-Route::resource('users', UserController::class);
+
 
 
 // VIEWS PARA CATEGORIA
@@ -196,6 +195,8 @@ Route::get('/wishes', [WishController::class, 'viewWish'])->name('wish.list');
 
 
 
+// Rotas para o UserController
+Route::resource('users', UserController::class);
 
 // Rota par apost
 

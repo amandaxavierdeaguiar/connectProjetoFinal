@@ -21,6 +21,7 @@ class PostController extends Controller
     $vagas = $posts->where('post_type', 'Vagas de Estágio');
     $cursos = $posts->where('post_type', 'Cursos');
     $eventos = $posts->where('post_type', 'Eventos');
+    $forum = $posts->where('post_type', 'Forum');
 
     return view('post.manage_post', compact('noticias', 'vagas', 'cursos', 'eventos', 'posts'));
     }

@@ -12,7 +12,13 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('users.manage_users', compact('users'));
+        $userCount = $users->count();
+       
+
+        // Para reutilizar o thumb
+        
+        
+        return view('users.manage_users', compact('users','userCount',));
 
         
     }
@@ -127,4 +133,11 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'Usuário excluído com sucesso!');
     }
+
+
+
+
+    // Outras funções 
+
+   
 }

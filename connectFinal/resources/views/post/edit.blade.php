@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Criar postagem') }}
+            {{ __('Editar postagem') }}
         </h2>
     </x-slot>
 
     <div class="container mt-5" style="width: 70%; max-width: 600px;">
-        <h1>Postagem</h1>
+        <h1>Editar Postagem</h1>
 
         <!-- Steps -->
         <div class="d-flex justify-content-center align-items-center mb-4">
@@ -27,59 +27,63 @@
         </div>
 
         <!-- Formulário Multi-Step -->
-        <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('post.update', $post->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
 
             <div class="card shadow rounded p-4 mb-5">
                 <!-- Passo 1 -->
                 <div id="step-1" class="form-step">
                     <div class="d-flex flex-column align-items-center mb-4">
-                        <img id="photoPreview" 
-                             src="{{ asset('images/default-profile.png') }}" 
-                             alt="Avatar"
-                             class="img-fit rounded-circle border mb-3" 
-                             style="width: 120px; height: 120px;">
+                        <img id="photoPreview"
+                            src="{{ $post->foto ? asset('storage/' . $post->foto) : asset('images/default-post.png') }}"
+                            alt="Avatar"
+                            class="img-fit rounded-circle border mb-3"
+                            style="width: 120px; height: 120px;">
                         <label class="btn btn-outline-primary">
                             <input type="file" name="foto" id="foto" class="d-none" accept="image/*" onchange="previewPhoto(event)">
-                            Selecionar Foto
+                            Alterar Foto
                         </label>
                     </div>
 
                     @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                     @endif
 
                     <div class="mb-3">
                         <select name="id_users" id="id_users" class="form-control" required>
-                            <option value="" selected disabled>Selecione um usuário</option>
+                            <option value="" disabled>Selecione um usuário</option>
                             @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            <option value="{{ $user->id }}" {{ $user->id == $post->id_users ? 'selected' : '' }}>
+                                {{ $user->name }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
 
                     <select name="post_type" id="post_type" class="form-control mb-3" required>
-                        <option value="" selected disabled>Selecione o tipo de postagem</option>
-                        <option value="Notícias">Notícias</option>
-                        <option value="Cursos">Cursos</option>
-                        <option value="Eventos">Eventos</option>
-                        <option value="Vagas de Estágio">Vagas de Estágio</option>
+                        <option value="" disabled>Selecione o tipo de postagem</option>
+                        @foreach (App\Models\Post::$postTypes as $type)
+                        <option value="{{ $type }}" {{ $type == $post->post_type ? 'selected' : '' }}>
+                            {{ $type }}
+                        </option>
+                        @endforeach
                     </select>
 
                     <div class="mb-3">
                         <label for="titulo" class="form-label">Título</label>
-                        <input type="text" name="titulo" id="titulo" class="form-control" value="{{ old('titulo') }}" required>
+                        <input type="text" name="titulo" id="titulo" class="form-control" value="{{ $post->titulo }}" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="descricao" class="form-label">Descrição</label>
-                        <textarea name="descricao" id="descricao" class="form-control" rows="4" required>{{ old('descricao') }}</textarea>
+                        <textarea name="descricao" id="descricao" class="form-control" rows="4" required>{{ $post->descricao }}</textarea>
                     </div>
 
                     <div class="text-center">
@@ -92,9 +96,11 @@
                     <div class="mb-3">
                         <label for="id_categoria" class="form-label">Categoria</label>
                         <select name="id_categoria" id="id_categoria" class="form-control" required>
-                            <option value="" selected disabled>Selecione uma categoria</option>
+                            <option value="" disabled>Selecione uma categoria</option>
                             @foreach ($categorias as $categoria)
-                                <option value="{{ $categoria->id }}">{{ $categoria->nome }}</option>
+                            <option value="{{ $categoria->id }}" {{ $categoria->id == $post->id_categoria ? 'selected' : '' }}>
+                                {{ $categoria->nome }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
@@ -102,9 +108,11 @@
                     <div class="mb-3">
                         <label for="id_linguagem" class="form-label">Linguagem</label>
                         <select name="id_linguagem" id="id_linguagem" class="form-control" required>
-                            <option value="" selected disabled>Selecione uma linguagem</option>
+                            <option value="" disabled>Selecione uma linguagem</option>
                             @foreach ($linguagens as $linguagem)
-                                <option value="{{ $linguagem->id }}">{{ $linguagem->name }}</option>
+                            <option value="{{ $linguagem->id }}" {{ $linguagem->id == $post->id_linguagem ? 'selected' : '' }}>
+                                {{ $linguagem->name }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
@@ -118,28 +126,25 @@
                 <!-- Passo 3 -->
                 <div id="step-3" class="form-step d-none">
                     <h4 class="text-center mb-4">Passo 3: Finalização</h4>
-                    <p class="text-center">Revise as informações e clique em "Criar Post" para finalizar.</p>
+                    <p class="text-center">Revise as informações e clique em "Atualizar Post" para finalizar.</p>
                     <div class="d-flex justify-content-center gap-3 mt-4">
                         <button type="button" class="btn btn-outline-primary" id="prevBtnStep3">Voltar</button>
-                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
                     </div>
                 </div>
             </div>
         </form>
     </div>
-
-
-        @if ($errors->any())
+    @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+            <li>{{ $error }}</li>
             @endforeach
         </ul>
     </div>
-@endif
+    @endif
     </div>
-
     <style>
         .steps-container {
             width: 100%;
@@ -152,19 +157,12 @@
             align-items: center;
         }
 
-        .steps .step {
-            margin: 0 10px;
-        }
-
-        .steps .step-separator {
-            margin: 0 5px;
-        }
-
         .step-circle {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             background-color: #dee2e6;
+            /* Cinza padrão */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -174,6 +172,7 @@
 
         .active .step-circle {
             background-color: #6f42c1;
+            /* Roxo */
             color: #fff;
         }
 
@@ -187,11 +186,16 @@
             color: #fff;
         }
 
+
         .img-fit {
             width: 100%;
+            /* Largura total do container */
             height: 100%;
+            /* Altura total do container */
             object-fit: cover;
+            /* Ajusta a imagem sem distorcer */
             border-radius: 50%;
+            /* Para manter formato circular */
         }
     </style>
 
@@ -242,7 +246,7 @@
             const file = event.target.files[0];
             const reader = new FileReader();
 
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 document.getElementById('photoPreview').src = e.target.result;
             };
 

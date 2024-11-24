@@ -6,32 +6,30 @@
     </x-slot>
 
     <div class="container mt-5" style="width: 40%; max-width: 400px;">
-        <h2>Editar Usuário</h2>
-
-        <h2 class="text-xl font-semibold mb-4">Editar Usuário</h2>
+      
 
 
         <!-- Steps -->
         <div class="d-flex justify-content-center align-items-center mb-4">
             <div class="steps-container">
-                <ul class="steps d-flex list-unstyled justify-content-center align-items-center">
+                <ul class="steps d-flex list-unstyled justify-content-center  gap-2 align-items-center">
                     <li class="step active">
                         <span class="step-circle">1</span>
-                        <p class="step-label">Dados Pessoais</p>
+                      
                     </li>
                     <li class="step-separator">
-                        <i class="fas fa-chevron-right"></i>
+                      
                     </li>
                     <li class="step">
                         <span class="step-circle">2</span>
-                        <p class="step-label">Dados Profissionais</p>
+                     
                     </li>
                     <li class="step-separator">
-                        <i class="fas fa-chevron-right"></i>
+                     
                     </li>
                     <li class="step">
                         <span class="step-circle">3</span>
-                        <p class="step-label">Finalização</p>
+                      
                     </li>
                 </ul>
             </div>
