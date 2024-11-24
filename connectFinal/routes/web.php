@@ -8,6 +8,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\StudyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ForumController;
 use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\UserProfileController;
@@ -17,6 +18,8 @@ Route::get('/', function () {
 });
 
 Route::get('/userprofile', [UserProfileController::class,'viewUserProfile'])->name('user.foryou');
+
+// Route::get('/forumprofile', [ForumController::class,'viewForum'])->name('user.forum');
 
 // Rota para pagina inicial users
 // Route::get('/', [IndexController::class, 'viewPageUsers'])->name('users.index');

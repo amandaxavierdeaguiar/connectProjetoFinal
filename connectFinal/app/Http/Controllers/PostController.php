@@ -13,7 +13,7 @@ class PostController extends Controller
     // Mostrar todos os posts
     public function index()
     {
-      
+
     $posts = Post::with(['user', 'categoria', 'linguagem'])->get();
 
     // AQUI EU TENHO QUeries para os vários tipos de post_type
@@ -35,6 +35,14 @@ class PostController extends Controller
         return view('post.create', compact('users', 'categorias', 'linguagens'));
     }
 
+    // public function createUserAuth()
+    // {
+    //     $users = User::Auth();
+    //     $categorias = Categoria::all();
+    //     $linguagens = Linguagem::all();
+    //     return view('post.create', compact('users', 'categorias', 'linguagens'));
+    // }
+
     // Armazenar um novo post
     public function store(Request $request)
     {
@@ -47,15 +55,15 @@ class PostController extends Controller
             'id_linguagem' => 'required|exists:linguagem,id',
             'post_type' => 'required|string',
         ]);
-    
+
         if ($request->hasFile('foto')) {
             $validatedData['foto'] = $request->file('foto')->store('fotos', 'public');
         } else {
             $validatedData['foto'] = 'default-post.png'; // Caminho para a imagem padrão
         }
-    
+
         Post::create($validatedData);
-    
+
         return redirect()->route('post.index')->with('success', 'Post criado com sucesso!');
     }
 
@@ -87,18 +95,18 @@ class PostController extends Controller
             'id_linguagem' => 'required|exists:linguagem,id',
             'post_type' => 'required|string',
         ]);
-    
+
         if ($request->hasFile('foto')) {
             $validatedData['foto'] = $request->file('foto')->store('fotos', 'public');
         } else {
             $validatedData['foto'] = './public/images/default-post.png'; // Mantém a foto atual
         }
-    
+
         $post->update($validatedData);
-    
+
         return redirect()->route('post.index')->with('success', 'Post atualizado com sucesso!');
     }
-    
+
 
     // Deletar um post
     public function destroy(Post $post)
@@ -106,4 +114,7 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('post.index')->with('success', 'Post deletado com sucesso!');
     }
+
+
+
 }
