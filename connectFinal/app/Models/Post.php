@@ -10,12 +10,24 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $table = 'post';
+
     protected $fillable = ['id_users', 
+    'id_users',
     'descricao',
-     'foto', 
-     'titulo', 
-     'id_categoria', 
-     'id_linguagem'];
+    'foto',
+    'titulo',
+    'id_categoria',
+    'id_linguagem',
+    'post_type'];
+     public $timestamps = false; // Desativa o gerenciamento automático de timestamps
+
+     public static $postTypes = [
+        'Notícias',
+        'Cursos',
+        'Eventos',
+        'Vagas de Estágio',
+    ];
 
     public function user()
     {

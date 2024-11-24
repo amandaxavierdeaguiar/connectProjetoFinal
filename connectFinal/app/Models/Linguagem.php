@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Linguagem extends Model
 {
     use HasFactory;
-
+    protected $table = 'linguagem';
     protected $fillable = ['name', 'foto', 'id_categoria'];
 
     public function categoria()
