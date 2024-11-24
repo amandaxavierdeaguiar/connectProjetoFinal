@@ -7,37 +7,50 @@ use App\Models\User;
 use App\Models\Categoria;
 use App\Models\Linguagem;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
     // Mostrar todos os posts
     public function index()
     {
-      
-    $posts = Post::with(['user', 'categoria', 'linguagem'])->get();
+        $posts = Post::with(['user', 'categoria', 'linguagem'])->get();
 
-    // AQUI EU TENHO QUeries para os vários tipos de post_type
-    $noticias = $posts->where('post_type', 'Notícias');
-    $vagas = $posts->where('post_type', 'Vagas de Estágio');
-    $cursos = $posts->where('post_type', 'Cursos');
-    $eventos = $posts->where('post_type', 'Eventos');
-    $forum = $posts->where('post_type', 'Forum');
+        // Agrupando os posts por tipo
+        $noticias = $posts->where('post_type', 'Notícias');
+        $vagas = $posts->where('post_type', 'Vagas de Estágio');
+        $cursos = $posts->where('post_type', 'Cursos');
+        $eventos = $posts->where('post_type', 'Eventos');
+        $forum = $posts->where('post_type', 'Fórum');
 
-    return view('post.manage_post', compact('noticias', 'vagas', 'cursos', 'eventos', 'posts'));
+        return view('post.manage_post', compact('noticias', 'vagas', 'cursos', 'eventos', 'posts', 'forum'));
     }
 
     // Exibir formulário para criar um novo post
     public function create()
     {
-        $users = User::all();
         $categorias = Categoria::all();
         $linguagens = Linguagem::all();
-        return view('post.create', compact('users', 'categorias', 'linguagens'));
+
+        // Tipos de postagem permitidos com base no tipo de usuário
+        $postTypes = Auth::check() && Auth::user()->user_type === 1
+            ? Post::$postTypes // Todos os tipos para admin
+            : ['Fórum']; // Apenas Fórum para usuários comuns
+
+        return view('post.create', compact('categorias', 'linguagens', 'postTypes'));
     }
 
     // Armazenar um novo post
     public function store(Request $request)
     {
+        $user = Auth::user();
+
+        // Tipos de postagem permitidos com base no tipo de usuário
+        $allowedPostTypes = $user->user_type === 1
+            ? Post::$postTypes
+            : ['Fórum'];
+
         $validatedData = $request->validate([
             'id_users' => 'required|exists:users,id',
             'descricao' => 'required|string|max:500',
@@ -45,17 +58,17 @@ class PostController extends Controller
             'titulo' => 'required|string|max:255',
             'id_categoria' => 'required|exists:categoria,id',
             'id_linguagem' => 'required|exists:linguagem,id',
-            'post_type' => 'required|string',
+            'post_type' => ['required', 'string', Rule::in($allowedPostTypes)],
         ]);
-    
+
         if ($request->hasFile('foto')) {
             $validatedData['foto'] = $request->file('foto')->store('fotos', 'public');
         } else {
             $validatedData['foto'] = 'default-post.png'; // Caminho para a imagem padrão
         }
-    
+
         Post::create($validatedData);
-    
+
         return redirect()->route('post.index')->with('success', 'Post criado com sucesso!');
     }
 
@@ -69,15 +82,22 @@ class PostController extends Controller
     // Exibir formulário para editar um post
     public function edit(Post $post)
     {
-        $users = User::all();
         $categorias = Categoria::all();
         $linguagens = Linguagem::all();
-        return view('post.edit', compact('post', 'users', 'categorias', 'linguagens'));
+
+        return view('post.edit', compact('post', 'categorias', 'linguagens'));
     }
 
     // Atualizar um post existente
     public function update(Request $request, Post $post)
     {
+        $user = Auth::user();
+
+        // Tipos de postagem permitidos com base no tipo de usuário
+        $allowedPostTypes = $user->user_type === 1
+            ? Post::$postTypes
+            : ['Fórum'];
+
         $validatedData = $request->validate([
             'id_users' => 'required|exists:users,id',
             'descricao' => 'required|string|max:500',
@@ -85,20 +105,17 @@ class PostController extends Controller
             'titulo' => 'required|string|max:255',
             'id_categoria' => 'required|exists:categoria,id',
             'id_linguagem' => 'required|exists:linguagem,id',
-            'post_type' => 'required|string',
+            'post_type' => ['required', 'string', Rule::in($allowedPostTypes)],
         ]);
-    
+
         if ($request->hasFile('foto')) {
             $validatedData['foto'] = $request->file('foto')->store('fotos', 'public');
-        } else {
-            $validatedData['foto'] = './public/images/default-post.png'; // Mantém a foto atual
         }
-    
+
         $post->update($validatedData);
-    
+
         return redirect()->route('post.index')->with('success', 'Post atualizado com sucesso!');
     }
-    
 
     // Deletar um post
     public function destroy(Post $post)

@@ -34,6 +34,7 @@ class UserController extends Controller
     // Salvar novo usuário no banco de dados
     public function store(Request $request)
     {
+        
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -43,7 +44,7 @@ class UserController extends Controller
             'data_nascimento' => 'nullable|date',
             'endereco' => 'nullable|string|max:255',
             'telefone' => 'nullable|string|max:255',
-            'user_type' => 'nullable|integer',
+            'user_type' => 'required|integer|in:' . implode(',', [User::ADMIN, User::USER]),
             'id_curso' => 'nullable|exists:curso,id',
         ]);
 
@@ -92,7 +93,7 @@ class UserController extends Controller
             'data_nascimento' => 'nullable|date',
             'endereco' => 'nullable|string|max:255',
             'telefone' => 'nullable|string|max:255',
-            'user_type' => 'integer|required|in:1,2',
+            'user_type' => 'required|integer|in:' . implode(',', [User::ADMIN, User::USER]),
             'id_curso' => 'nullable|exists:curso,id',
         ]);
 

@@ -32,15 +32,15 @@
 
             <!-- Passo 1 -->
             <div id="step-1" class="form-step">
-                
+
 
                 <!-- Avatar -->
                 <div class="d-flex flex-column align-items-center mb-4">
-                    <img id="photoPreview" 
-                         src="{{ asset('images/default-profile.png') }}" 
-                         alt="Avatar"
-                         class="img-fit rounded-circle border mb-3" 
-                         style="width: 120px; height: 120px;">
+                    <img id="photoPreview"
+                        src="{{ asset('images/default-profile.png') }}"
+                        alt="Avatar"
+                        class="img-fit rounded-circle border mb-3"
+                        style="width: 120px; height: 120px;">
                     <label class="btn btn-outline-primary">
                         <input type="file" name="photo" id="photo" class="d-none" accept="image/*" onchange="previewPhoto(event)">
                         Selecionar Foto
@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="text-center">
-                <button type="button" class="btn btn-primary mb-3" id="nextBtn">Próximo</button>
+                    <button type="button" class="btn btn-primary mb-3" id="nextBtn">Próximo</button>
                 </div>
             </div>
 
@@ -91,10 +91,11 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="user_type" class="form-label">Tipo de Usuário:</label>
-                    <select id="user_type" name="user_type" class="form-select">
-                        <option value="1">Usuário Comum</option>
-                        <option value="0">Administrador</option>
+                    <label for="user_type" class="form-label">Tipo de Usuário</label>
+                    <select name="user_type" id="user_type" class="form-control" required>
+                        <option value="" selected disabled>Selecione o tipo de usuário</option>
+                        <option value="{{ \App\Models\User::ADMIN }}">Administrador</option>
+                        <option value="{{ \App\Models\User::USER }}">Usuário Comum</option>
                     </select>
                 </div>
 
@@ -103,7 +104,7 @@
                     <select id="id_curso" name="id_curso" class="form-select">
                         <option value="">Selecione um curso</option>
                         @foreach ($cursos as $curso)
-                            <option value="{{ $curso->id }}">{{ $curso->nome }}</option>
+                        <option value="{{ $curso->id }}">{{ $curso->nome }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -115,27 +116,27 @@
 
             <!-- Passo 3 -->
             <div id="step-3" class="form-step d-none">
-    <h4 class="text-center mb-4">Passo 3: Finalização</h4>
-    <p class="text-center">Revise as informações e clique em "Criar Usuário" para finalizar.</p>
-    <div class="d-flex justify-content-center gap-2">
-        <button type="button" class="btn btn-primary mt-5 mb-3" id="prevBtnStep3">Voltar</button>
-        <button type="submit" class="btn btn-primary mt-5 mb-3">Salvar</button>
-    </div>
-</div>
+                <h4 class="text-center mb-4">Passo 3: Finalização</h4>
+                <p class="text-center">Revise as informações e clique em "Criar Usuário" para finalizar.</p>
+                <div class="d-flex justify-content-center gap-2">
+                    <button type="button" class="btn btn-primary mt-5 mb-3" id="prevBtnStep3">Voltar</button>
+                    <button type="submit" class="btn btn-primary mt-5 mb-3">Salvar</button>
+                </div>
+            </div>
         </form>
     </div>
 
-@if ($errors->any())
+    @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+            <li>{{ $error }}</li>
             @endforeach
         </ul>
     </div>
-@endif
-</div>
-<style>
+    @endif
+    </div>
+    <style>
         .steps-container {
             width: 100%;
             display: flex;
@@ -151,7 +152,8 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: #dee2e6; /* Cinza padrão */
+            background-color: #dee2e6;
+            /* Cinza padrão */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -160,7 +162,8 @@
         }
 
         .active .step-circle {
-            background-color: #6f42c1; /* Roxo */
+            background-color: #6f42c1;
+            /* Roxo */
             color: #fff;
         }
 
@@ -176,14 +179,18 @@
 
 
         .img-fit {
-    width: 100%; /* Largura total do container */
-    height: 100%; /* Altura total do container */
-    object-fit: cover; /* Ajusta a imagem sem distorcer */
-    border-radius: 50%; /* Para manter formato circular */
-}
+            width: 100%;
+            /* Largura total do container */
+            height: 100%;
+            /* Altura total do container */
+            object-fit: cover;
+            /* Ajusta a imagem sem distorcer */
+            border-radius: 50%;
+            /* Para manter formato circular */
+        }
     </style>
 
-<script>
+    <script>
         const steps = document.querySelectorAll('.form-step');
         const stepCircles = document.querySelectorAll('.step-circle');
         let currentStep = 0;
@@ -230,7 +237,7 @@
             const file = event.target.files[0];
             const reader = new FileReader();
 
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 document.getElementById('photoPreview').src = e.target.result;
             };
 
