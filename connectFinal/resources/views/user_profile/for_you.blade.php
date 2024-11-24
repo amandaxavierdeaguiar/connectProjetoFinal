@@ -184,6 +184,26 @@
                 </div>
             </div>
         </div>
+
+        {{-- teste --}}
+        <div class="col-md-6 col-xl-6">
+            <div class="card bg-c-pink order-card"
+            style="color: #fff; background: linear-gradient(45deg,#FF5370,#ff869a);border-radius: 5px;
+            -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+            box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+            border: none;
+            margin-bottom: 30px;
+            -webkit-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out; padding: 25px;">
+                <div class="card-block" style="padding: 10px;">
+                    <img src="{{ asset('images/forum_icon.png')}}" class="card-img-top" alt="Foto emprego" style="width:60%; float:right"/>
+                    <p class="m-b-25" style="text-transform: uppercase; font-weight: 700; font-family: 'Montserrat', sans-serif; color: rgb(255, 255, 255);">
+                    ESCREVA SUA NOTICIA</p>
+                    <h6 class="m-b-0">Veja publicações dos usuários</h6>
+                    <span>25</span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
