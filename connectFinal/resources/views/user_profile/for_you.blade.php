@@ -118,7 +118,7 @@
             -webkit-transition: all 0.3s ease-in-out;
             transition: all 0.3s ease-in-out; padding: 25px;">
                 <div class="card-block" style="padding: 10px;">
-                    <img src="{{ asset('images/jobs_icon.png')}}" class="card-img-top" alt="Foto emprego" style="width:20%; float:right"/>
+                    <img src="{{ asset('images/jobs_icon.png')}}" class="card-img-top" alt="Foto emprego" style="width:22%; float:right"/>
                     <p class="m-b-25" style="text-transform: uppercase; font-weight: 700; font-family: 'Montserrat', sans-serif; color: rgb(255, 255, 255);">
                     vagas de estágio</p>
                     <h6 class="m-b-0">Encontre as vagas de estágio com empresas parceiras</h6>
@@ -138,7 +138,7 @@
             transition: all 0.3s ease-in-out; padding: 25px;
             ">
                 <div class="card-block" style="padding: 10px;">
-                    <img src="{{ asset('images/eventos_icon.png')}}" class="card-img-top" alt="Foto emprego" style="width:20%; float:right"/>
+                    <img src="{{ asset('images/eventos_icon.png')}}" class="card-img-top" alt="Foto emprego" style="width:25%; float:right"/>
                     <p class="m-b-25" style="text-transform: uppercase; font-weight: 700; font-family: 'Montserrat', sans-serif; color: rgb(255, 255, 255);">
                     Eventos</p>
                     <h6 class="m-b-0">Encontre os eventos disponíveis</h6>
@@ -196,11 +196,9 @@
             -webkit-transition: all 0.3s ease-in-out;
             transition: all 0.3s ease-in-out; padding: 25px;">
                 <div class="card-block" style="padding: 10px;">
-                    <img src="{{ asset('images/forum_icon.png')}}" class="card-img-top" alt="Foto emprego" style="width:60%; float:right"/>
                     <p class="m-b-25" style="text-transform: uppercase; font-weight: 700; font-family: 'Montserrat', sans-serif; color: rgb(255, 255, 255);">
-                    ESCREVA SUA NOTICIA</p>
-                    <h6 class="m-b-0">Veja publicações dos usuários</h6>
-                    <span>25</span>
+                    Queremos te ouvir!</p>
+                    <img src="{{ asset('images/sms.png')}}" class="card-img-top" alt="Foto emprego" style="width:70%; float:right"/>
                 </div>
             </div>
         </div>
