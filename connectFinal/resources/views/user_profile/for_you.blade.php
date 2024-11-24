@@ -174,7 +174,22 @@
     </div>
 </div>
 
-<!-- Inclua o componente de modal -->
+<div class="container" style="margin-top: 10px">
+    <div class="row">
+        {{-- @foreach ($posts->take(3) as $post) --}}
+            <div class="col-md-4">
+                @include('components.card_post_user', [
+                    // 'userPhoto' => $post->user->photo ? asset('storage/' . $post->user->photo) : asset('images/default-profile.png'),
+                    'userNameModal' => $users->name,
+                'userJob' => $users->formacao,
+                    'linguages' => $linguages,
+                ])
+            </div>
+        {{-- @endforeach --}}
+    </div>
+</div>
+
+<!-- componente forum -->
 @include('components.add_forum', [
     'modalId' => 'myModal',
     'userPhoto' => $users->photo ? asset('storage/' . $users->photo) : asset('images/default-profile.png'),
@@ -184,5 +199,14 @@
     'modalBody' => 'Texto do corpo do modal vai aqui.',
     'linguages' => $linguages,
 ])
+
+<!-- componente post -->
+{{-- @include('components.card_post_user', [
+    'cardPost' => 'cardPost',
+    'userPhoto' => $users->photo ? asset('storage/' . $users->photo) : asset('images/default-profile.png'),
+    'userName' => $users->name,
+    'userJob' => $users->formacao,
+    'linguages' => $linguages,
+]) --}}
 
 @endsection
