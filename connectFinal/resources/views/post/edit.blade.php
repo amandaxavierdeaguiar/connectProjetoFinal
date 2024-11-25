@@ -56,16 +56,7 @@
                     </div>
                     @endif
 
-                    <div class="mb-3">
-                        <select name="id_users" id="id_users" class="form-control" required>
-                            <option value="" disabled>Selecione um usuário</option>
-                            @foreach ($users as $user)
-                            <option value="{{ $user->id }}" {{ $user->id == $post->id_users ? 'selected' : '' }}>
-                                {{ $user->name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
+                   
 
                     <select name="post_type" id="post_type" class="form-control mb-3" required>
                         <option value="" disabled>Selecione o tipo de postagem</option>
