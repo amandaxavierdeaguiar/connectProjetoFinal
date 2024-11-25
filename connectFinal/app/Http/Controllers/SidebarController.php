@@ -16,7 +16,11 @@ class SidebarController extends Controller
         $users = Auth::user();
 
         $linguages = DB::table('linguagem')->get();
+
+        $categoria = DB::table('categoria')->get();
         // Recupera todas as linguagens disponíveis
+
+        // $categoria = DB::table('categoria')->get();
 
         // Recupera as linguagens já selecionadas pelo usuário
         $linguagensSelecionadas = DB::table('desejo')
@@ -64,6 +68,6 @@ class SidebarController extends Controller
         ->select('curso.id', 'curso.nome as curso')
         ->get();
 
-        return view('user_profile.for_you', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser', 'cursoUsers','usuariosComDesejosIguais'));
+        return view('user_profile.for_you', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser', 'cursoUsers','usuariosComDesejosIguais', 'categoria'));
     }
 }

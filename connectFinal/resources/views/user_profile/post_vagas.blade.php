@@ -34,6 +34,8 @@
       object-fit: cover;
       height: 14rem;
       width: 100%;
+      top: 0;
+        left: 0;
     }
 
     .category-tag {
@@ -46,6 +48,7 @@
       position: absolute;
       z-index: 1;
       top: 1rem;
+      left: 0;
       border-radius: 0 2rem 2rem 0;
     }
 
@@ -108,22 +111,25 @@
       font-size: 0.9rem;
     }
 
+
+
     </style>
-    {{-- <div class="row border-bottom pb-3 mb-3"> --}}
+
+    <div class="container">
+        <div class="row border-bottom pb-3 mb-3">
         @foreach ($postJob as $post)
         <div class="cards">
             <div class="card-banner">
                 <p class="category-tag popular">{{ $post->titulo}}</p>
-                <img class="banner-img" src="{{$post->foto ? asset('storage/' . $post->foto) : asset('images/post-default.png') }}" alt=''>
+                <img class="banner-img" src="{{$post->foto ? asset('storage/' . $post->foto) : asset('images/post-default.png') }}" alt='{{ $post->titulo}}'>
             </div>
             <div class="card-body">
                 <p class="blog-hashtag">{{ $post->categoria->nome ?? 'Sem categoria'}}</p>
-                {{-- <h2 class="blog-title">Front end development?</h2> --}}
                 <p class="blog-description">{{ $post->descricao }}</p>
             </div>
         </div>
         @endforeach
-    {{-- </div> --}}
+    </div>
+</div>
     @endsection
-
 
