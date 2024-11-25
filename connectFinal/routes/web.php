@@ -196,13 +196,7 @@ Route::get('/wishes', [WishController::class, 'viewWish'])->name('wish.list');
 
 
 
-// Route::get('/dashboard', function () {
-//     if (!Auth::check() || Auth::user()->role !== 'ADMIN') {
-//         return redirect('/userprofile');
-//     }
 
-//     return view('dashboard');
-// })->name('dashboard');
 
 
 // Rotas para o UserController
@@ -213,7 +207,28 @@ Route::resource('users', UserController::class);
 Route::resource('post', PostController::class);
 
 
+// Rota  Fallback
 
+Route::fallback(function () {
+    return redirect()->route('user.foryou'); 
+});
+
+
+// if (Auth::check()) {
+//     $userId = Auth::user()->id;
+// } else {
+//     return redirect('/userprofile'); // Ou outra página para não autenticados
+// }
+
+//Rota para com middleweare apenas permitindo aAdmim
+
+Route::get('/dashboard', function () {
+    if (!Auth::check() || Auth::user()->role !== 'ADMIN') {
+        return redirect('/userprofile');
+    }
+
+    return view('dashboard');
+})->name('dashboard');
 
 
 
