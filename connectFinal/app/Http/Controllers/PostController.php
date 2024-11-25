@@ -43,34 +43,38 @@ class PostController extends Controller
 
     // Armazenar um novo post
     public function store(Request $request)
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        // Tipos de postagem permitidos com base no tipo de usuário
-        $allowedPostTypes = $user->user_type === 1
-            ? Post::$postTypes
-            : ['Fórum'];
+    // Tipos de postagem permitidos com base no tipo de usuário
+    $allowedPostTypes = $user->user_type === 1
+        ? Post::$postTypes
+        : ['Fórum'];
 
-        $validatedData = $request->validate([
-            'id_users' => 'required|exists:users,id',
-            'descricao' => 'required|string|max:500',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'titulo' => 'required|string|max:255',
-            'id_categoria' => 'required|exists:categoria,id',
-            'id_linguagem' => 'required|exists:linguagem,id',
-            'post_type' => ['required', 'string', Rule::in($allowedPostTypes)],
-        ]);
+    $validatedData = $request->validate([
+        'descricao' => 'required|string|max:500',
+        'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'titulo' => 'required|string|max:255',
+        'id_categoria' => 'required|exists:categoria,id',
+        'id_linguagem' => 'required|exists:linguagem,id',
+        'post_type' => ['required', 'string', Rule::in($allowedPostTypes)],
+        'created_at' => 'required|date',
+    ]);
 
-        if ($request->hasFile('foto')) {
-            $validatedData['foto'] = $request->file('foto')->store('fotos', 'public');
-        } else {
-            $validatedData['foto'] = 'default-post.png'; // Caminho para a imagem padrão
-        }
-
-        Post::create($validatedData);
-
-        return redirect()->route('post.index')->with('success', 'Post criado com sucesso!');
+    if ($request->hasFile('foto')) {
+        $validatedData['foto'] = $request->file('foto')->store('fotos', 'public');
+    } else {
+        $validatedData['foto'] = 'default-post.png';
     }
+
+    // Adiciona o ID do usuário autenticado
+    $validatedData['id_users'] = Auth::id();
+
+    Post::create($validatedData);
+
+    return redirect()->route('post.index')->with('success', 'Post criado com sucesso!');
+}
+
 
     // Exibir detalhes de um post específico
     public function show(Post $post)
@@ -99,13 +103,14 @@ class PostController extends Controller
             : ['Fórum'];
 
         $validatedData = $request->validate([
-            'id_users' => 'required|exists:users,id',
+            'id_users' => 'nullable',
             'descricao' => 'required|string|max:500',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'titulo' => 'required|string|max:255',
             'id_categoria' => 'required|exists:categoria,id',
             'id_linguagem' => 'required|exists:linguagem,id',
             'post_type' => ['required', 'string', Rule::in($allowedPostTypes)],
+            'created_at'=>'required|date',
         ]);
 
         if ($request->hasFile('foto')) {

@@ -25,9 +25,16 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('linkedin')->after('photo')->nullable();
-            $table->string('github')->after('linkedin')->nullable();
-            $table->string('formacao')->after('github')->nullable();
+            if (Schema::hasColumn('users', 'linkedin')) {
+                $table->dropColumn('linkedin');
+            }
+            if (Schema::hasColumn('users', 'github')) {
+                $table->dropColumn('github');
+            }
+            if (Schema::hasColumn('users', 'formacao')) {
+                $table->dropColumn('formacao');
+            }
         });
     }
+    
 };

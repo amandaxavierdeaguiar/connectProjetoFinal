@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void {
         Schema::create('post', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_users');
+            $table->unsignedBigInteger('id_users')->nullable(); // Permitir valores nulos
             $table->foreign('id_users')->references('id')->on('users')->onDelete('cascade');
             $table->longText('descricao');
             $table->string('foto')->nullable();
@@ -18,9 +18,11 @@ return new class extends Migration
             $table->foreign('id_categoria')->references('id')->on('categoria')->onDelete('cascade');
             $table->unsignedBigInteger('id_linguagem');
             $table->foreign('id_linguagem')->references('id')->on('linguagem')->onDelete('cascade');
-            $table->Integer('post_type');
+            $table->string('post_type')->default('Notícias');
+            $table->timestamps();
         });
     }
+    
 
     public function down(): void {
         Schema::dropIfExists('post');
