@@ -141,20 +141,26 @@ class UserProfileController extends Controller
             ->update([
                 'name' => $request->name,
                 'photo' => $photo,
-                'email' => $request->$email,
-                'password' => $request->$password,
+                'email' => $request->email,
+                'password' => $request->bcrypt($request->password),
                 'nif' => $request->nif,
                 'data_nascimento' => $request->date,
                 'endereco' => $request->endereco,
-                'telefone' => 'nullable|string|max:255',
-                'id_curso' => 'nullable|exists:curso,id',
+                'telefone' => $request->telefone,
+                'id_curso' => $request->id_curso,
             ]);
         } else {
             $action = 'inserido';
-            // Inserir nova banda
             $request->validate([
-                'name' => 'required|string|max:50',
-                'photo' => 'nullable|image'
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|string|min:6',
+                'nif' => 'nullable|string|max:255',
+                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'data_nascimento' => 'nullable|date',
+                'endereco' => 'nullable|string|max:255',
+                'telefone' => 'nullable|string|max:255',
+                'id_curso' => 'nullable|exists:curso,id',
             ]);
 
             $photo = null;
@@ -163,14 +169,21 @@ class UserProfileController extends Controller
                 $photo = Storage::putFil('uploadedPhotos', $request->photo);
             }
 
-            DB::table('bands')
+            DB::table('users')
             ->insert([
                 'name' => $request->name,
-                'photo' => $photo
+                'photo' => $photo,
+                'email' => $request->email,
+                'password' => $request->bcrypt($request->password),
+                'nif' => $request->nif,
+                'data_nascimento' => $request->date,
+                'endereco' => $request->endereco,
+                'telefone' => $request->telefone,
+                'id_curso' => $request->id_curso,
             ]);
         }
 
-        return redirect()->route('band.list')->with('message', 'Banda '.$action.' com sucesso!');
+        return redirect()->route('user_profile.for_you')->with('message', 'User '.$action.' com sucesso!');
         }
 
     }
