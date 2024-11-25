@@ -55,22 +55,14 @@
                         </div>
                     @endif
 
-                    <div class="mb-3">
-                        <select name="id_users" id="id_users" class="form-control" required>
-                            <option value="" selected disabled>Selecione um usuário</option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    <select name="post_type" id="post_type" class="form-control mb-3" required>
+                            <option value="" selected disabled>Selecione o tipo de postagem</option>
+                            @foreach ($postTypes as $type)
+                            <option value="{{ $type }}">{{ $type }}</option>
                             @endforeach
                         </select>
-                    </div>
 
-                    <select name="post_type" id="post_type" class="form-control mb-3" required>
-                        <option value="" selected disabled>Selecione o tipo de postagem</option>
-                        <option value="Notícias">Notícias</option>
-                        <option value="Cursos">Cursos</option>
-                        <option value="Eventos">Eventos</option>
-                        <option value="Vagas de Estágio">Vagas de Estágio</option>
-                    </select>
+                   
 
                     <div class="mb-3">
                         <label for="titulo" class="form-label">Título</label>

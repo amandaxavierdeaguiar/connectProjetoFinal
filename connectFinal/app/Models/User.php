@@ -24,6 +24,10 @@ class User extends Authenticatable
     //     'password',
     // ];
 
+
+    const ADMIN = 1;
+    const USER = 2;
+
     protected $fillable = [
         'name',
         'email',
@@ -36,6 +40,17 @@ class User extends Authenticatable
         'id_curso',
     ];
 
+    public function isAdmin()
+    {
+        return $this->user_type === self::ADMIN;
+    }
+
+    // Verifica se o usuário é comum
+    public function isUser()
+    {
+        return $this->user_type === self::USER;
+    }
+   
     /**
      * The attributes that should be hidden for serialization.
      *
