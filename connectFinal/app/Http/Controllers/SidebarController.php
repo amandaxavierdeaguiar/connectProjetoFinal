@@ -89,6 +89,14 @@ class SidebarController extends Controller
         ->distinct() // Para evitar usuários duplicados
         ->get();
 
-        return view('sidebar.index_sidebar', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser', 'cursoUsers','usuariosComDesejosIguais'));
+        // Pega o curso que a pessoa fez
+        $cursoUsers = DB::table('users')
+        ->join('curso', 'users.id_curso', '=', 'curso.id')
+        ->where('curso.id', $users->id_curso)
+        ->where('users.id', Auth::user()->id)
+        ->select('curso.id', 'curso.nome as curso')
+        ->get();
+
+        return view('user_profile.for_you', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser', 'cursoUsers','usuariosComDesejosIguais'));
     }
 }
