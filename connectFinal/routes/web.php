@@ -103,11 +103,8 @@ Route::get('/sidebar', [SidebarController::class, 'viewSidebar'])->name('sidebar
 
 // VIEWS PARA GAME
 // Game
-// Rota para score game
-Route::get('/game_create', [ScoreController::class, 'createGame'])->name('game.create');
-
-Route::post('/add_game', [ScoreController::class, 'store'])->name('game.add');
-
+// Rota para score
+Route::get('/score_show', [ScoreController::class, 'getAllScoreByUser'])->name('score.show');
 
 // Route::post('/wishes/create', [WishController::class, 'createWish'])->name('wish.create');
 
