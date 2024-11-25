@@ -77,7 +77,7 @@
             border: none;
             margin-bottom: 15px;
             -webkit-transition: all 0.3s ease-in-out;
-            transition: all 0.3s ease-in-out; padding: 25px;">
+            transition: all 0.3s ease-in-out; padding: 25px;" onclick="window.location='{{ route('user.post.job') }}';">
                 <div class="card-block" style="padding: 10px;">
                     <img src="{{ asset('images/jobs_icon.png')}}" class="card-img-top" alt="Foto emprego" style="width:22%; float:right"/>
                     <p class="m-b-25" style="text-transform: uppercase; font-weight: 700; font-family: 'Montserrat', sans-serif; color: rgb(255, 255, 255);">
@@ -181,7 +181,7 @@
                 @include('components.card_post_user', [
                     // 'userPhoto' => $post->user->photo ? asset('storage/' . $post->user->photo) : asset('images/default-profile.png'),
                     'userNameModal' => $users->name,
-                'userJob' => $users->formacao,
+                    'userJob' => $users->formacao,
                     'linguages' => $linguages,
                 ])
             </div>
@@ -198,6 +198,7 @@
     'modalTitle' => 'Título do Modal',
     'modalBody' => 'Texto do corpo do modal vai aqui.',
     'linguages' => $linguages,
+    'categoria' => $categoria
 ])
 
 <!-- componente post -->

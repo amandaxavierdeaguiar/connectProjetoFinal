@@ -19,6 +19,8 @@ Route::get('/', function () {
 
 Route::get('/userprofile', [UserProfileController::class,'viewUserProfile'])->name('user.foryou');
 
+Route::get('/post_job', [UserProfileController::class,'viewUserPost'])->name('user.post.job');
+
 // Route::get('/forumprofile', [ForumController::class,'viewForum'])->name('user.forum');
 
 // Rota para pagina inicial users

@@ -70,21 +70,6 @@
 <!-- Modal -->
 <div id="{{ $modalId }}" class="modal">
     <div class="modal-content">
-        {{-- <div class="modal-header">
-            <img class="userPhotoModal" width="30px" height="30px"
-            src="{{$users->photo ? asset('storage/' . $users->photo) : asset('images/default-profile.png') }}"
-            style="display: inline-block; vertical-align: middle;">
-            <span style="display: inline-block; vertical-align: middle;">
-            <p class='nameUserModal' style="margin: 0;">{{$users->name}}</p>
-            <p class='jobUser' style="margin: 0;">{{$users->formacao}}</p>
-            </span>
-            <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Digite o título" value="{{ old('titulo') }}" required>
-
-
-            <span class="close">&times;</span>
-        </div> --}}
         <div class="modal-header" style="display: flex; align-items: center; justify-content: space-between;">
             <div style="display: flex; align-items: center;">
                 <img class="userPhotoModal" width="30px" height="30px"
@@ -95,8 +80,10 @@
                     <p class='jobUser ' style="margin: 0;">{{$users->formacao}}</p>
                 </div>
             </div>
-            <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Digite o título" value="{{ old('titulo') }}" required style="flex: 1; margin: 0 10px;">
-            <span class="close" style="cursor: pointer;">&times;</span>
+            <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Digite o título" value="{{ old('titulo') }}" required style="flex: 1; margin: 0 10px;">
+                <span class="close" style="cursor: pointer;">&times;</span>
         </div>
 
         {{-- <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
@@ -126,9 +113,19 @@
                             </p>
                         @endforeach
                     </div>
+
+                    <div id="categoria-container" style="display: flex; align-items: center;">
+                        <p  style="margin-right: 10px;">Selecione a categoria: </p>
+                        @foreach ($categoria as $category)
+                        <p class="categoria" onclick="selectCategory(this)" style="margin-right: 5px;">
+                            #{{ $category->nome }}
+                        </p>
+                        @endforeach
+                    </div>
                 </div>
                 </div>
                 <button type="submit" class="btn btn-dark custom-button">Postar</button>
+            </form>
         {{-- <button id="saveChanges">Salvar alterações</button> --}}
     </div>
 </div>
@@ -169,6 +166,20 @@
 
         // Aqui você pode adicionar lógica para armazenar a linguagem selecionada, se necessário
         console.log('Linguagem selecionada:', element.textContent);
+    }
+
+    function selectCategory(element) {
+        // Remove a classe 'selected' de todos os elementos
+        var category = document.querySelectorAll('.categoria');
+        category.forEach(function(category) {
+            category.classList.remove('selected');
+        });
+
+        // Adiciona a classe 'selected' ao elemento clicado
+        element.classList.add('selected');
+
+        // Aqui você pode adicionar lógica para armazenar a linguagem selecionada, se necessário
+        console.log('Categoria selecionada:', element.textContent);
     }
 
 

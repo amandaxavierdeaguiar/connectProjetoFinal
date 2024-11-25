@@ -107,9 +107,6 @@
 }
 
 </style>
-
-
-
     <div class="cards">
         <div class="card-banner">
             <p class="category-tag popular">Front end development?</p>
