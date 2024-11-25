@@ -19,9 +19,11 @@ class Post extends Model
     'titulo',
     'id_categoria',
     'id_linguagem',
-    'post_type'
+    'post_type',
+    'created_at',
+     
 ];
-     public $timestamps = false; // Desativa o gerenciamento automático de timestamps
+    
 
      public static $postTypes = [
         'Notícias',

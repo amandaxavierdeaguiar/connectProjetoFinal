@@ -34,11 +34,11 @@
                 <!-- Passo 1 -->
                 <div id="step-1" class="form-step">
                     <div class="d-flex flex-column align-items-center mb-4">
-                        <img id="photoPreview" 
-                             src="{{ asset('images/default-profile.png') }}" 
-                             alt="Avatar"
-                             class="img-fit rounded-circle border mb-3" 
-                             style="width: 120px; height: 120px;">
+                        <img id="photoPreview"
+                            src="{{ asset('images/default-profile.png') }}"
+                            alt="Avatar"
+                            class="img-fit rounded-circle border mb-3"
+                            style="width: 120px; height: 120px;">
                         <label class="btn btn-outline-primary">
                             <input type="file" name="foto" id="foto" class="d-none" accept="image/*" onchange="previewPhoto(event)">
                             Selecionar Foto
@@ -46,23 +46,26 @@
                     </div>
 
                     @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                     @endif
 
                     <select name="post_type" id="post_type" class="form-control mb-3" required>
-                            <option value="" selected disabled>Selecione o tipo de postagem</option>
-                            @foreach ($postTypes as $type)
-                            <option value="{{ $type }}">{{ $type }}</option>
-                            @endforeach
-                        </select>
+                        <option value="" selected disabled>Selecione o tipo de postagem</option>
+                        @foreach ($postTypes as $type)
+                        <option value="{{ $type }}">{{ $type }}</option>
+                        @endforeach
+                    </select>
 
-                   
+
+
+                    
+
 
                     <div class="mb-3">
                         <label for="titulo" class="form-label">Título</label>
@@ -86,7 +89,7 @@
                         <select name="id_categoria" id="id_categoria" class="form-control" required>
                             <option value="" selected disabled>Selecione uma categoria</option>
                             @foreach ($categorias as $categoria)
-                                <option value="{{ $categoria->id }}">{{ $categoria->nome }}</option>
+                            <option value="{{ $categoria->id }}">{{ $categoria->nome }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -96,7 +99,7 @@
                         <select name="id_linguagem" id="id_linguagem" class="form-control" required>
                             <option value="" selected disabled>Selecione uma linguagem</option>
                             @foreach ($linguagens as $linguagem)
-                                <option value="{{ $linguagem->id }}">{{ $linguagem->name }}</option>
+                            <option value="{{ $linguagem->id }}">{{ $linguagem->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -106,6 +109,18 @@
                         <button type="button" class="btn btn-primary mb-3" id="nextBtnStep2">Próximo</button>
                     </div>
                 </div>
+
+                <div class="mb-3">
+                    <label for="created_at" class="form-label">Criado em:</label>
+                    <input
+                        type="datetime-local"
+                        name="created_at"
+                        id="created_at"
+                        class="form-control"
+                        value="{{ old('created_at', now()->format('Y-m-d\TH:i')) }}"
+                        required>
+                </div>
+
 
                 <!-- Passo 3 -->
                 <div id="step-3" class="form-step d-none">
@@ -121,15 +136,15 @@
     </div>
 
 
-        @if ($errors->any())
+    @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+            <li>{{ $error }}</li>
             @endforeach
         </ul>
     </div>
-@endif
+    @endif
     </div>
 
     <style>
@@ -234,7 +249,7 @@
             const file = event.target.files[0];
             const reader = new FileReader();
 
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 document.getElementById('photoPreview').src = e.target.result;
             };
 
