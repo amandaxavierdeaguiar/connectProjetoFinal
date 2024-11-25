@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserProfileController extends Controller
 {
@@ -107,4 +108,74 @@ class UserProfileController extends Controller
 
         return view('user_profile.post_eventos', $data);
     }
-}
+
+    public function updateUserProfile(Request $request)
+    {
+        if(isset($request->id)){
+            $action = 'atualizado';
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|string|min:6',
+                'nif' => 'nullable|string|max:255',
+                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'data_nascimento' => 'nullable|date',
+                'endereco' => 'nullable|string|max:255',
+                'telefone' => 'nullable|string|max:255',
+                'id_curso' => 'nullable|exists:curso,id',
+                ]);
+
+            // Buscar o user existente
+            $fotoUser = DB::table('users')->where('id',$request->id)->first();
+            $photo = $fotoUser->photo; // Mantém a imagem atual
+
+            if($request->hasFile('photo')) {
+                if ($photo) {
+                    Storage::delete($photo);
+                }
+                $photo = Storage::putFil('uploadedPhotos', $request->photo);
+            }
+
+            DB::table('users')
+            ->where('id', $request->id)
+            ->update([
+                'name' => $request->name,
+                'photo' => $photo,
+                'email' => $request->$email,
+                'password' => $request->$password,
+                'nif' => $request->nif,
+                'data_nascimento' => $request->date,
+                'endereco' => $request->endereco,
+                'telefone' => 'nullable|string|max:255',
+                'id_curso' => 'nullable|exists:curso,id',
+            ]);
+        } else {
+            $action = 'inserido';
+            // Inserir nova banda
+            $request->validate([
+                'name' => 'required|string|max:50',
+                'photo' => 'nullable|image'
+            ]);
+
+            $photo = null;
+
+            if($request->hasFile('photo')) {
+                $photo = Storage::putFil('uploadedPhotos', $request->photo);
+            }
+
+            DB::table('bands')
+            ->insert([
+                'name' => $request->name,
+                'photo' => $photo
+            ]);
+        }
+
+        return redirect()->route('band.list')->with('message', 'Banda '.$action.' com sucesso!');
+        }
+
+    }
+
+
+
+
+

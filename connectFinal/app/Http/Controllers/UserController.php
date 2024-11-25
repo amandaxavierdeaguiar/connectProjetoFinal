@@ -14,18 +14,18 @@ class UserController extends Controller
     {
         $users = User::all();
         $userCount = $users->count();
-       
+
 
         // Para reutilizar o thumb
-        
-        
+
+
         return view('users.manage_users', compact('users','userCount',));
 
-        
+
     }
 
     // Exibir formulário para criar um novo usuário
-    
+
     public function create()
     {
         $cursos = Curso::all(); // Para popular o campo id_curso no formulário
@@ -37,7 +37,7 @@ class UserController extends Controller
     {
 
         $user = Auth::user();
-        
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -71,9 +71,9 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'Usuário criado com sucesso!');
     }
-       
 
-    
+
+
     public function edit($id)
     {
         $user = User::findOrFail($id);
@@ -81,12 +81,12 @@ class UserController extends Controller
         return view('users.edit', compact('user', 'cursos'));
     }
 
-    
+
     public function update(Request $request, $id)
-    
+
     {
 
-        
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
@@ -113,25 +113,25 @@ class UserController extends Controller
         $user->telefone = $request->telefone;
         $user->user_type = $request->user_type ?? $user->user_type ?? 1;
         $user->id_curso = $request->id_curso;
-        
+
         $user->save();
 
         return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso!');
     }
 
-  
+
     public function show($id)
     {
         $user = User::findOrFail($id);
         return view('users.show', compact('user'));
     }
 
-   
+
     public function destroy($id)
-    
+
     {
 
-        
+
         $user = User::findOrFail($id);
         $user->delete();
 
@@ -141,7 +141,6 @@ class UserController extends Controller
 
 
 
-    // Outras funções 
 
-   
+
 }
