@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\WishController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\StudyController;
-use Illuminate\Container\Attributes\Auth;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\CategoriaController;
@@ -211,12 +211,26 @@ Route::get('/wishes', [WishController::class, 'viewWish'])->name('wish.list');
 
 
 
+// Route::get('/dashboard', function () {
+//     if (!Auth::check() || Auth::user()->role !== 'ADMIN') {
+//         return redirect('/userprofile');
+//     }
+
+//     return view('dashboard');
+// })->name('dashboard');
+
+
 // Rotas para o UserController
 Route::resource('users', UserController::class);
 
 // Rota par apost
 
 Route::resource('post', PostController::class);
+
+
+
+
+
 
 
 require __DIR__.'/auth.php';
