@@ -82,31 +82,60 @@
             </div>
             <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Digite o título" value="{{ old('titulo') }}" required style="flex: 1; margin: 0 10px;">
-                <span class="close" style="cursor: pointer;">&times;</span>
+                <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+                    <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Digite o título" required  style="margin: 0; width: 100%; text-align: center;">
+                    {{-- value="{{ old('titulo') }}" --}}
+                    <span class="close" style="cursor: pointer; align-self: center;">&times;</span>
+                </div>
+
         </div>
 
-        {{-- <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf --}}
+
             <div class="row">
                 <div class="col-md-3">
-                    <img src="{{ asset('images/post-default.png') }}" alt="Avatar" class="img-fit border mb-3" style="width: 200px; height: 200px; margin:1rem">
+                    <img id="previewImage" src="{{ asset('images/post-default.png') }}" alt="Avatar" class="img-fit border mb-3" style="width: 200px; height: 200px; margin:1rem">
                     <label class="btn btn-outline-primary" style="margin:1rem;width: 200px;">
                         <input type="file" name="foto" id="foto" class="d-none" accept="image/*" onchange="previewPhoto(event)">
                         Selecionar Foto
                     </label>
                 </div>
+                {{-- <div class="col-md-3">
+                    <img src="{{ asset('images/post-default.png') }}" alt="Avatar" class="img-fit border mb-3" style="width: 200px; height: 200px; margin:1rem">
+                    <label class="btn btn-outline-primary" style="margin:1rem;width: 200px;">
+                        <input type="file" name="foto" id="foto" class="d-none" accept="image/*" onchange="previewPhoto(event)">
+                        Selecionar Foto
+                    </label>
+                </div> --}}
                 <div class="col-md-8">
                     <div class="mb-6">
                         <textarea name="descricao" id="descricaoModal" placeholder="Digite sua mensagem" class="form-control" rows="9" required>{{ old('descricao') }}</textarea>
-                        {{-- @foreach ($linguages as $linguagem)
-                            <label>
-                                <input type="checkbox" name="linguagem" value="{{ $linguagem->id }}">
-                                    #{{ $linguagem->name }}
-                                </label><br>
-                        @endforeach --}}
+
                     </div>
+
+                    <!-- Campo oculto para a linguagem -->
+                    <input type="hidden" name="id_linguagem" id="id_linguagem" value="">
+                    <!-- Campo oculto para a categoria -->
+                    <input type="hidden" name="id_categoria" id="categoria" value="">
+
                     <div id="language-container">
+                        @foreach ($linguages as $linguagem)
+                            <p class="language" onclick="selectLanguage(this)" data-id="{{ $linguagem->id }}">
+                                #{{ $linguagem->name }}
+                            </p>
+                        @endforeach
+                    </div>
+
+                    <div id="categoria-container" style="display: flex; align-items: center;">
+                        <p style="margin-right: 10px;">Selecione a categoria: </p>
+                        @foreach ($categoria as $category)
+                            <p class="categoria" onclick="selectCategory(this)" style="margin-right: 5px;">
+                                #{{ $category->nome }}
+                            </p>
+                        @endforeach
+                    </div>
+
+                    {{-- <div id="language-container">
+                        <input type="hidden" name="id_linguagem" id="linguagem" value="">
                         @foreach ($linguages as $linguagem)
                             <p class="language" onclick="selectLanguage(this)">
                                 #{{ $linguagem->name }}
@@ -115,18 +144,18 @@
                     </div>
 
                     <div id="categoria-container" style="display: flex; align-items: center;">
+                        <input type="hidden" name="id_categoria" id="categoria" value="">
                         <p  style="margin-right: 10px;">Selecione a categoria: </p>
                         @foreach ($categoria as $category)
                         <p class="categoria" onclick="selectCategory(this)" style="margin-right: 5px;">
                             #{{ $category->nome }}
                         </p>
                         @endforeach
-                    </div>
+                    </div> --}}
                 </div>
                 </div>
                 <button type="submit" class="btn btn-dark custom-button">Postar</button>
             </form>
-        {{-- <button id="saveChanges">Salvar alterações</button> --}}
     </div>
 </div>
 
@@ -164,7 +193,11 @@
         // Adiciona a classe 'selected' ao elemento clicado
         element.classList.add('selected');
 
-        // Aqui você pode adicionar lógica para armazenar a linguagem selecionada, se necessário
+        var selectedLanguage = element.textContent.trim().replace('#', ''); // Remove o '#' do texto
+        document.getElementById('linguagem').value = selectedLanguage;
+
+        console.log('Linguagem selecionada:', selectedLanguage);
+
         console.log('Linguagem selecionada:', element.textContent);
     }
 
@@ -178,8 +211,30 @@
         // Adiciona a classe 'selected' ao elemento clicado
         element.classList.add('selected');
 
-        // Aqui você pode adicionar lógica para armazenar a linguagem selecionada, se necessário
+        // Atualiza o valor do campo oculto com a categoria selecionada
+        var selectedCategory = element.textContent.trim().replace('#', ''); // Remove o '#' do texto
+        document.getElementById('categoria').value = selectedCategory;
+
+        console.log('Categoria selecionada:', selectedCategory);
+
         console.log('Categoria selecionada:', element.textContent);
+    }
+
+        function previewPhoto(event) {
+        var input = event.target;
+        var previewImage = document.getElementById('previewImage');
+
+        // Verifica se um arquivo foi selecionado
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            // Quando o arquivo for lido, define a imagem de visualização
+            reader.onload = function(e) {
+                previewImage.src = e.target.result; // Define a nova imagem
+            }
+
+            reader.readAsDataURL(input.files[0]); // Lê o arquivo como URL de dados
+        }
     }
 
 

@@ -117,10 +117,10 @@
 
 <div class="container">
     <div class="row border-bottom pb-3 mb-3">
-        @if($postJob->isEmpty())
+        @if($postCurso->isEmpty())
             <p style="color: black">Não há nada para mostrar.</p>
         @else
-            @foreach ($postJob as $post)
+            @foreach ($postCurso as $post)
             <div class="cards">
                 <div class="card-banner">
                     <p class="category-tag popular">{{ $post->titulo}}</p>
@@ -137,6 +137,6 @@
         @endif
     </div>
 </div>
+</div>
 
 @endsection
-

@@ -1,16 +1,18 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishController;
+use App\Http\Controllers\ForumController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\StudyController;
+use Illuminate\Container\Attributes\Auth;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\ForumController;
-use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\SidebarController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\UserProfileController;
 
 Route::get('/', function () {
@@ -19,7 +21,11 @@ Route::get('/', function () {
 
 Route::get('/userprofile', [UserProfileController::class,'viewUserProfile'])->name('user.foryou');
 
-Route::get('/post_job', [UserProfileController::class,'viewUserPost'])->name('user.post.job');
+Route::get('/post_job', [UserProfileController::class,'viewUserPostVagas'])->name('user.post.job');
+
+Route::get('/post_curso', [UserProfileController::class,'viewUserPostCurso'])->name('user.post.curso');
+
+Route::get('/post_evento', [UserProfileController::class,'viewUserPostEvento'])->name('user.post.evento');
 
 // Route::get('/forumprofile', [ForumController::class,'viewForum'])->name('user.forum');
 
@@ -104,9 +110,14 @@ Route::get('/sidebar', [SidebarController::class, 'viewSidebar'])->name('sidebar
 // Criação de uma novo album
 // Route::get('/add_wish', [WishController::class, 'createWishForm'])->name('wish.create.form');
 
+// if(Auth::user()->user_type==\App\Models\User::ADMIN))
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

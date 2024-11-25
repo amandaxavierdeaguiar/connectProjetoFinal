@@ -96,10 +96,9 @@
             border: none;
             margin-bottom: 30px;
             -webkit-transition: all 0.3s ease-in-out;
-            transition: all 0.3s ease-in-out; padding: 25px;
-            ">
+            transition: all 0.3s ease-in-out; padding: 25px; " onclick="window.location='{{ route('user.post.evento') }}';">
                 <div class="card-block" style="padding: 10px;">
-                    <img src="{{ asset('images/eventos_icon.png')}}" class="card-img-top" alt="Foto emprego" style="width:25%; float:right"/>
+                    <img src="{{ asset('images/eventos_icon.png')}}" class="card-img-top" alt="Foto Eventos" style="width:25%; float:right"/>
                     <p class="m-b-25" style="text-transform: uppercase; font-weight: 700; font-family: 'Montserrat', sans-serif; color: rgb(255, 255, 255);">
                     Eventos</p>
                     <h6 class="m-b-0">Encontre os eventos disponíveis</h6>
@@ -116,9 +115,9 @@
             border: none;
             margin-bottom: 30px;
             -webkit-transition: all 0.3s ease-in-out;
-            transition: all 0.3s ease-in-out; padding: 25px;">
+            transition: all 0.3s ease-in-out; padding: 25px;" onclick="window.location='{{ route('user.post.curso') }}';">
                 <div class="card-block" style="padding:  10px;">
-                    <img src="{{ asset('images/book_icon.png')}}" class="card-img-top" alt="Foto emprego" style="border-radius: 20px; width:60%; float:right"/>
+                    <img src="{{ asset('images/book_icon.png')}}" class="card-img-top" alt="Foto Curso" style="border-radius: 20px; width:60%; float:right"/>
                     <p class="m-b-25" style="text-transform: uppercase; font-weight: 700; font-family: 'Montserrat', sans-serif; color: rgb(255, 255, 255);">
                     Cursos</p>
                     <h6 class="m-b-0">Encontre os cursos disponíveis</h6>

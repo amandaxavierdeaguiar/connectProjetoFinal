@@ -9,13 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class SidebarController extends Controller
 {
-    public function viewSidebar()
+    public function viewSidebar(Request $request)
     {
         // Captura o ID do usuário logado
         // $users = Auth::user()->id;
         $users = Auth::user();
 
         $linguages = DB::table('linguagem')->get();
+
+
 
         $categoria = DB::table('categoria')->get();
         // Recupera todas as linguagens disponíveis
@@ -68,6 +70,9 @@ class SidebarController extends Controller
         ->select('curso.id', 'curso.nome as curso')
         ->get();
 
-        return view('user_profile.for_you', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser', 'cursoUsers','usuariosComDesejosIguais', 'categoria'));
+        // Verifica se o modo de edição está ativado
+        $isEditing = $request->query('edit') === 'true';
+
+        return view('user_profile.for_you', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser', 'cursoUsers','usuariosComDesejosIguais', 'categoria', 'isEditing'));
     }
 }

@@ -102,7 +102,7 @@
 <body id="body-pd">
     <header class="header" id="header">
         <div class="header_toggle"><i id="header-toggle">X</i>  </div>
-        <img src={{asset('images/logo_frame.png')}} alt="" style="1rem;">
+        <img src={{asset('images/logo_frame.png')}} alt="" style="1rem;" onclick="window.location='{{ route('user.foryou') }}';">
 
         @if($usuariosComDesejosIguais ->isNotEmpty())
         <div style="display: flex; flex-wrap: wrap; align-items: center;">
@@ -129,6 +129,10 @@
                 </a>
 
                 <div class="nav_list">
+
+                    
+
+
                     <div class="nav_link active">
                         <i class="bi bi-grid-fill nav_icon">
                             <span class="nav_name">Skills</span>
@@ -145,6 +149,11 @@
 
                             <div id="linguagens-container" style="margin-top: 1rem; margin-left:2.1rem;">
                                 @foreach ($linguages as $linguagem)
+                                    {{-- <label>
+                                        <input type="checkbox" name="linguagem[]" value="{{ $linguagem->id }}"
+                                        {{ in_array($linguagem->id, $linguagensSelecionadas) ? 'disabled' : '' }}>
+                                        {{ $linguagem->name }}
+                                    </label><br> --}}
                                     <label>
                                         <input type="checkbox" name="linguagem[]" value="{{ $linguagem->id }}"
                                         {{ in_array($linguagem->id, $linguagensSelecionadas) ? 'disabled' : '' }}>
@@ -211,14 +220,6 @@
                         @endif
                     </div>
                 </div>
-
-                {{-- <div style="margin-left: 1rem;">
-
-
-                <a href="{{ $users->linkedin ?? '#' }}" ><i class="bi bi-linkedin "></i></a>
-                <a href="{{ $users->github ?? '#' }}"><i class="bi bi-github "></i></a>
-
-                </div> --}}
             </div>
 
             <div style="margin-left: 0.9rem;">
