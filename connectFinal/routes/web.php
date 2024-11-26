@@ -27,6 +27,21 @@ Route::get('/post_curso', [UserProfileController::class,'viewUserPostCurso'])->n
 
 Route::get('/post_evento', [UserProfileController::class,'viewUserPostEvento'])->name('user.post.evento');
 
+//Formulario Forum Criar
+// Route::get('/form_forum', [UserProfileController::class, 'formsForum'])
+// ->name('form.forum');
+
+//ver e atualizar formulario
+// Route::get('/show_forum/{id}', [UserProfileController::class, 'showForum'])->name('forum.show');
+
+//Criar ou atualizar linguagem
+// Route::post('/create_post_forum', [UserProfileController::class,'storeUserProfile'])
+// ->name('post.forum.user.create');
+
+Route::get('/post_forum', [UserProfileController::class,'viewUserPostForum'])->name('user.post.forum');
+
+
+
 // Route::get('/forumprofile', [ForumController::class,'viewForum'])->name('user.forum');
 
 // Rota para pagina inicial users
@@ -50,6 +65,26 @@ Route::post('/create_category', [CategoriaController::class,'createCategory'])
 
 //Rota para apagar Categoria
 Route::get('/category/delete/{id}', [CategoriaController::class, 'deleteCategory'])->name('category.delete');
+
+
+
+// FORUM - USER
+
+Route::get('/posts_forum', [ForumController::class, 'viewForum'])->name('forum.list');
+
+// Criação de uma novo forum - formulario
+Route::get('/add_forum', [ForumController::class, 'createForumForm'])->name('forum.create.form');
+
+// Ver e atualizar Linguagem
+Route::get('/show_forum/{id}', [ForumController::class, 'showForum'])->name('forum.show');
+
+// Criar ou atualizar Post Forum
+Route::post('/create_post_forum', [ForumController::class,'createForum'])
+->name('forum.create');
+
+// Apagar Post Forum
+Route::get('/forum/delete/{id}', [ForumController::class, 'deletePostForum'])->name('forum.delete');
+
 
 
 // VIEWS PARA LINGUAGEM

@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    
+
     public function index()
     {
         $posts = Post::with(['user', 'categoria', 'linguagem'])->get();
 
-        
+
         $noticias = $posts->where('post_type', 'Notícias');
         $vagas = $posts->where('post_type', 'Vagas de Estágio');
         $cursos = $posts->where('post_type', 'Cursos');
@@ -27,26 +27,26 @@ class PostController extends Controller
         return view('post.manage_post', compact('noticias', 'vagas', 'cursos', 'eventos', 'posts', 'forum'));
     }
 
-    
+
     public function create()
     {
         $categorias = Categoria::all();
         $linguagens = Linguagem::all();
 
-        
+
         $postTypes = Auth::check() && Auth::user()->user_type === 1
-            ? Post::$postTypes 
-            : ['Fórum']; 
+            ? Post::$postTypes
+            : ['Fórum'];
 
         return view('post.create', compact('categorias', 'linguagens', 'postTypes'));
     }
 
-  
+
     public function store(Request $request)
     {
         $user = Auth::user();
 
-        
+
         $allowedPostTypes = $user->user_type === 1
             ? Post::$postTypes
             : ['Fórum'];
@@ -67,7 +67,7 @@ class PostController extends Controller
             $validatedData['foto'] = 'default-post.png';
         }
 
- 
+
         $validatedData['id_users'] = Auth::id();
 
         Post::create($validatedData);
@@ -75,29 +75,29 @@ class PostController extends Controller
         return redirect()->route('post.index')->with('success', 'Post criado com sucesso!');
     }
 
-    
+
     public function show(Post $post)
     {
         $post->load(['user', 'categoria', 'linguagem']);
         return view('post.show', compact('post'));
     }
 
-    
+
     public function edit(Post $post)
     {
         $categorias = Categoria::all();
         $linguagens = Linguagem::all();
-        $users = User::all(); 
+        $users = User::all();
 
         return view('post.edit', compact('post', 'categorias', 'linguagens', 'users'));
     }
 
-    
+
     public function update(Request $request, Post $post)
     {
         $user = Auth::user();
 
-        
+
         $allowedPostTypes = $user->user_type === 1
             ? Post::$postTypes
             : ['Fórum'];
@@ -120,7 +120,7 @@ class PostController extends Controller
         return redirect()->route('post.index')->with('success', 'Post atualizado com sucesso!');
     }
 
-   
+
     public function destroy(Post $post)
     {
         $post->delete();

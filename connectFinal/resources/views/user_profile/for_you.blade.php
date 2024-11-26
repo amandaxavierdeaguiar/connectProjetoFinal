@@ -134,7 +134,7 @@
             border: none;
             margin-bottom: 30px;
             -webkit-transition: all 0.3s ease-in-out;
-            transition: all 0.3s ease-in-out; padding: 25px;">
+            transition: all 0.3s ease-in-out; padding: 25px;" onclick="window.location='{{ route('user.post.forum') }}';">
                 <div class="card-block" style="padding: 10px;">
                     <img src="{{ asset('images/forum_icon.png')}}" class="card-img-top" alt="Foto emprego" style="width:60%; float:right"/>
                     <p class="m-b-25" style="text-transform: uppercase; font-weight: 700; font-family: 'Montserrat', sans-serif; color: rgb(255, 255, 255);">
@@ -158,7 +158,7 @@
             border: none;
             margin-bottom: 30px;
             -webkit-transition: all 0.3s ease-in-out;
-            transition: all 0.3s ease-in-out; padding: 25px;" onclick="document.getElementById('myModal').style.display='block'">
+            transition: all 0.3s ease-in-out; padding: 25px;" onclick="window.location='{{ route('forum.create.form') }}';">
                 <div class="card-block" style="padding: 10px;">
                     <p class="m-b-25" style="text-transform: uppercase; font-weight: 700; font-family: 'Montserrat', sans-serif; color: rgb(255, 255, 255);">
                         Queremos te ouvir!</p>
@@ -187,26 +187,5 @@
         {{-- @endforeach --}}
     </div>
 </div>
-
-<!-- componente forum -->
-@include('components.add_forum', [
-    'modalId' => 'myModal',
-    'userPhoto' => $users->photo ? asset('storage/' . $users->photo) : asset('images/default-profile.png'),
-    'userNameModal' => $users->name,
-    'userJob' => $users->formacao,
-    'modalTitle' => 'Título do Modal',
-    'modalBody' => 'Texto do corpo do modal vai aqui.',
-    'linguages' => $linguages,
-    'categoria' => $categoria
-])
-
-<!-- componente post -->
-{{-- @include('components.card_post_user', [
-    'cardPost' => 'cardPost',
-    'userPhoto' => $users->photo ? asset('storage/' . $users->photo) : asset('images/default-profile.png'),
-    'userName' => $users->name,
-    'userJob' => $users->formacao,
-    'linguages' => $linguages,
-]) --}}
 
 @endsection

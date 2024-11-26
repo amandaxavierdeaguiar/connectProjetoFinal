@@ -79,12 +79,82 @@
                     <p class='nameUserModal' style="margin: 0;">{{$users->name}}</p>
                     <p class='jobUser ' style="margin: 0;">{{$users->formacao}}</p>
                 </div>
+                <span class="close" style="cursor: pointer; align-self: center;">&times;</span>
             </div>
-            <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+
+            <form action="{{ isset($posts) ? route('forum.create') : route('forum.create') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @if(isset($posts))
+                    <input type="hidden" name="id" value="{{ $posts->id }}">
+                @endif
+
+                <div class="mb-3">
+                    <label for="titulo" class="form-label">Título do Post:</label>
+                    <input type="text" name="titulo" class="form-control" id="titulo" value="{{ isset($posts) ? $posts->titulo : '' }}" required>
+                    @error('titulo')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="descricao" class="form-label">Descrição do Post:</label>
+                    <textarea name="descricao" class="form-control" id="descricao" rows="4" required>{{ isset($posts) ? $posts->descricao : '' }}</textarea>
+                    @error('descricao')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="post_type" class="form-label">post_type:</label>
+                    <textarea name="post_type" class="form-control" id="post_type" rows="4" required>{{ isset($posts) ? $posts->post_type : '' }}</textarea>
+                    @error('post_type')
+                        <div class="text-danger">{{ $post_type }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_categoria" class="form-label">Categoria:</label>
+                    <select name="id_categoria" class="form-select" id="id_categoria" required>
+                        <option value="">Selecione uma categoria</option>
+                        @foreach($categoria as $categoria)
+                            <option value="{{ $categoria->id }}" {{ (isset($posts) && $posts->id_categoria == $categoria->id) ? 'selected' : '' }}>
+                                {{ $categoria->nome }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('id_categoria')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_linguagem" class="form-label">Linguagem:</label>
+                    <select name="id_linguagem" class="form-select" id="id_linguagem" required>
+                        <option value="">Selecione uma linguagem</option>
+                        @foreach($linguagem as $linguagem)
+                            <option value="{{ $linguagem->id }}" {{ (isset($posts) && $posts->id_linguagem == $linguagem->id) ? 'selected' : '' }}>
+                                {{ $linguagem->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('id_linguagem')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="foto" class="form-label">Imagem:</label>
+                    <input type="file" name="foto" class="form-control" id="foto" accept="image/*">
+                    <small class="form-text text-muted">Se desejar atualizar a imagem, escolha um novo arquivo. Caso contrário, a imagem atual será mantida.</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Salvar Post</button>
+            </form>
+
+            {{-- <form action="{{ route('post.forum.user.create') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
                     <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Digite o título" required  style="margin: 0; width: 100%; text-align: center;">
-                    {{-- value="{{ old('titulo') }}" --}}
                     <span class="close" style="cursor: pointer; align-self: center;">&times;</span>
                 </div>
 
@@ -99,27 +169,23 @@
                         Selecionar Foto
                     </label>
                 </div>
-                {{-- <div class="col-md-3">
-                    <img src="{{ asset('images/post-default.png') }}" alt="Avatar" class="img-fit border mb-3" style="width: 200px; height: 200px; margin:1rem">
-                    <label class="btn btn-outline-primary" style="margin:1rem;width: 200px;">
-                        <input type="file" name="foto" id="foto" class="d-none" accept="image/*" onchange="previewPhoto(event)">
-                        Selecionar Foto
-                    </label>
-                </div> --}}
+
                 <div class="col-md-8">
                     <div class="mb-6">
                         <textarea name="descricao" id="descricaoModal" placeholder="Digite sua mensagem" class="form-control" rows="9" required>{{ old('descricao') }}</textarea>
 
                     </div>
 
-                    <!-- Campo oculto para a linguagem -->
-                    <input type="hidden" name="id_linguagem" id="id_linguagem" value="">
-                    <!-- Campo oculto para a categoria -->
+
+                    <input type="hidden" name="id_linguagem" id="linguagem" value="">
+
                     <input type="hidden" name="id_categoria" id="categoria" value="">
 
-                    <div id="language-container">
+                    <input type="hidden" name="post_type" value="Fórum">
+
+                    <div id="linguagem-container">
                         @foreach ($linguages as $linguagem)
-                            <p class="language" onclick="selectLanguage(this)" data-id="{{ $linguagem->id }}">
+                            <p class="linguagem" onclick="selectLanguage(this)" data-id="{{ $linguagem->id }}">
                                 #{{ $linguagem->name }}
                             </p>
                         @endforeach
@@ -134,28 +200,22 @@
                         @endforeach
                     </div>
 
-                    {{-- <div id="language-container">
-                        <input type="hidden" name="id_linguagem" id="linguagem" value="">
-                        @foreach ($linguages as $linguagem)
-                            <p class="language" onclick="selectLanguage(this)">
-                                #{{ $linguagem->name }}
-                            </p>
-                        @endforeach
-                    </div>
 
-                    <div id="categoria-container" style="display: flex; align-items: center;">
-                        <input type="hidden" name="id_categoria" id="categoria" value="">
-                        <p  style="margin-right: 10px;">Selecione a categoria: </p>
-                        @foreach ($categoria as $category)
-                        <p class="categoria" onclick="selectCategory(this)" style="margin-right: 5px;">
-                            #{{ $category->nome }}
-                        </p>
-                        @endforeach
-                    </div> --}}
                 </div>
                 </div>
                 <button type="submit" class="btn btn-dark custom-button">Postar</button>
             </form>
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif --}}
+
+        </form>
     </div>
 </div>
 
@@ -185,7 +245,7 @@
 
     function selectLanguage(element) {
         // Remove a classe 'selected' de todos os elementos
-        var languages = document.querySelectorAll('.language');
+        var languages = document.querySelectorAll('.linguagem');
         languages.forEach(function(lang) {
             lang.classList.remove('selected');
         });
@@ -194,6 +254,7 @@
         element.classList.add('selected');
 
         var selectedLanguage = element.textContent.trim().replace('#', ''); // Remove o '#' do texto
+        // var selectedLanguage = element.textContent.trim().replace('#', '');
         document.getElementById('linguagem').value = selectedLanguage;
 
         console.log('Linguagem selecionada:', selectedLanguage);

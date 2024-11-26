@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class LanguagesController extends Controller
 {
-    // Visualizar bandas
+    // Visualizar Linguagens
     public function viewLanguages(){
         // $language = DB::table('linguagem')
         // ->join('categoria', 'linguagem.id_categoria', '=', 'categoria.id')
