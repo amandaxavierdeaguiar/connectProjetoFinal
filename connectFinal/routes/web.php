@@ -222,13 +222,13 @@ Route::fallback(function () {
 
 //Rota para com middleweare apenas permitindo aAdmim
 
-Route::get('/dashboard', function () {
-    if (!Auth::check() || Auth::user()->role !== 'ADMIN') {
-        return redirect('/userprofile');
-    }
+// Route::get('/dashboard', function () {
+//     if (!Auth::check() || Auth::user()->role !== 'ADMIN') {
+//         return redirect('/userprofile');
+//     }
 
-    return view('dashboard');
-})->name('dashboard');
+//     return view('dashboard');
+// })->name('dashboard');
 
 
 

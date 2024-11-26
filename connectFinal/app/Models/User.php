@@ -38,6 +38,9 @@ class User extends Authenticatable
         'telefone',
         'user_type',
         'id_curso',
+        'formacao',
+        'github',
+        'linkedin',
     ];
 
     public function isAdmin()

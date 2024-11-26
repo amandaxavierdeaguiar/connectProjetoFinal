@@ -248,13 +248,17 @@
 <body id="body-pd">
     <header class="header" id="header">
         <div class="header_toggle"><i id="header-toggle">X</i> </div>
-        <img src={{asset('images/logo_frame.png')}} alt="" style="1rem;">
+        <img src="{{asset('images/logo_frame.png')}}" alt="" >
+
+
 
         @if($usuariosComDesejosIguais ->isNotEmpty())
         <div style="display: flex; flex-wrap: wrap; align-items: center;">
             @foreach ($usuariosComDesejosIguais as $usuario)
-            <img class="avatar header_img" src="{{$usuario->photo ? asset('storage/' . $usuario->photo) : asset('images/default-profile.png') }}" style="margin:2px" />
-            {{-- <p>{{$usuario->name}} --}}
+            <a href="{{route('users.show',$usuario->id)}}">
+                <img class="avatar header_img" src="{{$usuario->photo ? asset('storage/' . $usuario->photo) : asset('images/default-profile.png') }}" style="margin:2px" />
+                {{-- <p>{{$usuario->name}} --}}
+            </a>
             @endforeach
         </div>
         @endif
