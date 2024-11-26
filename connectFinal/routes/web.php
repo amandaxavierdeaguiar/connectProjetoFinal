@@ -12,6 +12,7 @@ use App\Http\Controllers\StudyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\EditPerfilUserController;
 use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\UserProfileController;
 
@@ -70,7 +71,7 @@ Route::get('/category/delete/{id}', [CategoriaController::class, 'deleteCategory
 
 // FORUM - USER
 
-Route::get('/posts_forum', [ForumController::class, 'viewForum'])->name('forum.list');
+// Route::get('/posts_forum', [ForumController::class, 'viewForum'])->name('forum.list');
 
 // Criação de uma novo forum - formulario
 Route::get('/add_forum', [ForumController::class, 'createForumForm'])->name('forum.create.form');
@@ -85,6 +86,23 @@ Route::post('/create_post_forum', [ForumController::class,'createForum'])
 // Apagar Post Forum
 Route::get('/forum/delete/{id}', [ForumController::class, 'deletePostForum'])->name('forum.delete');
 
+
+//EDIT USER PROFILE
+
+Route::get('/view_user', [EditPerfilUserController::class, 'viewUserProfile'])->name('user.list');
+
+// Criação de uma novo forum - formulario
+Route::get('/add_user', [EditPerfilUserController::class, 'createUserProfile'])->name('edit.create.form');
+
+// Ver e atualizar Linguagem
+Route::get('/show_user/{id}', [EditPerfilUserController::class, 'showUser'])->name('user.show');
+
+// Criar ou atualizar Post Forum
+// Route::post('/create_user_forum', [EditPerfilUserController::class,'createEditProfileForm'])
+// ->name('edit_user.create');
+
+Route::post('/create_user_forum', [EditPerfilUserController::class,'createUserProfile'])
+->name('edit_user.create');
 
 
 // VIEWS PARA LINGUAGEM

@@ -118,9 +118,10 @@
             <div>
                 <a href="#" >
                     <span class="nav_logo">
+                        {{-- <a href="{{route('album.show', $album->id)}}" type="button" class="btn btn-dark">Ver/Editar</a></td> --}}
                         <img class="userPhoto" width="30px" height="30px"
                              src="{{$users->photo ? asset('storage/' . $users->photo) : asset('images/default-profile.png') }}"
-                             style="display: inline-block; vertical-align: middle;">
+                             style="display: inline-block; vertical-align: middle;" onclick="window.location='{{ route('user.show', $users->id) }}';">
                         <span style="display: inline-block; vertical-align: middle;">
                             <p class='nameUser' style="margin: 0;">{{$users->name}}</p>
                             <p class='jobUser' style="margin: 0;">{{$users->formacao}}</p>
@@ -130,7 +131,7 @@
 
                 <div class="nav_list">
 
-                    
+
 
 
                     <div class="nav_link active">
