@@ -10,14 +10,22 @@ use App\Http\Controllers\StudyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ForumController;
 use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\ScoreController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/userprofile', [UserProfileController::class,'viewUserProfile'])->name('user.foryou');
+
+// Route::get('/forumprofile', [ForumController::class,'viewForum'])->name('user.forum');
+
+// Route::get('/', function () {
+//     return 'Página inicial funcionando';
+// });
 
 // Rota para pagina inicial users
 // Route::get('/', [IndexController::class, 'viewPageUsers'])->name('users.index');
@@ -94,6 +102,10 @@ Route::get('/sidebar', [SidebarController::class, 'viewSidebar'])->name('sidebar
 //     return view('sidebar.index_sidebar');
 // });
 
+// VIEWS PARA GAME
+// Game
+// Rota para score
+Route::get('/score_show', [ScoreController::class, 'getAllScoreByUser'])->name('score.show');
 
 // Route::post('/wishes/create', [WishController::class, 'createWish'])->name('wish.create');
 
@@ -234,4 +246,6 @@ Route::fallback(function () {
 
 
 require __DIR__.'/auth.php';
+
+
 

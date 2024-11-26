@@ -1,6 +1,42 @@
 @extends('sidebar.index_sidebar')
 @section('contentForYou')
 
+<style>
+    .modal {
+    display: none; /* Escondido por padrão */
+    position: fixed; /* Fica fixo na tela */
+    z-index: 1; /* Fica acima de outros elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Largura total */
+    height: 100%; /* Altura total */
+    overflow: auto; /* Habilita rolagem se necessário */
+    background-color: rgb(0,0,0); /* Cor de fundo */
+    background-color: rgba(0,0,0,0.4); /* Fundo preto com opacidade */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% do topo e centralizado */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Largura do modal */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
 
 <h1 className="nameDashboard"
     style="background: linear-gradient(90deg, #688AE9 0%, #A8B3E8 50%, #C66D7B 100%);
@@ -20,82 +56,7 @@
     margin-top: -10px;">
     {{$users->curso->nome ?? ' '}}</h2>
 
-    {{-- <div class="container d-flex flex-column justify-content-center align-items-center" style="width: 100%; min-height: 85%; margin: auto;"> --}}
 
-
-    {{-- <div class="parent" style="display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    grid-column-gap: 20px;
-    grid-row-gap: 20px;
-    width: 100%; height: 100%;justify-content: center;
-    ">
-
-        <div class="div1" style="grid-area: 1 / 1 / 5 / 3; ">
-            <div className="card cardJob" style="background-color: #D7027B ; border-radius: 20px;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;">
-                <img src="{{ asset('images/jobs.png')}}" className="card-img-top" alt="Foto emprego" style="border-radius: 20px;width:100%;"/>
-                <div className="cardBody" style="padding:1px; text-align: center;font-size: 20px;
-                text-transform: uppercase;
-                font-weight: 700;
-                font-family: 'Montserrat', sans-serif;
-                color: rgb(255, 255, 255); ">
-                    <p className="cardText">Vagas (10)</p>
-                </div>
-            </div>
-        </div>
-        <div class="div2" style="grid-area: 1 / 3 / 3 / 5; height: 100%;">
-            <div className="card cardEvent" style="background-color: #0042a6 ;  border-radius: 20px;
-            width: 100%;
-            object-fit: cover;
-            object-position: center;">
-                <img src="{{ asset('images/evento.png')}}" className="card-img-top" alt="Foto emprego" style="border-radius: 20px;width:100%"/>
-                <div className="cardBody" style="padding:1px; text-align: center;font-size: 20px;
-                text-transform: uppercase;
-                font-weight: 700;
-                font-family: 'Montserrat', sans-serif;
-                color: rgb(255, 255, 255); ">
-                    <p className="cardText">Eventos (2)</p>
-                </div>
-            </div>
-        </div>
-        <div class="div3" style="grid-area: 1 / 5 / 3 / 7; height: 100%;">
-            <div className="card cardStudy" style="background-color: #4b86df ; border-radius: 20px;
-            width: 100%;
-            object-fit: cover;
-            object-position: center;">
-                    <img src="{{ asset('images/book.png')}}" className="card-img-top" alt="Foto emprego" style="border-radius: 20px; width:100%"/>
-                    <div className="cardBody" style="padding:1px; text-align: center;font-size: 20px;
-                    text-transform: uppercase;
-                    font-weight: 700;
-                    font-family: 'Montserrat', sans-serif;
-                    color: rgb(255, 255, 255);">
-                        <p className="cardText">Cursos (25)</p>
-                    </div>
-                </div>
-        </div>
-        <div class="div4" style= "grid-area: 3 / 3 / 5 / 7;">
-            <div className="card cardForum" style="background-color: #5a026a ; border-radius: 20px;
-            width: 100%;
-            object-fit: cover;
-            object-position: center;">
-                <img src="{{ asset('images/balao.png')}}" className="card-img-top" alt="Foto emprego" style="border-radius: 20px; width:100%"/>
-                <div className="cardBody" style="padding:1px; text-align: center;font-size: 20px;
-                text-transform: uppercase;
-                font-weight: 700;
-                font-family: 'Montserrat', sans-serif;
-                color: rgb(255, 255, 255);">
-                    <p className="cardText">fórum</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div> --}}
 
 <h2 className="statusDashboard"
     style="font-size: 35px;
@@ -186,7 +147,11 @@
         </div>
 
         {{-- teste --}}
+        {{-- <div class="col-md-6 col-xl-6" onclick="window.location='{{ route('user.forum') }}'" style="cursor: pointer;"> --}}
+
         <div class="col-md-6 col-xl-6">
+
+            {{-- id="openModal" --}}
             <div class="card bg-c-pink order-card"
             style="color: #fff; background: linear-gradient(45deg,#FF5370,#ff869a);border-radius: 5px;
             -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
@@ -194,17 +159,54 @@
             border: none;
             margin-bottom: 30px;
             -webkit-transition: all 0.3s ease-in-out;
-            transition: all 0.3s ease-in-out; padding: 25px;">
+            transition: all 0.3s ease-in-out; padding: 25px;" onclick="document.getElementById('myModal').style.display='block'">
                 <div class="card-block" style="padding: 10px;">
                     <p class="m-b-25" style="text-transform: uppercase; font-weight: 700; font-family: 'Montserrat', sans-serif; color: rgb(255, 255, 255);">
-                    Queremos te ouvir!</p>
-                    <img src="{{ asset('images/sms.png')}}" class="card-img-top" alt="Foto emprego" style="width:70%; float:right"/>
+                        Queremos te ouvir!</p>
+                        {{-- <a href="{{ route('post.create') }}" > --}}
+                    <img  src="{{ asset('images/sms.png')}}" class="card-img-top" alt="Foto emprego" style="width:70%; float:right"
+                    />
+                    {{-- <a href="modal.html" class="btn btn-primary" id="openModal">Abrir Modal</a> --}}
                 </div>
             </div>
+
         </div>
     </div>
 </div>
 
+<div class="container" style="margin-top: 10px">
+    <div class="row">
+        {{-- @foreach ($posts->take(3) as $post) --}}
+            <div class="col-md-4">
+                @include('components.card_post_user', [
+                    // 'userPhoto' => $post->user->photo ? asset('storage/' . $post->user->photo) : asset('images/default-profile.png'),
+                    'userNameModal' => $users->name,
+                'userJob' => $users->formacao,
+                    'linguages' => $linguages,
+                ])
+            </div>
+        {{-- @endforeach --}}
+    </div>
+</div>
 
+<!-- componente forum -->
+@include('components.add_forum', [
+    'modalId' => 'myModal',
+    'userPhoto' => $users->photo ? asset('storage/' . $users->photo) : asset('images/default-profile.png'),
+    'userNameModal' => $users->name,
+    'userJob' => $users->formacao,
+    'modalTitle' => 'Título do Modal',
+    'modalBody' => 'Texto do corpo do modal vai aqui.',
+    'linguages' => $linguages,
+])
+
+<!-- componente post -->
+{{-- @include('components.card_post_user', [
+    'cardPost' => 'cardPost',
+    'userPhoto' => $users->photo ? asset('storage/' . $users->photo) : asset('images/default-profile.png'),
+    'userName' => $users->name,
+    'userJob' => $users->formacao,
+    'linguages' => $linguages,
+]) --}}
 
 @endsection
