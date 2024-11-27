@@ -131,13 +131,29 @@
                 </div>
                 <div class="card-body">
 
-                    @foreach ($categoria as $category)
+                    <div class="blog-languages">
+                        @if (isset($postCategoriaName[$post->id]))
+                                @foreach ($postCategoriaName[$post->id] as $categoria)
+                                    <span class="blog-hashtag">#{{ $categoria->categoria_nome }}</span>
+                                @endforeach
+                        @endif
+                    </div>
+
+                    <div class="blog-languages">
+                        @if (isset($postLinguagemName[$post->id]))
+                                @foreach ($postLinguagemName[$post->id] as $linguagem)
+                                    <span class="blog-hashtag">#{{ $linguagem->linguagem_name }}</span>
+                                @endforeach
+                        @endif
+                    </div>
+
+                    {{-- @foreach ($categoria as $category)
                         <option value="{{ $category->id }}" class="blog-hashtag">{{ $category->nome }}</option>
                     @endforeach
 
                     @foreach ($linguages as $linguagem)
                         <option value="{{ $linguagem->id }}" class="blog-hashtag">{{ $linguagem->name }}</option>
-                    @endforeach
+                    @endforeach --}}
 
                     <p class="blog-description">{{ $post->descricao }}</p>
                 </div>
@@ -274,7 +290,7 @@
                         <div style="display: flex; flex-direction: column;">
                             <p class='nameUserModal' style="margin: 0;">{{$users->name}}</p>
                             <p class='jobUser ' style="margin: 0;">{{$users->formacao}}</p>
-                        {{-- </div> --}}
+
                 </div>
             </div>
         </div>
