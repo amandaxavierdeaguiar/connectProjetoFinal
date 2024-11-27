@@ -67,7 +67,6 @@ class PostController extends Controller
             $validatedData['foto'] = 'default-post.png';
         }
 
-
         $validatedData['id_users'] = Auth::id();
 
         Post::create($validatedData);
@@ -119,7 +118,6 @@ class PostController extends Controller
 
         return redirect()->route('post.index')->with('success', 'Post atualizado com sucesso!');
     }
-
 
     public function destroy(Post $post)
     {

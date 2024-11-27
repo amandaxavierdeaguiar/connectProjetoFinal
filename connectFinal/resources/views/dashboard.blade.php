@@ -5,68 +5,95 @@
         </h2>
     </x-slot>
 
+    <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-6">
+        <!-- Card Maior (Usuários) -->
+        <div class="bg-white bg-opacity-90 overflow-hidden shadow-lg sm:rounded-lg flex-1 flex flex-col p-6 space-y-4">
+            <h2 class="text-lg font-bold text-gray-800">Usuários</h2>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-6 lg:w-1/3">
-            <!-- Card Maior (Usuários) -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex-1 flex flex-col p-8 space-y-6">
-                <h2 class="text-lg font-bold text-gray-800">Usuários</h2>
-
-                <div class="w-full h-32 bg-gray-100 rounded flex items-center justify-center">
-                    <span>Gráfico: Publicações</span>
-
+            <!-- Novo Design para Usuários -->
+            <div class="w-full bg-gray-50 rounded-lg shadow-lg p-6 space-y-4">
+                <!-- Número Total de Usuários -->
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-gray-700">Total de Usuários:</h2>
+                    @php
+                        $userCount = \App\Models\User::count();
+                        $cursos = \App\Models\User::with('curso')
+                                    ->get()
+                                    ->groupBy(fn($user) => $user->curso->nome ?? 'Sem Curso')
+                                    ->map(fn($group) => $group->count());
+                    @endphp
+                    <h1 class="text-4xl font-extrabold text-purple-700">{{ $userCount }}</h1>
                 </div>
 
-                <div class="w-full h-32 bg-gray-100 rounded flex items-center justify-center">
-                    <span>Gráfico: Usuários</span>
-                     <!-- tive que chamar esta variável que está originalmente feita para dashboard no método index d o UserCOntrolerr -->
-                     @php
-    $userCount = \App\Models\User::count();
-    $userPhotos = \App\Models\User::whereNotNull('photo')->take(3)->get(['photo']);
-@endphp
-
-<h1>Total de Usuários: {{ $userCount }}</h1>
-
-<div class="flex space-x-4 mt-4">
-    @foreach($userPhotos as $user)
-        <div class="rounded-full overflow-hidden w-16 h-16">
-            <img src="{{ asset('storage/' . $user->photo) }}" alt="Foto de {{ $user->name }}" class="w-full h-full object-cover">
-        </div>
-    @endforeach
-</div>
-                    <span></span>
+                <!-- Gráfico de Pizza -->
+                <div class="w-full flex justify-center items-center">
+                    <div class="relative w-48 h-48">
+                        <canvas id="cursoChart"></canvas>
+                    </div>
                 </div>
 
-                <p class="text-gray-700 text-sm">
-                    Como administrador, você pode gerenciar a criação de novos usuários para sua plataforma.
-                    Clique no botão "Adicionar Novo" para começar a cadastrar novos usuários.
-                    <br>Dica: Certifique-se de preencher todas as informações necessárias para garantir que o usuário tenha acesso correto aos recursos.
-                </p>
-
-                <div class="flex space-x-4">
-                    <a href="{{ route('users.create') }}" class="bg-blue-500 text-white px-2 py-2 rounded shadow">
-                        Adicionar Novo
-                    </a>
-                    <a href="{{ route('users.index') }}" class="bg-gray-300 text-gray-800 px-2 py-2 rounded shadow">
-                        Exibir Usuários
-                    </a>
+                <!-- Detalhes dos Cursos -->
+                <div class="text-center mt-4">
+                    @foreach($cursos as $curso => $total)
+                        <p class="text-gray-700">{{ $curso }}: <strong class="text-purple-700">{{ $total }}</strong></p>
+                    @endforeach
                 </div>
             </div>
 
-            <!-- Card Menor (Publicações) -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg w-full lg:w-1/3 p-6 h-50">
-                <h2 class="text-lg font-bold text-gray-800 mb-4">Publicações</h2>
-                <p class="text-sm text-gray-700 mb-4">
-                    Insira as informações da nova vaga, evento ou curso.
-                </p>
-                <a href="{{ route('post.create') }}" class="bg-blue-500 text-white mt-2 mb-2 px-1 py-1 rounded shadow">
-                    Iniciar Publicação
+            <p class="text-gray-700 text-sm">
+                Como administrador, você pode gerenciar a criação de novos usuários para sua plataforma.
+                Clique no botão "Adicionar Novo" para começar a cadastrar novos usuários.
+                <br>Dica: Certifique-se de preencher todas as informações necessárias para garantir que o usuário tenha acesso correto aos recursos.
+            </p>
+
+            <div class="flex space-x-4">
+                <a href="{{ route('users.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded shadow">
+                    Adicionar Novo
+                </a>
+                <a href="{{ route('users.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded shadow">
+                    Exibir Usuários
                 </a>
             </div>
         </div>
+
+        <!-- Card Menor (Publicações) -->
+        <div class="bg-white bg-opacity-90 overflow-hidden shadow-lg sm:rounded-lg w-full lg:w-1/3 p-6 h-auto">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">Publicações</h2>
+            <p class="text-sm text-gray-700 mb-4">
+                Insira as informações da nova vaga, evento ou curso.
+            </p>
+            <a href="{{ route('post.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white mt-2 px-4 py-2 rounded shadow">
+                Iniciar Publicação
+            </a>
+        </div>
     </div>
 
-
-
-
+    <!-- Script para o Gráfico -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('cursoChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: {!! json_encode($cursos->keys()) !!}, // Nomes dos cursos
+                datasets: [{
+                    data: {!! json_encode($cursos->values()) !!}, // Totais por curso
+                    backgroundColor: ['#6B46C1', '#3182CE', '#38A169', '#E53E3E', '#ED8936'], // Cores para cada curso
+                    borderColor: ['#4A3B8C', '#2C5282', '#2F855A', '#C53030', '#DD6B20'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        enabled: true,
+                    }
+                }
+            }
+        });
+    </script>
 </x-app-layout>

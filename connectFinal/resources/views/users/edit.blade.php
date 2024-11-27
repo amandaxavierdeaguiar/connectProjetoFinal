@@ -37,10 +37,15 @@
 
 
         <!-- Formulário Multi-Step -->
+
+          <!-- Formulário Multi-Step -->
+          <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
         <div class="card shadow rounded p-4">
             <!-- Passo 1 -->
             <div id="step-1" class="form-step">
-                <h4 class="text-center mb-4">Passo 1: Dados Pessoais</h4>
+              
 
                 <!-- Avatar -->
 
@@ -62,9 +67,7 @@
 
 
 
-                <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
+                
 
 
                     <div class="mb-4">
@@ -115,6 +118,8 @@
                     <input type="text" name="telefone" id="telefone" value="{{ old('telefone', $user->telefone) }}"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
                 </div>
+
+                
                 
 
                 <div class="mb-4">
@@ -169,7 +174,29 @@
 
           
            <!-- Passo 3 -->
+
+
  <div id="step-3" class="form-step d-none">
+
+ 
+ <div class="mb-4">
+                    <label for="telefone" class="block text-sm font-medium text-gray-700">Linkedin</label>
+                    <input type="text" name="linkedin" id="linkedin" value="{{ old('linkedin', $user->linkedin) }}"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                </div>
+
+                <div class="mb-4">
+                    <label for="github" class="block text-sm font-medium text-gray-700">Github</label>
+                    <input type="text" name="github" id="github" value="{{ old('github', $user->github) }}"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                </div>
+
+                <div class="mb-4">
+                    <label for="formacao" class="block text-sm font-medium text-gray-700">Formação</label>
+                    <input type="text" name="formacao" id="formacao" value="{{ old('formacao', $user->formacao) }}"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                </div>
+
                 <h4 class="text-center mb-4">Passo 3: Finalização</h4>
                 <p class="text-center">Revise as informações e clique em "Criar Usuário" para finalizar.</p>
                 <div class="d-flex justify-content-between">

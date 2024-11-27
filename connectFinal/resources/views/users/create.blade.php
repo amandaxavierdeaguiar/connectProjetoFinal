@@ -74,7 +74,7 @@
 
             <!-- Passo 2 -->
             <div id="step-2" class="form-step d-none">
-                <h4 class="text-center mb-4">Passo 2: Dados Profissionais</h4>
+               
                 <div class="mb-3">
                     <label for="data_nascimento" class="form-label">Data de Nascimento:</label>
                     <input type="date" id="data_nascimento" name="data_nascimento" class="form-control">
@@ -108,6 +108,22 @@
                         @endforeach
                     </select>
                 </div>
+
+                <div class="mb-3">
+                    <label for="github" class="form-label">Github:</label>
+                    <input type="text" id="github" name="github" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="linkedin" class="form-label">Linkedin:</label>
+                    <input type="text" id="linkedin" name="linkedin" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="formacao" class="form-label">Formação:</label>
+                    <input type="text" id="formacao" name="formacao" class="form-control">
+                </div>
+
                 <div class="d-flex justify-content-center gap-2">
                     <button type="button" class="btn btn-outline-primary mb-3" id="prevBtn">Voltar</button>
                     <button type="button" class="btn btn-primary mb-3" id="nextBtnStep2">Próximo</button>

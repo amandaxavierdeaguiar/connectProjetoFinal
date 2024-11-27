@@ -15,9 +15,10 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\EditPerfilUserController;
 use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\ScoreController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/userprofile', [UserProfileController::class,'viewUserProfile'])->name('user.foryou');
@@ -42,6 +43,10 @@ Route::get('/post_evento', [UserProfileController::class,'viewUserPostEvento'])-
 Route::get('/post_forum', [UserProfileController::class,'viewUserPostForum'])->name('user.post.forum');
 
 // Route::get('/forumprofile', [ForumController::class,'viewForum'])->name('user.forum');
+
+// Route::get('/', function () {
+//     return 'Página inicial funcionando';
+// });
 
 // Rota para pagina inicial users
 // Route::get('/', [IndexController::class, 'viewPageUsers'])->name('users.index');
@@ -155,6 +160,10 @@ Route::get('/sidebar', [SidebarController::class, 'viewSidebar'])->name('sidebar
 //     return view('sidebar.index_sidebar');
 // });
 
+// VIEWS PARA GAME
+// Game
+// Rota para score
+Route::get('/score_show', [ScoreController::class, 'getAllScoreByUser'])->name('score.show');
 
 // Route::post('/wishes/create', [WishController::class, 'createWish'])->name('wish.create');
 
@@ -262,13 +271,7 @@ Route::get('/wishes', [WishController::class, 'viewWish'])->name('wish.list');
 
 
 
-// Route::get('/dashboard', function () {
-//     if (!Auth::check() || Auth::user()->role !== 'ADMIN') {
-//         return redirect('/userprofile');
-//     }
 
-//     return view('dashboard');
-// })->name('dashboard');
 
 
 // Rotas para o UserController
@@ -279,10 +282,33 @@ Route::resource('users', UserController::class);
 Route::resource('post', PostController::class);
 
 
+// Rota  Fallback
 
+Route::fallback(function () {
+    return redirect()->route('user.foryou'); 
+});
+
+
+// if (Auth::check()) {
+//     $userId = Auth::user()->id;
+// } else {
+//     return redirect('/userprofile'); // Ou outra página para não autenticados
+// }
+
+//Rota para com middleweare apenas permitindo aAdmim
+
+// Route::get('/dashboard', function () {
+//     if (!Auth::check() || Auth::user()->role !== 'ADMIN') {
+//         return redirect('/userprofile');
+//     }
+
+//     return view('dashboard');
+// })->name('dashboard');
 
 
 
 
 require __DIR__.'/auth.php';
+
+
 
