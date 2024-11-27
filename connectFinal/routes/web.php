@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -8,18 +9,43 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\StudyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\EditPerfilUserController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\EditPerfilUserController;
 
 Route::get('/', function () {
     return view('home');
 });
+
+Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard')->middleware('auth');
+
+// Route::get('/dashboard', function () {
+//     if (Auth::user()->role === 'ADMIN') {
+//         return view('/dashboard');
+//     }
+//     return redirect('/userprofile');
+// })->name('dashboard');
+
+// Route::get('/dashboard', function () {
+//     if (Auth::user()->role !== 'ADMIN') {
+//         return view('/dashboard');
+//     }
+//     return view('/userprofile');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::get('/dashboard', function () {
+//     if (Auth::user()->role === '1') {
+//         return view('/dashboard');
+//     }
+//     return redirect('/userprofile');
+// })->name('dashboard');
+
 
 Route::get('/userprofile', [UserProfileController::class,'viewUserProfile'])->name('user.foryou');
 
@@ -171,9 +197,9 @@ Route::get('/score_show', [ScoreController::class, 'getAllScoreByUser'])->name('
 // Route::get('/add_wish', [WishController::class, 'createWishForm'])->name('wish.create.form');
 
 // if(Auth::user()->user_type==\App\Models\User::ADMIN))
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -285,7 +311,7 @@ Route::resource('post', PostController::class);
 // Rota  Fallback
 
 Route::fallback(function () {
-    return redirect()->route('user.foryou'); 
+    return redirect()->route('user.foryou');
 });
 
 

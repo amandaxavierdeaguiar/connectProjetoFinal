@@ -90,7 +90,7 @@
     </div>
 </div> --}}
 
-<div class="container">
+<div class="container"  style="margin-top:-2rem">
     <div class="post-card">
         <h2>Criar Novo Post no Fórum</h2>
 

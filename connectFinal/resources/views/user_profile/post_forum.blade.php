@@ -111,7 +111,39 @@
       font-size: 0.9rem;
     }
 
+    /* AVATAR USER */
+    .user-icon {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    }
 
+    .user-photo {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 8px;
+        margin-bottom: 8px;
+    }
+
+    .user-name {
+        font-weight: bold;
+    }
+
+    .user-icon {
+    margin-top: 10px;
+    }
+
+    .user-curso, .user-formacao {
+        font-size: 0.9rem;
+        color: var(--clr-gray-med);
+        display: block;
+    }
+    .blog-languages {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
 
     </style>
 
@@ -131,21 +163,6 @@
                     </div>
 
                     <div class="card-body">
-                        <!-- Post Categories -->
-                        {{-- <div class="blog-categories">
-                            @foreach ($postCategoriaName->where('id', $post->id) as $categoria)
-                                <span class="category-tag popular">{{ $categoria->categoria_nome }}</span>
-                            @endforeach
-                        </div> --}}
-
-
-                        <!-- Programming Languages -->
-                        <div class="blog-languages">
-                            @foreach ($linguages as $linguagem)
-                            <span class="blog-hashtag">{{ $linguagem->name }}</span>
-                            @endforeach
-                        </div>
-
                         <div class="blog-languages">
                             @if (isset($postCategoriaName[$post->id]))
                                     @foreach ($postCategoriaName[$post->id] as $categoria)
@@ -154,19 +171,36 @@
                             @endif
                         </div>
 
-                        {{-- <div class="blog-languages">
+                        <div class="blog-languages">
                             @if (isset($postLinguagemName[$post->id]))
                                     @foreach ($postLinguagemName[$post->id] as $linguagem)
                                         <span class="blog-hashtag">#{{ $linguagem->linguagem_name }}</span>
                                     @endforeach
                             @endif
-                        </div> --}}
+                        </div>
 
+                        {{-- foto User Post --}}
 
                         <br>
                         <!-- Post Description -->
                         <p class="blog-description">{{ $post->descricao }}</p>
                     </div>
+                    <div class="card-footer" >
+
+                        @if (isset($postFotoUser   [$post->id]))
+                            @foreach ($postFotoUser   [$post->id] as $fotoUser )
+                                <div class="user-icon">
+                                    <img class="user-photo" src="{{ $fotoUser ->users_photo ? asset('storage/' . $fotoUser ->users_photo) : asset('images/user-default.png') }}" alt="Foto de {{ $fotoUser ->users_name }}">
+                                    <div class="user-info"> <!-- Novo div para agrupar o nome e a formação -->
+                                        <span class="user-name">{{ $fotoUser ->users_name }}</span> <!-- Nome do usuário -->
+                                        @if (!empty($fotoUser ->users_formacao))
+                                            <span class="user-formacao">{{ $fotoUser ->users_formacao }}</span> <!-- Formação do usuário -->
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                        </div>
                 </div>
             @endforeach
         @endif

@@ -36,13 +36,32 @@ class UserProfileController extends Controller
             ->get()
             ->groupBy('post_id'); // Groups categories by the post ID
 
+        // Group categories by post ID
+        $postLinguagemName = DB::table('post')
+            ->join('linguagem', 'linguagem.id', '=', 'post.id_linguagem')
+            ->select('post.id as post_id', 'linguagem.name as linguagem_name')
+            ->get()
+            ->groupBy('post_id'); // Groups linguagem by the post ID
 
         // Group categories by post ID
-        // $postLinguagemName = DB::table('linguagem')
-        //     ->join('linguagem', 'linguagem.id', '=', 'post.id_linguagem')
-        //     ->select('post.id as post_id', 'linguagem.name as linguagem_name')
+        // $postFotoUser = DB::table('post')
+        //     ->join('users', 'users.id', '=', 'post.id_users')
+        //     ->select('post.id as post_id', 'users.photo as users_photo', 'users.name as users_name')
         //     ->get()
-        //     ->groupBy('post_id'); // Groups categories by the post ID
+        //     ->groupBy('post_id'); // Groups linguagem by the post ID
+
+        // Group categories by post ID
+        $postFotoUser   = DB::table('post')
+        ->join('users', 'users.id', '=', 'post.id_users')
+        ->select(
+            'post.id as post_id',
+            'users.photo as users_photo',
+            'users.name as users_name',
+            'users.formacao as users_formacao'
+        )
+        ->get()
+        ->groupBy('post_id');
+
 
         // User selected languages
         $linguagensSelecionadas = DB::table('desejo')
@@ -106,6 +125,8 @@ class UserProfileController extends Controller
             'postForum',
             'postNoticias',
             'postCategoriaName',
+            'postLinguagemName',
+            'postFotoUser',
         );
     }
 

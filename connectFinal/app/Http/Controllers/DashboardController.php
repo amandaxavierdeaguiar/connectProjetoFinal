@@ -6,12 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class IndexController extends Controller
+class DashboardController extends Controller
 {
-    public function viewPageUsers(){
-        return view('users.index_users');
-    }
-
     // public function index()
     // {
     //     if (!Auth::check() || Auth::user()->user_type !== User::ADMIN) {
@@ -19,4 +15,12 @@ class IndexController extends Controller
     //     }
     //     return view('dashboard');
     // }
+
+    public function index()
+    {
+        if (!Auth::check() || Auth::user()->user_type !== User::ADMIN) {
+            return redirect('/userprofile');
+        }
+        return view('dashboard');
+    }
 }
