@@ -70,9 +70,12 @@ class SidebarController extends Controller
         ->select('curso.id', 'curso.nome as curso')
         ->get();
 
+        //Filtrar pelas notícias
+        $postNoticias = DB::table('post')->where('post_type', 'Notícias')->get();
+
         // Verifica se o modo de edição está ativado
         $isEditing = $request->query('edit') === 'true';
 
-        return view('user_profile.for_you', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser', 'cursoUsers','usuariosComDesejosIguais', 'categoria', 'isEditing'));
+        return view('user_profile.for_you', compact('users','linguages', 'linguagensSelecionadas', 'skillUser', 'wishUser', 'cursoUsers','usuariosComDesejosIguais', 'categoria', 'isEditing', 'postNoticias'));
     }
 }
