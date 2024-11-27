@@ -22,18 +22,18 @@
         <table class="table-auto w-full border-collapse border border-gray-300">
             <thead class="bg-gray-100">
                 <tr>
-                    <th class="border border-gray-300 px-4 py-2">#</th>
+                    
                     <th class="border border-gray-300 px-4 py-2">Foto</th>
                     <th class="border border-gray-300 px-4 py-2">Nome</th>
 
                     <th class="border border-gray-300 px-4 py-2">Email</th>
-                    <th class="border border-gray-300 px-4 py-2">NIF</th>
+                    
                     <th class="border border-gray-300 px-4 py-2">Data de Nascimento</th>
-                    <th class="border border-gray-300 px-4 py-2">Endereço</th>
+                   
                     <th class="border border-gray-300 px-4 py-2">Telefone</th>
                     <th class="border border-gray-300 px-4 py-2">Curso</th>
                     <th class="border border-gray-300 px-4 py-2">Tipo de usuário</th>
-                    <th class="border border-gray-300 px-4 py-2">Formação</th>
+                   
                     <th class="border border-gray-300 px-4 py-2">LinkedIn</th>
                     <th class="border border-gray-300 px-4 py-2">GitHub</th>
                     <th class="border border-gray-300 px-4 py-2">Ações</th>
@@ -43,7 +43,7 @@
                 @foreach($users as $user)
                 <tr>
                 
-                    <td class="border border-gray-300 px-4 py-2">{{ $user->id }}</td>
+                 
 
 
                     <td class="border border-gray-300 px-4 py-2">
@@ -56,12 +56,12 @@
                     
                     <td class="border border-gray-300 px-4 py-2">{{ $user->name }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ $user->email }}</td>
-                    <td class="border border-gray-300 px-4 py-2">{{ $user->nif ?? 'Não informado' }}</td>
+                    
                     <td class="border border-gray-300 px-4 py-2">{{ $user->data_nascimento ?? 'Não informado' }}</td>
-                    <td class="border border-gray-300 px-4 py-2">{{ $user->endereco ?? 'Não informado' }}</td>
+                    
                     <td class="border border-gray-300 px-4 py-2">{{ $user->telefone ?? 'Não informado' }}</td>
                    
-                    <td class="border border-gray-300 px-4 py-2">{{ $user->curso->name ?? 'Sem curso' }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ $user->curso->nome ?? 'Sem curso' }}</td>
                     <td class="border border-gray-300 px-4 py-2">
                         @if($user->user_type === 1)
                             Administrador
@@ -71,7 +71,7 @@
                             Não definido
                         @endif
                     </td>
-                    <td class="border border-gray-300 px-4 py-2">{{ $user->formacao ?? 'Não informado' }}</td>
+                    
                     <td class="border border-gray-300 px-4 py-2">{{ $user->linkedin ?? 'Não informado' }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ $user->github ?? 'Não informado' }}</td>
                     <td class="border border-gray-300 px-4 py-2 flex gap-2 justify-center">

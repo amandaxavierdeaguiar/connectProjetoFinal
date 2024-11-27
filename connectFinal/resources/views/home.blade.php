@@ -66,7 +66,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="#">"Area de Menu."</a>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -75,6 +75,38 @@
                 </ul>
             </div>
         </div>
+
+        @if (Route::has('login'))
+    <nav class="-mx-3 flex flex-1 justify-end">
+        @auth
+            <a
+                href="{{ url('/dashboard') }}"
+                class="rounded-md px-3 py-2 text-white font-bold no-underline ring-1 ring-transparent transition hover:text-white focus:outline-none focus-visible:ring-[#FF2D20]"
+            >
+                Dashboard
+            </a>
+        @else
+            <a
+                href="{{ route('login') }}"
+                class="px-3 py-2 text-white font-bold no-underline"
+            >
+                Log in
+            </a>
+
+            @if (Route::has('register'))
+                <a
+                    href="{{ route('register') }}"
+                    class="rounded-md px-3 py-2 text-white font-bold no-underline ring-1 ring-transparent transition hover:text-white focus:outline-none focus-visible:ring-[#FF2D20]"
+                >
+                    Register
+                </a>
+            @endif
+        @endauth
+    </nav>
+@endif
+
+
+     
     </nav>
 
 
