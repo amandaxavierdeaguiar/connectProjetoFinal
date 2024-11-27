@@ -127,9 +127,15 @@
                     <img class="banner-img" src="{{$post->foto ? asset('storage/' . $post->foto) : asset('images/post-default.png') }}" alt='{{ $post->titulo}}'>
                 </div>
                 <div class="card-body">
+
                     @foreach ($categoria as $category)
                         <option value="{{ $category->id }}" class="blog-hashtag">{{ $category->nome }}</option>
                     @endforeach
+
+                    @foreach ($linguages as $linguagem)
+                        <option value="{{ $linguagem->id }}" class="blog-hashtag">{{ $linguagem->name }}</option>
+                    @endforeach
+
                     <p class="blog-description">{{ $post->descricao }}</p>
                 </div>
             </div>

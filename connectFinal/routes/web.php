@@ -41,8 +41,6 @@ Route::get('/post_evento', [UserProfileController::class,'viewUserPostEvento'])-
 
 Route::get('/post_forum', [UserProfileController::class,'viewUserPostForum'])->name('user.post.forum');
 
-
-
 // Route::get('/forumprofile', [ForumController::class,'viewForum'])->name('user.forum');
 
 // Rota para pagina inicial users

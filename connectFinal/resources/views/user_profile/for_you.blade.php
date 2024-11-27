@@ -171,20 +171,16 @@
 
         </div>
     </div>
+
 </div>
 
-<div class="container" style="margin-top: 10px">
-    <div class="row">
-        {{-- @foreach ($posts->take(3) as $post) --}}
-            <div class="col-md-4">
-                @include('components.card_post_user', [
-                    // 'userPhoto' => $post->user->photo ? asset('storage/' . $post->user->photo) : asset('images/default-profile.png'),
-                    'userNameModal' => $users->name,
-                    'userJob' => $users->formacao,
-                    'linguages' => $linguages,
-                ])
-            </div>
-        {{-- @endforeach --}}
+<div class="container" style="margin-top: 10px;width:100%">
+        @include('components.card_post_user', [
+            'userNameModal' => $users->name,
+            'userJob' => $users->formacao,
+            'linguages' => $linguages,
+        ])
+        </div>
     </div>
 </div>
 

@@ -22,6 +22,18 @@ class UserProfileController extends Controller
 
     $categoria = DB::table('categoria')->get();
 
+    $post = DB::table('post')->get();
+
+
+        //Revesar
+    // $categoriaPost = DB::table('post')
+    // ->join('categoria', 'post.id_categoria', '=', 'categoria.id')
+    // ->where('categoria.id', $post->id_categoria)
+    // ->where('post.id', $post->id)
+    // ->select('categoria.id', 'categoria.nome as categoria')
+    // ->get();
+
+
     // filtrar os post pela vaga de estágio
     $postJob = DB::table('post')->where('post_type', 'Vagas de Estágio')->get();
 
@@ -34,6 +46,9 @@ class UserProfileController extends Controller
     // filtrar os post pelos Eventos
     $postForum = DB::table('post')->where('post_type', 'Forum')->get();
 
+    //Filtrar pelas notícias
+    $postNoticias = DB::table('post')->where('post_type', 'Notícias')->get();
+
 
 
     // Para selecionar as linguagens para não repetirem e bloquearem para o usuário clicar.
@@ -43,7 +58,7 @@ class UserProfileController extends Controller
         ->toArray();
 
     // Filtra por skill
-    $skillUser   = DB::table('desejo')
+    $skillUser = DB::table('desejo')
         ->join('linguagem', 'desejo.id_linguagem', '=', 'linguagem.id')
         ->where('desejo.id_users', $users->id)
         ->where('desejo.skill_type', 1)
@@ -84,7 +99,7 @@ class UserProfileController extends Controller
         ->distinct() // Para evitar usuários duplicados
         ->get();
 
-    return compact('users', 'linguages', 'linguagensSelecionadas', 'skillUser','wishUser', 'cursoUsers', 'usuariosComDesejosIguais', 'categoria', 'postJob', 'postCurso','postEvento', 'postForum');
+    return compact('users', 'linguages', 'linguagensSelecionadas', 'skillUser','wishUser', 'cursoUsers', 'usuariosComDesejosIguais', 'categoria', 'postJob', 'postCurso','postEvento', 'postForum','postNoticias');
     }
 
     public function viewUserProfile()
@@ -112,6 +127,13 @@ class UserProfileController extends Controller
         $data = $this->getUserData();
 
         return view('user_profile.post_eventos', $data);
+    }
+
+    public function viewUserPostNoticias()
+    {
+        $data = $this->getUserData();
+
+        return view('components.card_post_user', $data);
     }
 
     // public function formsForum()
