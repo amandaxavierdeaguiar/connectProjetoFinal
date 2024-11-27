@@ -2,347 +2,169 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class UserProfileController extends Controller
 {
+    /**
+     * Fetch user data and related information.
+     */
     private function getUserData()
     {
-    // Captura o ID do usuário logado
-    $users = Auth::user();
+        // Logged-in user
+        $users = Auth::user();
+
+        // All languages
+        $linguages = DB::table('linguagem')->get();
+
+        // All categories
+        $categoria = DB::table('categoria')->get();
+
+        // Filter posts by types
+        $postJob = DB::table('post')->where('post_type', 'Vagas de Estágio')->get();
+        $postCurso = DB::table('post')->where('post_type', 'Cursos')->get();
+        $postEvento = DB::table('post')->where('post_type', 'Eventos')->get();
+        $postForum = DB::table('post')->where('post_type', 'Forum')->get();
+        $postNoticias = DB::table('post')->where('post_type', 'Notícias')->get();
+
+        // Group categories by post ID
+        $postCategoriaName = DB::table('post')
+            ->join('categoria', 'categoria.id', '=', 'post.id_categoria')
+            ->select('post.id as post_id', 'categoria.nome as categoria_nome')
+            ->get()
+            ->groupBy('post_id'); // Groups categories by the post ID
 
 
-    $linguages = DB::table('linguagem')->get();
+        // Group categories by post ID
+        // $postLinguagemName = DB::table('linguagem')
+        //     ->join('linguagem', 'linguagem.id', '=', 'post.id_linguagem')
+        //     ->select('post.id as post_id', 'linguagem.name as linguagem_name')
+        //     ->get()
+        //     ->groupBy('post_id'); // Groups categories by the post ID
 
-    $categoria = DB::table('categoria')->get();
+        // User selected languages
+        $linguagensSelecionadas = DB::table('desejo')
+            ->where('id_users', $users->id)
+            ->pluck('id_linguagem')
+            ->toArray();
 
-    $post = DB::table('post')->get();
+        // User skills
+        $skillUser = DB::table('desejo')
+            ->join('linguagem', 'desejo.id_linguagem', '=', 'linguagem.id')
+            ->where('desejo.id_users', $users->id)
+            ->where('desejo.skill_type', 1)
+            ->select('linguagem.id', 'linguagem.name', 'linguagem.foto')
+            ->get();
 
+        // User wishes
+        $wishUser = DB::table('desejo')
+            ->join('linguagem', 'desejo.id_linguagem', '=', 'linguagem.id')
+            ->where('desejo.id_users', $users->id)
+            ->where('desejo.skill_type', 2)
+            ->select('linguagem.id', 'linguagem.name', 'linguagem.foto')
+            ->get();
 
-        //Revesar
-    // $categoriaPost = DB::table('post')
-    // ->join('categoria', 'post.id_categoria', '=', 'categoria.id')
-    // ->where('categoria.id', $post->id_categoria)
-    // ->where('post.id', $post->id)
-    // ->select('categoria.id', 'categoria.nome as categoria')
-    // ->get();
+        // User's course
+        $cursoUsers = DB::table('users')
+            ->join('curso', 'users.id_curso', '=', 'curso.id')
+            ->where('curso.id', $users->id_curso)
+            ->where('users.id', $users->id)
+            ->select('curso.id', 'curso.nome as curso')
+            ->get();
 
+        // Users with similar wishes
+        $desejosUsuario = DB::table('desejo')
+            ->where('id_users', $users->id)
+            ->pluck('id'); // Collect all wish IDs for the current user
 
-    // filtrar os post pela vaga de estágio
-    $postJob = DB::table('post')->where('post_type', 'Vagas de Estágio')->get();
+        $usuariosComDesejosIguais = DB::table('desejo')
+            ->join('users', 'desejo.id_users', '=', 'users.id')
+            ->whereIn('desejo.id_linguagem', function ($query) use ($desejosUsuario) {
+                $query->select('id_linguagem')
+                    ->from('desejo')
+                    ->whereIn('id', $desejosUsuario);
+            })
+            ->where('users.id', '!=', $users->id) // Exclude the logged-in user
+            ->select('users.*')
+            ->distinct() // Avoid duplicate users
+            ->get();
 
-    // filtrar os post pelos Cursos
-    $postCurso = DB::table('post')->where('post_type', 'Cursos')->get();
-
-    // filtrar os post pelos Eventos
-    $postEvento = DB::table('post')->where('post_type', 'Eventos')->get();
-
-    // filtrar os post pelos Eventos
-    $postForum = DB::table('post')->where('post_type', 'Forum')->get();
-
-    //Filtrar pelas notícias
-    $postNoticias = DB::table('post')->where('post_type', 'Notícias')->get();
-
-
-
-    // Para selecionar as linguagens para não repetirem e bloquearem para o usuário clicar.
-    $linguagensSelecionadas = DB::table('desejo')
-        ->where('id_users', Auth::user()->id)
-        ->pluck('id_linguagem')
-        ->toArray();
-
-    // Filtra por skill
-    $skillUser = DB::table('desejo')
-        ->join('linguagem', 'desejo.id_linguagem', '=', 'linguagem.id')
-        ->where('desejo.id_users', $users->id)
-        ->where('desejo.skill_type', 1)
-        ->select('linguagem.id', 'linguagem.name', 'linguagem.foto')
-        ->get();
-
-    // Filtra por desejo
-    $wishUser   = DB::table('desejo')
-        ->join('linguagem', 'desejo.id_linguagem', '=', 'linguagem.id')
-        ->where('desejo.id_users', $users->id)
-        ->where('desejo.skill_type', 2)
-        ->select('linguagem.id', 'linguagem.name', 'linguagem.foto')
-        ->get();
-
-    // Pega o curso que a pessoa fez
-    $cursoUsers = DB::table('users')
-        ->join('curso', 'users.id_curso', '=', 'curso.id')
-        ->where('curso.id', $users->id_curso)
-        ->where('users.id', Auth::user()->id)
-        ->select('curso.id', 'curso.nome as curso')
-        ->get();
-
-    // Obtém todos os ids_desejo do usuário autenticado
-    $desejosUsuario = DB::table('desejo')
-        ->where('id_users', Auth::user()->id)
-        ->pluck('id'); // Pluck para obter uma coleção de ids_desejo
-
-    // Busca todos os usuários que têm desejos iguais aos do usuário autenticado
-    $usuariosComDesejosIguais = DB::table('desejo')
-        ->join('users', 'desejo.id_users', '=', 'users.id')
-        ->whereIn('desejo.id_linguagem', function($query) use ($desejosUsuario) {
-            $query->select('id_linguagem')
-                ->from('desejo')
-                ->whereIn('id', $desejosUsuario);
-        })
-        ->where('users.id', '!=', Auth::user()->id) // Exclui o usuário autenticado
-        ->select('users.*')
-        ->distinct() // Para evitar usuários duplicados
-        ->get();
-
-    return compact('users', 'linguages', 'linguagensSelecionadas', 'skillUser','wishUser', 'cursoUsers', 'usuariosComDesejosIguais', 'categoria', 'postJob', 'postCurso','postEvento', 'postForum','postNoticias');
+        return compact(
+            'users',
+            'linguages',
+            'linguagensSelecionadas',
+            'skillUser',
+            'wishUser',
+            'cursoUsers',
+            'usuariosComDesejosIguais',
+            'categoria',
+            'postJob',
+            'postCurso',
+            'postEvento',
+            'postForum',
+            'postNoticias',
+            'postCategoriaName',
+        );
     }
 
+        // ); 'postLinguagemName'
+    // }
+
+    /**
+     * View the "For You" page.
+     */
     public function viewUserProfile()
     {
         $data = $this->getUserData();
         return view('user_profile.for_you', $data);
     }
 
+    /**
+     * View internship posts.
+     */
     public function viewUserPostVagas()
     {
         $data = $this->getUserData();
-
         return view('user_profile.post_vagas', $data);
     }
 
+    /**
+     * View course posts.
+     */
     public function viewUserPostCurso()
     {
         $data = $this->getUserData();
-
         return view('user_profile.post_curso', $data);
     }
 
+    /**
+     * View event posts.
+     */
     public function viewUserPostEvento()
     {
         $data = $this->getUserData();
-
         return view('user_profile.post_eventos', $data);
     }
 
+    /**
+     * View news posts.
+     */
     public function viewUserPostNoticias()
     {
         $data = $this->getUserData();
-
         return view('components.card_post_user', $data);
     }
 
-    // public function formsForum()
-    // {
-    //     // $data = $this->getUserData();
-    //     $posts = DB::table('post')->get();
-
-    //     // return view('user_profile.create_post_forum', $data);
-
-    //     return view('user_profile.create_post_forum',  compact('posts'));
-    // }
-
+    /**
+     * View forum posts.
+     */
     public function viewUserPostForum()
     {
         $data = $this->getUserData();
-        // $posts = DB::table('post')->get();
-
-       return view('user_profile.post_forum', $data);
+        return view('user_profile.post_forum', $data);
     }
 }
-    // public function showForum($id)
-    // {
-    //     // para pegar id categoria
-    //     $categoria = DB::table('categoria')->get();
-    //     // para pegar id linguagem
-    //     $linguagem = DB::table('linguagem')->get();
-
-    //     $posts = DB::table('post')->where('id', $id)->first();
-
-
-    //    return view('user_profile.post_forum', compact('posts', 'categoria', 'linguagem'));
-    // }
-
-//     public function showForum($id)
-//     {
-//         // para pegar id categoria
-//         $categoria = DB::table('categoria')->get();
-//         // para pegar id linguagem
-//         $linguagem = DB::table('linguagem')->get();
-
-//         $posts = DB::table('post')->where('id', $id)->first();
-
-
-//        return view('user_profile.create_post_forum', compact('posts', 'categoria', 'linguagem'));
-//     }
-
-
-//     public function storeUserProfile(Request $request)
-//     {
-//         $user = Auth::user();
-
-//         if(isset($request->id)){
-//             $action = 'atualizado';
-//             // Atualiza post existente
-//             $request->validate([
-//                 'descricao' => 'required|string|max:500',
-//                 'foto' => 'nullable|image',
-//                 'titulo' => 'required|string|max:255',
-//                 'id_categoria' => 'required|exists:categoria,id',
-//                 'id_linguagem' => 'required|exists:linguagem,id',
-//                 'post_type' => 'required|string|in:Fórum',
-//             ]);
-
-//             // Buscar o post existente
-//             $post = DB::table('post')->where('id', $request->id)->first();
-//             $foto = $post->foto; // Mantém a imagem atual
-
-//             // Verifica se um novo arquivo foi enviado
-//             if($request->hasFile('foto')) {
-//                 // Remove a imagem antiga do storage, se existir
-//                 if ($foto) {
-//                     Storage::delete($foto);
-//                 }
-//                 // Armazena a nova imagem
-//                 $foto = Storage::putFile('uploadedPhotos', $request->foto);
-//             }
-//             // Atualiza o post
-//             DB::table('post')
-//             ->where('id', $request->id)
-//             ->update([
-//                 'foto' => $foto,
-//                 'titulo' => $request->titulo,
-//                 'id_categoria' => $request->id_categoria,
-//                 'id_linguagem' => $request->id_linguagem,
-//                 'descricao' => $request->descricao,
-//                 'post_type' => 'Fórum', // Define o post_type como 'Fórum'
-//                 'id_users' => $user,
-//             ]);
-//         } else {
-//             $action = 'inserido';
-
-//             $request->validate([
-//                 'descricao' => 'required|string|max:500',
-//                 'foto' => 'nullable|image',
-//                 'titulo' => 'required|string|max:255',
-//                 'id_categoria' => 'required|exists:categoria,id',
-//                 'id_linguagem' => 'required|exists:linguagem,id',
-//                 'post_type' => 'required|string|in:Fórum',
-//             ]);
-
-//             $foto = null;
-
-//             if($request->hasFile('foto')) {
-//                 $foto = Storage::putFile('uploadedPhotos', $request->foto);
-//             }
-
-//             // Insere o nova linguagem
-//             DB::table('post')
-//             ->insert([
-//                 'foto' => $foto,
-//                 'titulo' => $request->titulo,
-//                 'id_categoria' => $request->id_categoria,
-//                 'id_linguagem' => $request->id_linguagem,
-//                 'descricao' => $request->descricao,
-//                 'post_type' => 'Fórum', // Define o post_type como 'Fórum'
-//                 'id_users' => $user,
-//             ]);
-//         }
-
-//         return redirect()->route('user.post.forum')->with('message', 'Post  '.$action.' com sucesso!');
-//     }
-// }
-
-
-
-
-
-    // public function updateUserProfile(Request $request)
-    // {
-    //     if(isset($request->id)){
-    //         $action = 'atualizado';
-    //         $request->validate([
-    //             'name' => 'required|string|max:255',
-    //             'email' => 'required|email|unique:users,email',
-    //             'password' => 'required|string|min:6',
-    //             'nif' => 'nullable|string|max:255',
-    //             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    //             'data_nascimento' => 'nullable|date',
-    //             'endereco' => 'nullable|string|max:255',
-    //             'telefone' => 'nullable|string|max:255',
-    //             'id_curso' => 'nullable|exists:curso,id',
-    //             ]);
-
-    //         // Buscar o user existente
-    //         $fotoUser = DB::table('users')->where('id',$request->id)->first();
-    //         $photo = $fotoUser->photo; // Mantém a imagem atual
-
-    //         if($request->hasFile('photo')) {
-    //             if ($photo) {
-    //                 Storage::delete($photo);
-    //             }
-    //             $photo = Storage::putFil('uploadedPhotos', $request->photo);
-    //         }
-
-    //         DB::table('users')
-    //         ->where('id', $request->id)
-    //         ->update([
-    //             'name' => $request->name,
-    //             'photo' => $photo,
-    //             'email' => $request->email,
-    //             'password' => $request->bcrypt($request->password),
-    //             'nif' => $request->nif,
-    //             'data_nascimento' => $request->date,
-    //             'endereco' => $request->endereco,
-    //             'telefone' => $request->telefone,
-    //             'id_curso' => $request->id_curso,
-    //         ]);
-    //     } else {
-    //         $action = 'inserido';
-    //         $request->validate([
-    //             'name' => 'required|string|max:255',
-    //             'email' => 'required|email|unique:users,email',
-    //             'password' => 'required|string|min:6',
-    //             'nif' => 'nullable|string|max:255',
-    //             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    //             'data_nascimento' => 'nullable|date',
-    //             'endereco' => 'nullable|string|max:255',
-    //             'telefone' => 'nullable|string|max:255',
-    //             'id_curso' => 'nullable|exists:curso,id',
-    //         ]);
-
-    //         $photo = null;
-
-    //         if($request->hasFile('photo')) {
-    //             $photo = Storage::putFil('uploadedPhotos', $request->photo);
-    //         }
-
-    //         DB::table('users')
-    //         ->insert([
-    //             'name' => $request->name,
-    //             'photo' => $photo,
-    //             'email' => $request->email,
-    //             'password' => $request->bcrypt($request->password),
-    //             'nif' => $request->nif,
-    //             'data_nascimento' => $request->date,
-    //             'endereco' => $request->endereco,
-    //             'telefone' => $request->telefone,
-    //             'id_curso' => $request->id_curso,
-    //         ]);
-    //     }
-
-    //     return redirect()->route('user_profile.for_you')->with('message', 'User '.$action.' com sucesso!');
-    //     }
-
-
-
-    // }
-
-
-
 
 

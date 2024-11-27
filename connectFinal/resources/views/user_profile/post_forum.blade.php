@@ -121,28 +121,55 @@
             <p style="color: black">Não há nada para mostrar.</p>
         @else
             @foreach ($postForum as $post)
-            <div class="cards">
-                <div class="card-banner">
-                    <p class="category-tag popular">{{ $post->titulo}}</p>
-                    <img class="banner-img" src="{{$post->foto ? asset('storage/' . $post->foto) : asset('images/post-default.png') }}" alt='{{ $post->titulo}}'>
+                <div class="cards">
+                    <div class="card-banner">
+                        <!-- Post Title -->
+                        <p class="category-tag popular">{{ $post->titulo }}</p>
+
+                        <!-- Post Image -->
+                        <img class="banner-img" src="{{ $post->foto ? asset('storage/' . $post->foto) : asset('images/post-default.png') }}" alt="{{ $post->titulo }}">
+                    </div>
+
+                    <div class="card-body">
+                        <!-- Post Categories -->
+                        {{-- <div class="blog-categories">
+                            @foreach ($postCategoriaName->where('id', $post->id) as $categoria)
+                                <span class="category-tag popular">{{ $categoria->categoria_nome }}</span>
+                            @endforeach
+                        </div> --}}
+
+
+                        <!-- Programming Languages -->
+                        <div class="blog-languages">
+                            @foreach ($linguages as $linguagem)
+                            <span class="blog-hashtag">{{ $linguagem->name }}</span>
+                            @endforeach
+                        </div>
+
+                        <div class="blog-languages">
+                            @if (isset($postCategoriaName[$post->id]))
+                                    @foreach ($postCategoriaName[$post->id] as $categoria)
+                                        <span class="blog-hashtag">#{{ $categoria->categoria_nome }}</span>
+                                    @endforeach
+                            @endif
+                        </div>
+
+                        {{-- <div class="blog-languages">
+                            @if (isset($postLinguagemName[$post->id]))
+                                    @foreach ($postLinguagemName[$post->id] as $linguagem)
+                                        <span class="blog-hashtag">#{{ $linguagem->linguagem_name }}</span>
+                                    @endforeach
+                            @endif
+                        </div> --}}
+
+
+                        <br>
+                        <!-- Post Description -->
+                        <p class="blog-description">{{ $post->descricao }}</p>
+                    </div>
                 </div>
-                <div class="card-body">
-
-                    @foreach ($categoria as $category)
-                        <option value="{{ $category->id }}" class="blog-hashtag">{{ $category->nome }}</option>
-                    @endforeach
-
-                    @foreach ($linguages as $linguagem)
-                        <option value="{{ $linguagem->id }}" class="blog-hashtag">{{ $linguagem->name }}</option>
-                    @endforeach
-
-                    <p class="blog-description">{{ $post->descricao }}</p>
-                </div>
-            </div>
             @endforeach
         @endif
     </div>
 </div>
-</div>
-
 @endsection
