@@ -255,7 +255,7 @@
 <body id="body-pd">
     <header class="header" id="header">
         <div class="header_toggle"><i id="header-toggle">X</i>  </div>
-        <img src={{asset('images/logo_frame.png')}} alt="" style="1rem;" onclick="window.location='{{ route('user.foryou') }}';">
+        <img src={{asset('images/cesae_connect_.png')}} style="width: 10rem;cursor: pointer;" alt="" onclick="window.location='{{ route('user.foryou') }}';">
 
         @if($usuariosComDesejosIguais ->isNotEmpty())
         <div style="display: flex; flex-wrap: wrap; align-items: center;">

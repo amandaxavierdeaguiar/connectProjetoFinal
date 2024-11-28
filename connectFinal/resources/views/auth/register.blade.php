@@ -92,9 +92,9 @@
 
     <!-- Content -->
     <div class="content">
-        <div class="logo-container">
+        {{-- <div class="logo-container">
             <img src="images/cesaelogo.jpg" alt="Logo" class="logo">
-        </div>
+        </div> --}}
         <div class="card w-25 p-4 shadow mt-5">
             <h2 class="text-center mb-4">Register</h2>
 

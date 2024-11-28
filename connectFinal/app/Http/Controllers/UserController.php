@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\User;
 use App\Models\Curso;
 use Illuminate\Http\Request;
@@ -82,6 +83,13 @@ class UserController extends Controller
 
 
 
+    // public function edit($id)
+    // {
+    //     $user = User::findOrFail($id);
+    //     $cursos = Curso::all(); // Para popular o campo id_curso no formulário
+    //     return view('users.edit', compact('user', 'cursos'));
+    // }
+
     public function edit($id)
     {
         $user = User::findOrFail($id);
@@ -93,7 +101,6 @@ class UserController extends Controller
     public function update(Request $request, $id)
 
     {
-
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -168,6 +175,31 @@ class UserController extends Controller
 
     {
         $user = User::findOrFail($id);
+
+        // Pega o post que a pessoa fez
+        $postUsersProfile = DB::table('post')
+            // ->join('users', 'post.id_users', '=', 'post.id')
+            ->where('post.id_users', $user->id)
+            // ->where('users.id', Auth::user()->id)
+            ->get();
+
+        $postFotoUserId   = DB::table('post')
+            ->join('users', 'users.id', '=', 'post.id_users')
+            ->select(
+                'post.id as post_id',
+                'users.photo as users_photo',
+                'users.name as users_name',
+                'users.formacao as users_formacao'
+            )
+            ->where('post.id_users', $user->id)
+            ->get()
+            ->groupBy('post_id');
+
+
+
+
+
+
         $users = Auth::user();
         $linguages = DB::table('linguagem')->get();
         $categoria = DB::table('categoria')->get();
@@ -235,7 +267,9 @@ class UserController extends Controller
             ->get();
 
 
-        return view('users.show', compact('user','users', 'linguages', 'linguagensSelecionadas', 'skillUser','wishUser', 'cursoUsers', 'usuariosComDesejosIguais', 'categoria', 'postJob', 'postCurso','postEvento', 'postForum'));
+        return view('users.show', compact('user','users', 'linguages', 'linguagensSelecionadas', 'skillUser','wishUser', 'cursoUsers', 'usuariosComDesejosIguais', 'categoria', 'postJob', 'postCurso','postEvento', 'postForum', 'postUsersProfile',
+        'postFotoUserId'
+    ));
     }
 
 

@@ -127,11 +127,17 @@
                     <img class="banner-img" src="{{$post->foto ? asset('storage/' . $post->foto) : asset('images/post-default.png') }}" alt='{{ $post->titulo}}'>
                 </div>
                 <div class="card-body">
-                    @foreach ($categoria as $category)
-                        <option value="{{ $category->id }}" class="blog-hashtag">{{ $category->nome }}</option>
-                    @endforeach
+
+                    <div class="blog-languages" style="margin-bottom: 0.5rem">
+                        @if (isset($postCategoriaName[$post->id]))
+                                @foreach ($postCategoriaName[$post->id] as $categoria)
+                                    <span class="blog-hashtag">#{{ $categoria->categoria_nome }}</span>
+                                @endforeach
+                        @endif
+                    </div>
                     <p class="blog-description">{{ $post->descricao }}</p>
                 </div>
+
             </div>
             @endforeach
         @endif
