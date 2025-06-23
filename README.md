@@ -29,6 +29,14 @@ Inicialmente, ponderamos a integração de Laravel com React no frontend, dado o
 
 O backend passou por inúmeras revisões e otimizações, resultando num código robusto e eficiente, apesar das limitações de tempo.
 
+## 🚀 Como Executar o Projeto
+
+1. Abra dois terminais separados
+2. No primeiro terminal, execute:
+   npm run dev
+3. No segundo terminal, execute:
+   php artisan serve
+
 ## Resultados e Reconhecimento
 Estamos imensamente satisfeitos e orgulhosos do Cesae Connect. Conseguimos não só cumprir todos os requisitos do projeto, mas também superar as expectativas. A nossa apresentação foi muito bem recebida pela equipa docente e colegas, culminando em elogios que nos motivaram ainda mais.
 
@@ -41,3 +49,6 @@ Explore as principais funcionalidades do Cesae Connect através das seguintes ca
 ![Conexão 4](connectFinal/public/images/connect_4.png)
 ![Conexão 5](connectFinal/public/images/connect_5.png)
 ![Conexão 6](connectFinal/public/images/connect_6.png)
+
+
+
