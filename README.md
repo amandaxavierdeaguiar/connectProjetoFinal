@@ -35,9 +35,9 @@ Estamos imensamente satisfeitos e orgulhosos do Cesae Connect. Conseguimos não 
 ## Tour pelo Projeto
 Explore as principais funcionalidades do Cesae Connect através das seguintes capturas de tela:
 
-![Conexão 1](connectProjetoFinal/connectFinal/public/images/connect_1.png)
-![Conexão 2](connectProjetoFinal/connectFinal/public/images/connect_2.png)
-![Conexão 3](connectProjetoFinal/connectFinal/public/images/connect_3.png)
-![Conexão 4](connectProjetoFinal/connectFinal/public/images/connect_4.png)
-![Conexão 5](connectProjetoFinal/connectFinal/public/images/connect_5.png)
-![Conexão 6](connectProjetoFinal/connectFinal/public/images/connect_6.png)
+![Conexão 1](connectFinal/public/images/connect_1.png)
+![Conexão 2](connectFinal/public/images/connect_2.png)
+![Conexão 3](connectFinal/public/images/connect_3.png)
+![Conexão 4](connectFinal/public/images/connect_4.png)
+![Conexão 5](connectFinal/public/images/connect_5.png)
+![Conexão 6](connectFinal/public/images/connect_6.png)
